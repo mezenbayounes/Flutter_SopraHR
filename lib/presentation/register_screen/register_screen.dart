@@ -66,11 +66,9 @@ class RegisterScreen extends StatelessWidget {
   Widget _buildPageHeader(BuildContext context) {
     return Column(children: [
       CustomIconButton(
-          height: 72.adaptSize,
-          width: 72.adaptSize,
-          padding: EdgeInsets.all(20.h),
-          decoration: IconButtonStyleHelper.fillPrimary,
-          child: CustomImageView(imagePath: ImageConstant.imgClose)),
+          height: 200,
+          width: 200,
+          child: CustomImageView(imagePath: ImageConstant.sopraLogo)),
       SizedBox(height: 16.v),
       Text("msg_let_s_get_started".tr, style: theme.textTheme.titleMedium),
       SizedBox(height: 9.v),

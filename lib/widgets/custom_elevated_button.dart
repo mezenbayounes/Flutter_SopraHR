@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:sopraflutter/core/app_export.dart';
 import 'package:sopraflutter/widgets/base_button.dart';
-import 'package:flutter/material.dart';
 
 class CustomElevatedButton extends BaseButton {
   CustomElevatedButton({
@@ -30,9 +30,7 @@ class CustomElevatedButton extends BaseButton {
         );
 
   final BoxDecoration? decoration;
-
   final Widget? leftIcon;
-
   final Widget? rightIcon;
 
   @override
@@ -51,7 +49,11 @@ class CustomElevatedButton extends BaseButton {
         margin: margin,
         decoration: decoration,
         child: ElevatedButton(
-          style: buttonStyle,
+          style: buttonStyle ??
+              ElevatedButton.styleFrom(
+                backgroundColor:
+                    appTheme.red00, // Set default background color to red00
+              ),
           onPressed: isDisabled ?? false ? null : onPressed ?? () {},
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

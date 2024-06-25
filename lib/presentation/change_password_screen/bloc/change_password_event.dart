@@ -14,3 +14,28 @@ class ChangePasswordInitialEvent extends ChangePasswordEvent {
   @override
   List<Object?> get props => [];
 }
+
+class ChangePasswordSubmitEvent extends ChangePasswordEvent {
+  final String email;
+  final String otp;
+  final String NewPassword;
+
+  ChangePasswordSubmitEvent(this.otp, this.NewPassword, this.email);
+
+  @override
+  List<Object?> get props => [email,otp,NewPassword];
+}
+
+class ChangePasswordSuccessEvent extends ChangePasswordEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class ChangePasswordFailureEvent extends ChangePasswordEvent {
+  final String error;
+
+  ChangePasswordFailureEvent(this.error);
+
+  @override
+  List<Object?> get props => [error];
+}

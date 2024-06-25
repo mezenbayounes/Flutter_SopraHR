@@ -42,4 +42,18 @@ class ChangePasswordState extends Equatable {
           changePasswordModelObj ?? this.changePasswordModelObj,
     );
   }
+  
+}
+class ChangePasswordLoading extends ChangePasswordState {}
+
+class ChangePasswordSuccess extends ChangePasswordState {
+  final String message;
+
+  ChangePasswordSuccess(this.message);
+}
+
+class ChangePasswordError extends ChangePasswordState {
+  final String errorMessage;
+
+  ChangePasswordError(this.errorMessage);
 }

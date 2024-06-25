@@ -8,7 +8,14 @@ final Map<String, String> enUs = {
   "msg_login_with_facebook": "Login with facebook",
   "msg_login_with_google": "Login with Google",
   "msg_sign_in_to_continue": "Sign in to continue",
-  "msg_welcome_to_e_com": "Welcome to E-com",
+  "msg_welcome_to_soprahr": "Welcome to Sopra HR",
+//forget password
+  "msg_forget_password": "Forget Password ",
+
+  "msg_please_enter_your_email": "Please Enter Your Email",
+  "lbl_send_otp": "Send OTP",
+  "lbl_opt": "OTP",
+  "err_msg_please_enter_valid_otp": "Please enter valid OTP",
 
   // Register Screen
   "lbl_full_name": "Full Name",

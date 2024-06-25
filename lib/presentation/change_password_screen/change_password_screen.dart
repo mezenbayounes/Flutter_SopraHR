@@ -1,3 +1,5 @@
+import 'package:sopraflutter/presentation/login_screen/login_screen.dart';
+
 import 'bloc/change_password_bloc.dart';
 import 'models/change_password_model.dart';
 import 'package:sopraflutter/core/app_export.dart';
@@ -9,9 +11,10 @@ import 'package:sopraflutter/widgets/custom_elevated_button.dart';
 import 'package:sopraflutter/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
-// ignore_for_file: must_be_immutable
 class ChangePasswordScreen extends StatelessWidget {
-  ChangePasswordScreen({Key? key}) : super(key: key);
+  final String email;
+
+  ChangePasswordScreen({required this.email, Key? key}) : super(key: key);
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -20,12 +23,14 @@ class ChangePasswordScreen extends StatelessWidget {
         create: (context) => ChangePasswordBloc(
             ChangePasswordState(changePasswordModelObj: ChangePasswordModel()))
           ..add(ChangePasswordInitialEvent()),
-        child: ChangePasswordScreen());
+        child: ChangePasswordScreen(
+          email: '',
+        ));
   }
 
   @override
   Widget build(BuildContext context) {
-    mediaQueryData = MediaQuery.of(context);
+    final mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(
             resizeToAvoidBottomInset: false,
@@ -47,7 +52,6 @@ class ChangePasswordScreen extends StatelessWidget {
             bottomNavigationBar: _buildSave(context)));
   }
 
-  /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
         leadingWidth: 40.h,
@@ -62,10 +66,9 @@ class ChangePasswordScreen extends StatelessWidget {
             margin: EdgeInsets.only(left: 12.h)));
   }
 
-  /// Section Widget
   Widget _buildOldPassword(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text("lbl_old_password".tr, style: theme.textTheme.titleSmall),
+      Text("lbl_opt".tr, style: Theme.of(context).textTheme.titleSmall),
       SizedBox(height: 12.v),
       BlocSelector<ChangePasswordBloc, ChangePasswordState,
               TextEditingController?>(
@@ -84,9 +87,8 @@ class ChangePasswordScreen extends StatelessWidget {
                         width: 24.adaptSize)),
                 prefixConstraints: BoxConstraints(maxHeight: 48.v),
                 validator: (value) {
-                  if (value == null ||
-                      (!isValidPassword(value, isRequired: true))) {
-                    return "err_msg_please_enter_valid_password".tr;
+                  if (value == null || (!isValidOTP(value, isRequired: true))) {
+                    return "err_msg_please_enter_valid_otp".tr;
                   }
                   return null;
                 },
@@ -99,10 +101,10 @@ class ChangePasswordScreen extends StatelessWidget {
     ]);
   }
 
-  /// Section Widget
   Widget _buildNewPassword(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text("lbl_new_password".tr, style: theme.textTheme.titleSmall),
+      Text("lbl_new_password".tr,
+          style: Theme.of(context).textTheme.titleSmall),
       SizedBox(height: 12.v),
       BlocSelector<ChangePasswordBloc, ChangePasswordState,
               TextEditingController?>(
@@ -136,10 +138,10 @@ class ChangePasswordScreen extends StatelessWidget {
     ]);
   }
 
-  /// Section Widget
   Widget _buildConfirmPassword(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text("msg_new_password_again".tr, style: theme.textTheme.titleSmall),
+      Text("msg_new_password_again".tr,
+          style: Theme.of(context).textTheme.titleSmall),
       SizedBox(height: 11.v),
       BlocSelector<ChangePasswordBloc, ChangePasswordState,
               TextEditingController?>(
@@ -174,15 +176,59 @@ class ChangePasswordScreen extends StatelessWidget {
     ]);
   }
 
-  /// Section Widget
   Widget _buildSave(BuildContext context) {
     return CustomElevatedButton(
-        text: "lbl_save".tr,
-        margin: EdgeInsets.only(left: 16.h, right: 16.h, bottom: 50.v));
+      text: "lbl_save".tr,
+      onPressed: () {
+        if (_formKey.currentState!.validate()) {
+          final changePasswordBloc = context.read<ChangePasswordBloc>();
+          final state = changePasswordBloc.state;
+          final newPassword = state.newpasswordController?.text ?? '';
+          final confirmeNewPassword = state.newpasswordController1?.text ?? '';
+
+          // Check if the new password and confirm password are the same
+          if (newPassword != confirmeNewPassword) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Error"),
+                  content:
+                      Text("New password and confirm password do not match."),
+                  actions: [
+                    ElevatedButton(
+                      child: Text("OK"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          } else {
+            onTapSave(context);
+          }
+        }
+      },
+      margin: EdgeInsets.only(left: 16.h, right: 16.h, bottom: 50.v),
+    );
   }
 
-  /// Navigates to the previous screen.
-  onTapArrowLeft(BuildContext context) {
+  void onTapArrowLeft(BuildContext context) {
     NavigatorService.goBack();
+  }
+
+  void onTapSave(BuildContext context) {
+    final changePasswordBloc = context.read<ChangePasswordBloc>();
+    final state = changePasswordBloc.state;
+    final email = this.email;
+    final newpassword = state.newpasswordController?.text ?? '';
+    final otp = state.passwordController?.text ?? '';
+    changePasswordBloc.add(ChangePasswordSubmitEvent(otp, newpassword, email));
+    NavigatorService.pushNamed(
+      AppRoutes.loginScreen,
+    );
+    // Perform your save operation here using the email and new password
   }
 }

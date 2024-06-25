@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import '/core/app_export.dart';
 import 'package:sopraflutter/presentation/login_screen/models/login_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -34,7 +37,20 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       if (response.statusCode == 200) {
         // Emit LoginSuccessEvent if the login is successful
+        Map<String, dynamic> jsonMap = jsonDecode(response.body);
+        String token = jsonMap['token'];
+        int userID = jsonMap['userID'];
+
+        print('token : $token');
+        print('user ID : $userID');
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', token);
+        await prefs.setInt('userID', userID);
+
         emit(state.copyWith(isLoading: false));
+        NavigatorService.pushNamed(
+          AppRoutes.profileScreen,
+        );
         add(LoginSuccessEvent());
       } else {
         // Emit LoginFailureEvent with the error message if login fails

@@ -61,7 +61,7 @@ class CustomTextStyles {
         color: theme.colorScheme.primary.withOpacity(1),
       );
   static get labelLargePrimary_1 => theme.textTheme.labelLarge!.copyWith(
-        color: theme.colorScheme.primary.withOpacity(1),
+        color: appTheme.red00,
       );
   static get labelMediumBluegray300 => theme.textTheme.labelMedium!.copyWith(
         color: appTheme.blueGray300,

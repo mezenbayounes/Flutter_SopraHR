@@ -117,3 +117,18 @@ bool isValidPhone(
 
   return isInputStringValid;
 }
+
+bool isValidOTP(String? inputString, {bool isRequired = false}) {
+  bool isInputStringValid = false;
+
+  // Step 1: Check if inputString is not required and is either null or empty
+  if (!isRequired && (inputString == null || inputString.isEmpty)) {
+    return false; // If not required and empty or null, return false
+  }
+
+  // Step 2: Check if inputString consists of exactly 6 digits
+  final regExp = RegExp(r'^\d{6}$');
+  isInputStringValid = regExp.hasMatch(inputString ?? '');
+
+  return isInputStringValid;
+}

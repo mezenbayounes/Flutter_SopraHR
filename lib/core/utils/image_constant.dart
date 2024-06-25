@@ -3,9 +3,14 @@ class ImageConstant {
   static String imagePath = 'assets/images';
 
   // Splash Screen images
-  static String imgLogo = '$imagePath/img_logo.png';
+  //static String imgLogo = '$imagePath/img_logo.png';
+  static String imgLogo = '$imagePath/soprahr_logo.png';
 
   // Login images
+    static String sopraLogo = '$imagePath/soprahr.png';
+        static String forgetPassword = '$imagePath/Forgot_password-image.png';
+
+
   static String imgGoogleIcon = '$imagePath/img_google_icon.svg';
 
   static String imgFacebookIcon = '$imagePath/img_facebook_icon.svg';

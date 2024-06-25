@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sopraflutter/presentation/forget_password/forget_password_screen.dart';
 import 'package:sopraflutter/presentation/splash_screen/splash_screen.dart';
 import 'package:sopraflutter/presentation/login_screen/login_screen.dart';
 import 'package:sopraflutter/presentation/register_screen/register_screen.dart';
@@ -40,6 +41,8 @@ class AppRoutes {
   static const String loginScreen = '/login_screen';
 
   static const String registerScreen = '/register_screen';
+
+  static const String forgetPassword = '/forget_password';
 
   static const String dashboardPage = '/dashboard_page';
 
@@ -123,6 +126,7 @@ class AppRoutes {
         splashScreen: SplashScreen.builder,
         loginScreen: LoginScreen.builder,
         registerScreen: RegisterScreen.builder,
+        forgetPassword: ForgetPasswordScreen.builder,
         dashboardContainerScreen: DashboardContainerScreen.builder,
         superFlashSaleScreen: SuperFlashSaleScreen.builder,
         favoriteProductScreen: FavoriteProductScreen.builder,

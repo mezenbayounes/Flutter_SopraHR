@@ -86,6 +86,15 @@ class LoginScreen extends StatelessWidget {
                                         width: 24.adaptSize)),
                                 prefixConstraints:
                                     BoxConstraints(maxHeight: 48.v),
+                                validator: (value) {
+                                  if (value == null ||
+                                      (!isValidPassword(value,
+                                          isRequired: true))) {
+                                    return "err_msg_please_enter_valid_password"
+                                        .tr;
+                                  }
+                                  return null;
+                                },
                                 obscureText: true,
                                 contentPadding: EdgeInsets.only(
                                     top: 15.v, right: 30.h, bottom: 15.v));
@@ -101,9 +110,6 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(height: 16.v),
                       _buildSocialAuthentication(context),
                       SizedBox(height: 17.v),
-                      Text("msg_forgot_password".tr,
-                          style: CustomTextStyles.labelLargePrimary),
-                      SizedBox(height: 7.v),
                       GestureDetector(
                           onTap: () {
                             onTapTxtDonthaveanaccount(context);
@@ -111,14 +117,11 @@ class LoginScreen extends StatelessWidget {
                           child: RichText(
                               text: TextSpan(children: [
                                 TextSpan(
-                                    text: "msg_don_t_have_an_account2".tr,
+                                    text: "msg_forgot_password".tr,
                                     style: theme.textTheme.bodySmall),
-                                TextSpan(text: " "),
-                                TextSpan(
-                                    text: "lbl_register".tr,
-                                    style: CustomTextStyles.labelLargePrimary_1)
                               ]),
                               textAlign: TextAlign.left)),
+                      SizedBox(height: 7.v),
                       SizedBox(height: 5.v)
                     ])))));
   }
@@ -127,13 +130,11 @@ class LoginScreen extends StatelessWidget {
   Widget _buildPageHeader(BuildContext context) {
     return Column(children: [
       CustomIconButton(
-          height: 72.adaptSize,
-          width: 72.adaptSize,
-          padding: EdgeInsets.all(20.h),
-          decoration: IconButtonStyleHelper.fillPrimary,
-          child: CustomImageView(imagePath: ImageConstant.imgClose)),
+          height: 200,
+          width: 200,
+          child: CustomImageView(imagePath: ImageConstant.sopraLogo)),
       SizedBox(height: 16.v),
-      Text("msg_welcome_to_e_com".tr, style: theme.textTheme.titleMedium),
+      Text("msg_welcome_to_soprahr".tr, style: theme.textTheme.titleMedium),
       SizedBox(height: 10.v),
       Text("msg_sign_in_to_continue".tr, style: theme.textTheme.bodySmall)
     ]);
@@ -235,7 +236,7 @@ class LoginScreen extends StatelessWidget {
   /// Navigates to the registerScreen when the action is triggered.
   onTapTxtDonthaveanaccount(BuildContext context) {
     NavigatorService.pushNamed(
-      AppRoutes.registerScreen,
+      AppRoutes.forgetPassword,
     );
   }
 }

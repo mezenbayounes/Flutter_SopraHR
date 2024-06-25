@@ -178,6 +178,8 @@ class PrimaryColors {
 
   // Yellow
   Color get yellow700 => Color(0XFFFFC732);
+    Color get red00 => Color.fromARGB(255, 234, 10, 10);
+
 }
 
 PrimaryColors get appTheme => ThemeHelper().themeColor();
