@@ -9,6 +9,7 @@ import 'package:sopraflutter/widgets/app_bar/appbar_subtitle.dart';
 import 'package:sopraflutter/widgets/app_bar/custom_app_bar.dart';
 
 class ProfileScreen extends StatelessWidget {
+  String emailforpath = "";
   ProfileScreen({Key? key}) : super(key: key);
   ProfileModel _profileModel = ProfileModel();
   static Widget builder(BuildContext context) {
@@ -65,6 +66,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildProfileContent(BuildContext context, Map<String, String?> data) {
+     emailforpath = data['email'] ?? "";
     String imageUrl = 'http://10.0.2.2:3000/' + (data['image_url'] ?? "");
     return Container(
       width: double.maxFinite,
@@ -108,24 +110,28 @@ class ProfileScreen extends StatelessWidget {
             dateIcon: ImageConstant.imgUserPrimary,
             birthday: "Role",
             birthDateValue: data['role'] ?? "",
+            onTapProfileDetailOption: () {},
           ),
           _buildProfileDetailOption(
             context,
             dateIcon: ImageConstant.imgDateIcon,
             birthday: "lbl_birthday".tr,
             birthDateValue: "lbl_12_12_2000".tr,
+            onTapProfileDetailOption: () {},
           ),
           _buildProfileDetailOption(
             context,
             dateIcon: ImageConstant.imgMailPrimary,
             birthday: "lbl_email".tr,
             birthDateValue: data['email'] ?? "",
+            onTapProfileDetailOption: () {},
           ),
           _buildProfileDetailOption(
             context,
             dateIcon: ImageConstant.imgCreditCardIcon,
             birthday: "lbl_phone_number".tr,
             birthDateValue: "lbl_307_555_0133".tr,
+            onTapProfileDetailOption: () {},
           ),
           SizedBox(height: 5.v),
           _buildProfileDetailOption(
@@ -189,6 +195,9 @@ class ProfileScreen extends StatelessWidget {
 
   /// Navigates to the changePasswordScreen when the action is triggered.
   onTapProfileDetailOption(BuildContext context) {
+    final profileForgetPasswordBloc = context.read<ProfileBloc>();
+    final email = emailforpath;
+    profileForgetPasswordBloc.add(ProfileForgetPasswordSubmitEvent(email: email));
     NavigatorService.pushNamed(
       AppRoutes.changePasswordScreen,
     );

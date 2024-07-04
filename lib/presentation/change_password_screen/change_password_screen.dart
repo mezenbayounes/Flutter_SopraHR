@@ -1,3 +1,4 @@
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sopraflutter/presentation/login_screen/login_screen.dart';
 
 import 'bloc/change_password_bloc.dart';
@@ -219,10 +220,18 @@ class ChangePasswordScreen extends StatelessWidget {
     NavigatorService.goBack();
   }
 
-  void onTapSave(BuildContext context) {
+  Future<void> onTapSave(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? emailFromPrefs = prefs.getString('email');
     final changePasswordBloc = context.read<ChangePasswordBloc>();
     final state = changePasswordBloc.state;
-    final email = this.email;
+    String email = this.email;
+    if (email == "") {
+      email = emailFromPrefs ?? "";
+    }
+    ;
+    print(email);
     final newpassword = state.newpasswordController?.text ?? '';
     final otp = state.passwordController?.text ?? '';
     changePasswordBloc.add(ChangePasswordSubmitEvent(otp, newpassword, email));

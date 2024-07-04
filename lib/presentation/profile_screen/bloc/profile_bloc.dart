@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +14,7 @@ part 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc(ProfileState initialState) : super(initialState) {
     on<ProfileInitialEvent>(_onInitialize);
+    on<ProfileForgetPasswordSubmitEvent>(_ProfileForgetPasswordSubmit);
   }
 
   void _onInitialize(
@@ -54,5 +57,28 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
   }
 
+  FutureOr<void> _ProfileForgetPasswordSubmit(
+      ProfileForgetPasswordSubmitEvent event,
+      Emitter<ProfileState> emit) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://10.0.2.2:3000/auth/SendOTP'),
+        body: {'email': event.email},
+      );
 
+      if (response.statusCode == 200) {
+        // Emit LoginSuccessEvent if the login is successful
+
+        NavigatorService.pushNamed(
+          AppRoutes.changePasswordScreen,
+        );
+        print('otp sended');
+      } else {
+        // Emit LoginFailureEvent with the error message if login fails
+        print('error send otp');
+      }
+    } catch (e) {
+      print('error send otp : $e');
+    }
+  }
 }

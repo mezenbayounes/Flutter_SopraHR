@@ -11,6 +11,17 @@ abstract class ProfileEvent extends Equatable {}
 
 /// Event that is dispatched when the Profile widget is first created.
 class ProfileInitialEvent extends ProfileEvent {
+  
   @override
   List<Object?> get props => [];
 }
+
+class ProfileForgetPasswordSubmitEvent extends ProfileEvent {
+  final String email;
+
+  ProfileForgetPasswordSubmitEvent({required this.email});
+
+  @override
+  List<Object?> get props => [email];
+}
+
