@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sopraflutter/presentation/BottomNavBar/BottomNavBar.dart';
 import 'bloc/profile_bloc.dart';
 import 'models/profile_model.dart';
 import 'package:sopraflutter/core/app_export.dart';
@@ -12,6 +13,7 @@ class ProfileScreen extends StatelessWidget {
   String emailforpath = "";
   ProfileScreen({Key? key}) : super(key: key);
   ProfileModel _profileModel = ProfileModel();
+
   static Widget builder(BuildContext context) {
     return BlocProvider<ProfileBloc>(
       create: (context) =>
@@ -29,18 +31,28 @@ class ProfileScreen extends StatelessWidget {
         return SafeArea(
           child: Scaffold(
             appBar: _buildAppBar(context),
-            body: FutureBuilder<Map<String, String?>>(
-              future: _profileModel.getDataFromSharedPreferences(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return SingleChildScrollView(
-                    child: _buildProfileContent(context, snapshot.data!),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-                return Center(child: CircularProgressIndicator());
-              },
+            body: Column(
+              children: [
+                Expanded(
+                  child: FutureBuilder<Map<String, String?>>(
+                    future: _profileModel.getDataFromSharedPreferences(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SingleChildScrollView(
+                          child: _buildProfileContent(context, snapshot.data!),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      }
+                      return Center(child: CircularProgressIndicator());
+                    },
+                  ),
+                ),
+                Container(
+                  height: 80, // Set a fixed height for the BottomNavBarV2
+                  child: BottomNavBarV2(),
+                ),
+              ],
             ),
           ),
         );
@@ -66,7 +78,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _buildProfileContent(BuildContext context, Map<String, String?> data) {
-     emailforpath = data['email'] ?? "";
+    emailforpath = data['email'] ?? "";
     String imageUrl = 'http://10.0.2.2:3000/' + (data['image_url'] ?? "");
     return Container(
       width: double.maxFinite,
@@ -110,7 +122,11 @@ class ProfileScreen extends StatelessWidget {
             dateIcon: ImageConstant.imgUserPrimary,
             birthday: "Role",
             birthDateValue: data['role'] ?? "",
-            onTapProfileDetailOption: () {},
+            onTapProfileDetailOption: () {
+              NavigatorService.pushNamed(
+                AppRoutes.addPaymentScreen,
+              );
+            },
           ),
           _buildProfileDetailOption(
             context,
@@ -148,7 +164,6 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  /// Common widget
   Widget _buildProfileDetailOption(
     BuildContext context, {
     required String dateIcon,
@@ -157,47 +172,62 @@ class ProfileScreen extends StatelessWidget {
     Function? onTapProfileDetailOption,
   }) {
     return GestureDetector(
-        onTap: () {
-          onTapProfileDetailOption!.call();
-        },
-        child: Container(
-            width: double.maxFinite,
-            padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 15.v),
-            decoration: AppDecoration.fillOnPrimaryContainer,
-            child: Row(children: [
-              CustomImageView(
-                  imagePath: dateIcon,
-                  height: 24.adaptSize,
-                  width: 24.adaptSize),
-              Padding(
-                  padding: EdgeInsets.only(left: 16.h, top: 3.v, bottom: 2.v),
-                  child: Text(birthday,
-                      style: theme.textTheme.labelLarge!.copyWith(
-                          color: theme.colorScheme.onPrimary.withOpacity(1)))),
-              Spacer(),
-              Padding(
-                  padding: EdgeInsets.only(top: 2.v, bottom: 3.v),
-                  child: Text(birthDateValue,
-                      style: theme.textTheme.bodySmall!
-                          .copyWith(color: appTheme.blueGray300))),
-              CustomImageView(
-                  imagePath: ImageConstant.imgRightIcon,
-                  height: 24.adaptSize,
-                  width: 24.adaptSize,
-                  margin: EdgeInsets.only(left: 16.h))
-            ])));
+      onTap: () {
+        onTapProfileDetailOption!.call();
+      },
+      child: Container(
+        width: double.maxFinite,
+        padding: EdgeInsets.symmetric(horizontal: 16.h, vertical: 15.v),
+        decoration: AppDecoration.fillOnPrimaryContainer,
+        child: Row(
+          children: [
+            CustomImageView(
+              color: appTheme.red00,
+              imagePath: dateIcon,
+              height: 24.adaptSize,
+              width: 24.adaptSize,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 16.h, top: 3.v, bottom: 2.v),
+              child: Text(
+                birthday,
+                style: theme.textTheme.labelLarge!.copyWith(
+                  color: theme.colorScheme.onPrimary.withOpacity(1),
+                ),
+              ),
+            ),
+            Spacer(),
+            Padding(
+              padding: EdgeInsets.only(top: 2.v, bottom: 3.v),
+              child: Text(
+                birthDateValue,
+                style: theme.textTheme.bodySmall!.copyWith(
+                  color: appTheme.blueGray300,
+                ),
+              ),
+            ),
+            CustomImageView(
+              imagePath: ImageConstant.imgRightIcon,
+              height: 24.adaptSize,
+              width: 24.adaptSize,
+              margin: EdgeInsets.only(left: 16.h),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
-  /// Navigates to the previous screen.
-  onTapArrowLeft(BuildContext context) {
+  void onTapArrowLeft(BuildContext context) {
     NavigatorService.goBack();
   }
 
-  /// Navigates to the changePasswordScreen when the action is triggered.
-  onTapProfileDetailOption(BuildContext context) {
+  void onTapProfileDetailOption(BuildContext context) {
     final profileForgetPasswordBloc = context.read<ProfileBloc>();
     final email = emailforpath;
-    profileForgetPasswordBloc.add(ProfileForgetPasswordSubmitEvent(email: email));
+    profileForgetPasswordBloc.add(
+      ProfileForgetPasswordSubmitEvent(email: email),
+    );
     NavigatorService.pushNamed(
       AppRoutes.changePasswordScreen,
     );

@@ -47,7 +47,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       String? email = prefs.getString('email');
       String? image_url = prefs.getString('image_url');
       String? role = prefs.getString('role');
-      print('test de shered:');
+      print('test de shared:');
       print(username);
       print(email);
       print(image_url);

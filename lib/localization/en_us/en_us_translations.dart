@@ -355,4 +355,9 @@ final Map<String, String> enUs = {
   "err_msg_please_enter_valid_text": "Please enter valid text",
   "err_msg_please_enter_valid_number": "Please enter valid number",
   "err_msg_please_enter_valid_phone_number": "Please enter valid phone number",
+
+  ////demande de conge
+  "demande_de_conge": "Demande De Congé",
+  ////demande de TT
+  "demande_de_tt": "Demande De Teletrvail",
 };

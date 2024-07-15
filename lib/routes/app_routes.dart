@@ -34,11 +34,14 @@ import 'package:sopraflutter/presentation/credit_card_and_debit_screen/credit_ca
 import 'package:sopraflutter/presentation/add_card_screen/add_card_screen.dart';
 import 'package:sopraflutter/presentation/lailyfa_febrina_card_screen/lailyfa_febrina_card_screen.dart';
 import 'package:sopraflutter/presentation/app_navigation_screen/app_navigation_screen.dart';
+import 'package:sopraflutter/presentation/add_tt_conge/home_add_screen.dart';
 
 class AppRoutes {
   static const String splashScreen = '/splash_screen';
 
   static const String loginScreen = '/login_screen';
+
+  static const String homeADD = '/home_add';
 
   static const String registerScreen = '/register_screen';
 
@@ -125,6 +128,7 @@ class AppRoutes {
   static Map<String, WidgetBuilder> get routes => {
         splashScreen: SplashScreen.builder,
         loginScreen: LoginScreen.builder,
+        homeADD: homeAdd.builder,
         registerScreen: RegisterScreen.builder,
         forgetPassword: ForgetPasswordScreen.builder,
         dashboardContainerScreen: DashboardContainerScreen.builder,
