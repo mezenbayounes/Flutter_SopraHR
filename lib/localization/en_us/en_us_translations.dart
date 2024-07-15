@@ -360,4 +360,5 @@ final Map<String, String> enUs = {
   "demande_de_conge": "Demande De Congé",
   ////demande de TT
   "demande_de_tt": "Demande De Teletrvail",
+  "consulter_les_tt": "Consulter Les Demandes",
 };

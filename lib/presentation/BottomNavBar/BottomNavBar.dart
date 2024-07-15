@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sopraflutter/core/app_export.dart';
 import 'package:sopraflutter/core/utils/navigator_service.dart';
 import 'package:sopraflutter/routes/app_routes.dart';
@@ -10,10 +11,14 @@ class BottomNavBarV2 extends StatefulWidget {
 
 class _BottomNavBarV2State extends State<BottomNavBarV2> {
   int currentIndex = 0;
+  String role = "";
 
-  setBottomBarIndex(index) {
+  setBottomBarIndex(index) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     setState(() {
       currentIndex = index;
+       role = prefs.getString('role')??"";
     });
   }
 
@@ -61,9 +66,15 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                           ),
                           onPressed: () {
                             setBottomBarIndex(0);
-                            NavigatorService.pushNamed(
-                              AppRoutes.homeADD,
-                            );
+                            if (role == "admin") {
+                              NavigatorService.pushNamed(
+                                AppRoutes.homeADDAdmin,
+                              );
+                            } else {
+                              NavigatorService.pushNamed(
+                                AppRoutes.homeADD,
+                              );
+                            }
                           },
                           splashColor: Colors.white,
                         ),
