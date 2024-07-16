@@ -14,6 +14,7 @@ class _homeAddState extends State<homeAddAdmin> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Container(
           decoration: BoxDecoration(
@@ -31,12 +32,9 @@ class _homeAddState extends State<homeAddAdmin> {
             child: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
                 return SingleChildScrollView(
-                  physics:
-                      const NeverScrollableScrollPhysics(), // Disable scrolling
+                  physics: NeverScrollableScrollPhysics(),
                   child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: constraints.maxHeight,
-                    ),
+                    constraints: BoxConstraints(),
                     child: homeAddContent(),
                   ),
                 );
@@ -44,6 +42,7 @@ class _homeAddState extends State<homeAddAdmin> {
             ),
           ),
         ),
+        bottomNavigationBar: Container(child: BottomNavBarV2()),
       ),
     );
   }
@@ -55,36 +54,34 @@ class homeAddContent extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: 190),
+        SizedBox(height: 200),
         ElevatedButton(
           onPressed: () {
             // Handle button 1 click event
             print('Button 1 clicked');
           },
           child: Container(
-              width: 200, // Set desired width
+              width: 300, // Set desired width
               height: 200, // Set desired height
               child: Image.asset('assets/images/demande_conge.png')),
         ),
         SizedBox(height: 10),
         Text("demande_de_conge".tr, style: theme.textTheme.titleMedium),
-        SizedBox(height: 40),
+        SizedBox(height: 60),
         ElevatedButton(
           onPressed: () {
             // Handle button 2 click event
             print('Button 2 clicked');
           },
           child: Container(
-              width: 200, // Set desired width
+              width: 300, // Set desired width
               height: 200, // Set desired height
               child: Image.asset('assets/images/remote.png')),
         ),
         SizedBox(height: 10),
-        Text("consulter_les_tt".tr, style: theme.textTheme.titleMedium),
-        Container(
-          height: 170, // Set a fixed height for the BottomNavBarV2
-          child: BottomNavBarV2(),
-        ),
+        Text("consulater_les_tt".tr, style: theme.textTheme.titleMedium),
+        SizedBox(width: 400),
+        SizedBox(height: 300),
       ],
     );
   }

@@ -48,12 +48,9 @@ class ProfileScreen extends StatelessWidget {
                     },
                   ),
                 ),
-                Container(
-                  height: 80, // Set a fixed height for the BottomNavBarV2
-                  child: BottomNavBarV2(),
-                ),
               ],
             ),
+            bottomNavigationBar: Container(child: BottomNavBarV2()),
           ),
         );
       },

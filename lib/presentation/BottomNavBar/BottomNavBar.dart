@@ -11,97 +11,91 @@ class BottomNavBarV2 extends StatefulWidget {
 
 class _BottomNavBarV2State extends State<BottomNavBarV2> {
   int currentIndex = 0;
-  String role = "";
-
+  String? role = "";
   setBottomBarIndex(index) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
+    role = prefs.getString('role');
     setState(() {
       currentIndex = index;
-       role = prefs.getString('role')??"";
+      role = prefs.getString('role');
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: Colors.white.withAlpha(55),
-      body: Stack(
+    return Container(
+      width: size.width,
+      height: 80,
+      child: Stack(
+        clipBehavior: Clip.none,
         children: [
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: Container(
-              width: size.width,
-              height: 80,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  CustomPaint(
-                    size: Size(size.width, 80),
-                    painter: BNBCustomPainter(),
-                  ),
-                  Center(
-                    heightFactor: 0.6,
-                    child: FloatingActionButton(
-                      backgroundColor: Colors.redAccent.shade700,
-                      child: Icon(Icons.home_sharp),
-                      elevation: 0.1,
-                      onPressed: () {},
-                    ),
-                  ),
-                  Container(
-                    width: size.width,
-                    height: 80,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            Icons.table_view_sharp,
-                            color: currentIndex == 0
-                                ? Colors.redAccent.shade700
-                                : Colors.grey.shade400,
-                          ),
-                          onPressed: () {
-                            setBottomBarIndex(0);
-                            if (role == "admin") {
-                              NavigatorService.pushNamed(
-                                AppRoutes.homeADDAdmin,
-                              );
-                            } else {
-                              NavigatorService.pushNamed(
-                                AppRoutes.homeADD,
-                              );
-                            }
-                          },
-                          splashColor: Colors.white,
-                        ),
-                        Container(
-                          width: size.width * 0.20,
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.person,
-                            color: currentIndex == 1
-                                ? Colors.redAccent.shade700
-                                : Colors.grey.shade400,
-                          ),
-                          onPressed: () {
-                            setBottomBarIndex(1);
-                            NavigatorService.pushNamed(
-                              AppRoutes.profileScreen,
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+          CustomPaint(
+            size: Size(size.width, 80),
+            painter: BNBCustomPainter(),
+          ),
+          Center(
+            heightFactor: 0.6,
+            child: FloatingActionButton(
+              backgroundColor: Colors.redAccent.shade700,
+              child: Icon(Icons.home_sharp),
+              elevation: 0.1,
+              onPressed: () {
+                NavigatorService.pushNamed(
+                  AppRoutes.homeScreenNews,
+                );
+              },
             ),
-          )
+          ),
+          Container(
+            width: size.width,
+            height: 80,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.table_view_sharp,
+                    color: currentIndex == 0
+                        ? Colors.redAccent.shade700
+                        : Colors.grey.shade400,
+                  ),
+                  onPressed: () {
+                    setBottomBarIndex(0);
+                    if (role == "admin") {
+                      NavigatorService.pushNamed(
+                        AppRoutes.homeADDAdmin,
+                      );
+                      print(role);
+                    } else {
+                      NavigatorService.pushNamed(
+                        AppRoutes.homeADD,
+                      );
+                      print(role);
+                    }
+                  },
+                  splashColor: Colors.white,
+                ),
+                Container(
+                  width: size.width * 0.20,
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.person,
+                    color: currentIndex == 1
+                        ? Colors.redAccent.shade700
+                        : Colors.grey.shade400,
+                  ),
+                  onPressed: () {
+                    setBottomBarIndex(1);
+                    NavigatorService.pushNamed(
+                      AppRoutes.profileScreen,
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -126,7 +120,7 @@ class BNBCustomPainter extends CustomPainter {
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);
     path.lineTo(0, 20);
-    canvas.drawShadow(path, Colors.black, 5, true);
+    canvas.drawShadow(path, const Color.fromARGB(255, 255, 252, 252), 5, true);
     canvas.drawPath(path, paint);
   }
 
