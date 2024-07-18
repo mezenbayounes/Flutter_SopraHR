@@ -58,7 +58,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                     Icons.table_view_sharp,
                     color: currentIndex == 0
                         ? Colors.redAccent.shade700
-                        : Colors.grey.shade400,
+                        : const Color.fromARGB(255, 255, 244, 244),
                   ),
                   onPressed: () {
                     setBottomBarIndex(0);
@@ -77,17 +77,31 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                   splashColor: Colors.white,
                 ),
                 Container(
-                  width: size.width * 0.20,
+                  width: size.width * 0.30,
                 ),
                 IconButton(
                   icon: Icon(
-                    Icons.person,
+                    Icons.settings,
                     color: currentIndex == 1
                         ? Colors.redAccent.shade700
                         : Colors.grey.shade400,
                   ),
                   onPressed: () {
                     setBottomBarIndex(1);
+                    NavigatorService.pushNamed(
+                      AppRoutes.settingsPage,
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.person,
+                    color: currentIndex == 2
+                        ? Colors.redAccent.shade700
+                        : Colors.grey.shade400,
+                  ),
+                  onPressed: () {
+                    setBottomBarIndex(2);
                     NavigatorService.pushNamed(
                       AppRoutes.profileScreen,
                     );
@@ -120,7 +134,7 @@ class BNBCustomPainter extends CustomPainter {
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);
     path.lineTo(0, 20);
-    canvas.drawShadow(path, const Color.fromARGB(255, 255, 252, 252), 5, true);
+    canvas.drawShadow(path, Color.fromARGB(255, 255, 255, 255), 5, true);
     canvas.drawPath(path, paint);
   }
 

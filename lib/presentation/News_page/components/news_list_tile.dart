@@ -1,12 +1,12 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:sopraflutter/presentation/News_page/models/news_model.dart';
 import 'package:sopraflutter/presentation/News_page/screens/details_screen.dart';
 
 class NewsListTile extends StatefulWidget {
+  final NewsData data;
+
   NewsListTile(this.data, {Key? key}) : super(key: key);
-  NewsData data;
+
   @override
   State<NewsListTile> createState() => _NewsListTileState();
 }
@@ -17,23 +17,24 @@ class _NewsListTileState extends State<NewsListTile> {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => DetailsScreen(widget.data),
-            ));
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailsScreen(widget.data),
+          ),
+        );
       },
       child: Container(
         width: double.infinity,
-        margin: EdgeInsets.only(bottom: 20.0),
-        padding: EdgeInsets.all(12.0),
+        margin: const EdgeInsets.only(bottom: 20.0),
+        padding: const EdgeInsets.all(12.0),
         height: 130,
         decoration: BoxDecoration(
-          color: Colors.black,
+          color: const Color.fromARGB(255, 251, 250, 250),
           borderRadius: BorderRadius.circular(26.0),
         ),
         child: Row(
           children: [
-            Flexible(
+            Expanded(
               flex: 3,
               child: Hero(
                 tag: "${widget.data.title}",
@@ -42,35 +43,37 @@ class _NewsListTileState extends State<NewsListTile> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
                     image: DecorationImage(
-                      image: NetworkImage(widget.data.urlToImage!),
+                      image: NetworkImage(widget.data.urlToImage ?? ''),
                       fit: BoxFit.fitHeight,
                     ),
                   ),
                 ),
               ),
             ),
-            SizedBox(
-              width: 10.0,
+            const SizedBox(width: 10.0),
+            Expanded(
+              flex: 5,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.data.title ?? 'No Title',
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    widget.data.content ?? 'No Content',
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.black54,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            Flexible(
-                flex: 5,
-                child: Column(
-                  children: [
-                    Text(
-                      widget.data.title!,
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 8.0,
-                    ),
-                    Text(widget.data.content!,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Colors.white54,
-                        ))
-                  ],
-                ))
           ],
         ),
       ),

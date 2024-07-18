@@ -120,8 +120,8 @@ class TextThemes {
           fontWeight: FontWeight.w700,
         ),
         titleLarge: TextStyle(
-          color: colorScheme.primary.withOpacity(1),
-          fontSize: 20.fSize,
+          color: Color.fromARGB(255, 255, 0, 0),
+          fontSize: 40.fSize,
           fontFamily: 'Poppins',
           fontWeight: FontWeight.w700,
         ),
@@ -178,8 +178,7 @@ class PrimaryColors {
 
   // Yellow
   Color get yellow700 => Color(0XFFFFC732);
-    Color get red00 => Color.fromARGB(255, 234, 10, 10);
-
+  Color get red00 => Color.fromARGB(255, 234, 10, 10);
 }
 
 PrimaryColors get appTheme => ThemeHelper().themeColor();

@@ -129,7 +129,7 @@ class ProfileScreen extends StatelessWidget {
             context,
             dateIcon: ImageConstant.imgDateIcon,
             birthday: "lbl_birthday".tr,
-            birthDateValue: "lbl_12_12_2000".tr,
+            birthDateValue: "14-02-2000",
             onTapProfileDetailOption: () {},
           ),
           _buildProfileDetailOption(
@@ -143,7 +143,7 @@ class ProfileScreen extends StatelessWidget {
             context,
             dateIcon: ImageConstant.imgCreditCardIcon,
             birthday: "lbl_phone_number".tr,
-            birthDateValue: "lbl_307_555_0133".tr,
+            birthDateValue: "53 241 141",
             onTapProfileDetailOption: () {},
           ),
           SizedBox(height: 5.v),

@@ -31,7 +31,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://10.0.2.2:3000/auth/login'),
+        Uri.parse('$baseUrl/auth/login'),
         body: {'email': event.email, 'password': event.password},
       );
 
@@ -49,7 +49,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
         emit(state.copyWith(isLoading: false));
         NavigatorService.pushNamed(
-          AppRoutes.profileScreen,
+          AppRoutes.homeScreenNews,
         );
         add(LoginSuccessEvent());
       } else {

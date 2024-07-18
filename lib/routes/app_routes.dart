@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sopraflutter/core/app_export.dart';
 import 'package:sopraflutter/presentation/News_page/screens/home_screen.dart';
+import 'package:sopraflutter/presentation/Settings_page/SettingsPage.dart';
 import 'package:sopraflutter/presentation/add_conge_admin/home_add_screen.dart';
 import 'package:sopraflutter/presentation/forget_password/forget_password_screen.dart';
 import 'package:sopraflutter/presentation/splash_screen/splash_screen.dart';
@@ -46,9 +47,11 @@ class AppRoutes {
 
   static const String homeADD = '/home_add';
 
+  static const String settingsPage = '/Settings_Page';
+
   static const String homeADDAdmin = '/home_add_admin';
 
- static const String homeScreenNews = '/home_screen_news';
+  static const String homeScreenNews = '/home_screen_news';
 
   static const String registerScreen = '/register_screen';
 
@@ -138,7 +141,7 @@ class AppRoutes {
         homeADD: homeAdd.builder,
         homeADDAdmin: homeAddAdmin.builder,
         homeScreenNews: HomeScreen.builder,
-
+        settingsPage: SettingsPage.builder,
         registerScreen: RegisterScreen.builder,
         forgetPassword: ForgetPasswordScreen.builder,
         dashboardContainerScreen: DashboardContainerScreen.builder,

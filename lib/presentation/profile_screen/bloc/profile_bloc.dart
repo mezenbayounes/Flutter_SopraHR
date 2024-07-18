@@ -27,7 +27,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
     // HTTP POST request
     final response = await http.post(
-      Uri.parse('http://10.0.2.2:3000/user/GetUserByID'),
+      Uri.parse('$baseUrl/user/GetUserByID'),
       body: {'id': userID.toString()},
     );
 
