@@ -1,11 +1,17 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sopraflutter/core/app_export.dart';
 import 'package:sopraflutter/localization/app_localization.dart';
 import 'package:sopraflutter/presentation/BottomNavBar/BottomNavBar.dart';
 import 'package:sopraflutter/presentation/News_page/components/breaking_news_card.dart';
 import 'package:sopraflutter/presentation/News_page/components/news_list_tile.dart';
 import 'package:sopraflutter/presentation/News_page/models/news_model.dart';
+import 'package:sopraflutter/presentation/profile_screen/bloc/profile_bloc.dart';
 import 'package:sopraflutter/theme/theme_helper.dart';
+import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -34,15 +40,38 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Center(
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0,
+                            vertical:
+                                8.0), // Added vertical padding for better spacing
                         decoration: BoxDecoration(
-                          border: Border(
-                            top: BorderSide(width: 2.0, color: Colors.black),
-                            bottom: BorderSide(width: 2.0, color: Colors.black),
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.redAccent,
+                              Color.fromARGB(255, 140, 20, 17)
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius:
+                              BorderRadius.circular(30.0), // Rounded corners
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(0, 4),
+                              blurRadius: 10.0,
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          "Sopra Hr News",
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            color: Colors
+                                .white, // Changed text color to white for better contrast
+                            fontWeight:
+                                FontWeight.bold, // Added bold font weight
                           ),
                         ),
-                        child: Text("Sopra Hr News",
-                            style: theme.textTheme.titleLarge),
                       ),
                     ),
                     SizedBox(
@@ -93,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: Container(child: BottomNavBarV2()),
+      bottomNavigationBar: Container(child: BottomNavBarV2(index: 0)),
     );
   }
 }

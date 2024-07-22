@@ -374,7 +374,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ],
         ))),
       ),
-      bottomNavigationBar: Container(child: BottomNavBarV2()),
+      bottomNavigationBar: Container(child: BottomNavBarV2(index: 2,)),
     );
   }
 }

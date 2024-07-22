@@ -50,7 +50,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ],
             ),
-            bottomNavigationBar: Container(child: BottomNavBarV2()),
+            bottomNavigationBar: Container(child: BottomNavBarV2(index: 3)),
           ),
         );
       },
@@ -76,39 +76,61 @@ class ProfileScreen extends StatelessWidget {
 
   Widget _buildProfileContent(BuildContext context, Map<String, String?> data) {
     emailforpath = data['email'] ?? "";
-    String imageUrl = 'http://10.0.2.2:3000/' + (data['image_url'] ?? "");
+    String imageUrl = '$baseUrl/' + (data['image_url'] ?? "");
     return Container(
       width: double.maxFinite,
-      padding: EdgeInsets.symmetric(vertical: 36.v),
+      padding: EdgeInsets.symmetric(vertical: 5.v),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 16.h),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            padding: EdgeInsets.only(left: 0.h),
+            child: Column(
               children: [
-                CustomImageView(
-                  imagePath: imageUrl,
-                  height: 72.adaptSize,
-                  width: 72.adaptSize,
-                  radius: BorderRadius.circular(36.h),
+                Stack(
+                  children: [
+                    // Wave background
+                    Positioned.fill(
+                      child: CustomPaint(
+                        painter: WavePainter(),
+                      ),
+                    ),
+                    // Profile image
+                    Center(
+                      child: Container(
+                        child: CustomImageView(
+                          imagePath: imageUrl,
+                          height: 172.adaptSize,
+                          width: 172.adaptSize,
+                          radius: BorderRadius.circular(90),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 16.h, top: 9.v, bottom: 14.v),
-                  child: Column(
-                    children: [
-                      Text(
-                        data['username'] ?? "",
-                        style: theme.textTheme.titleSmall,
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.only(left: 80.h, top: 9.v, bottom: 14.v),
+                      child: Column(
+                        children: [
+                          Text(
+                            data['username'] ?? "",
+                            style: theme.textTheme.titleSmall,
+                          ),
+                          SizedBox(height: 8.v),
+                          Text(
+                            data['email'] ?? "",
+                            style: theme.textTheme.bodySmall,
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 8.v),
-                      Text(
-                        data['email'] ?? "",
-                        style: theme.textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -228,5 +250,30 @@ class ProfileScreen extends StatelessWidget {
     NavigatorService.pushNamed(
       AppRoutes.changePasswordScreen,
     );
+  }
+}
+
+class WavePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..color = Colors.red
+      ..style = PaintingStyle.fill;
+
+    Path path = Path();
+    path.lineTo(0, size.height);
+    path.quadraticBezierTo(
+        size.width / 4, size.height, size.width / 2, size.height);
+    path.quadraticBezierTo(
+        size.width, size.height, size.width / 4, size.height);
+    path.lineTo(size.width, 0);
+    path.close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }

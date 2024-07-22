@@ -1,145 +1,126 @@
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sopraflutter/core/app_export.dart';
 import 'package:sopraflutter/core/utils/navigator_service.dart';
 import 'package:sopraflutter/routes/app_routes.dart';
 
 class BottomNavBarV2 extends StatefulWidget {
+  final int index; // New parameter to pass the initial index
+  BottomNavBarV2({Key? key, this.index = 0})
+      : super(key: key); // Constructor with parameter
   @override
   _BottomNavBarV2State createState() => _BottomNavBarV2State();
 }
 
 class _BottomNavBarV2State extends State<BottomNavBarV2> {
-  int currentIndex = 0;
-  String? role = "";
-  setBottomBarIndex(index) async {
+  late int currentIndex; // Current index of the selected tab
+  String? role = ""; // User role, loaded from SharedPreferences
+
+  @override
+  void initState() {
+    super.initState();
+    currentIndex = widget.index;
+    _loadRole(); // Load user role when the widget is initialized
+  }
+
+  _loadRole() async {
+    // Load user role from SharedPreferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    role = prefs.getString('role');
     setState(() {
-      currentIndex = index;
-      role = prefs.getString('role');
+      role = prefs.getString('role') ?? ""; // Update role state
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    print(
+        "Building BottomNavBarV2 with currentIndex: $currentIndex"); // Debug statement
+
     return Container(
-      width: size.width,
-      height: 80,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          CustomPaint(
-            size: Size(size.width, 80),
-            painter: BNBCustomPainter(),
-          ),
-          Center(
-            heightFactor: 0.6,
-            child: FloatingActionButton(
-              backgroundColor: Colors.redAccent.shade700,
-              child: Icon(Icons.home_sharp),
-              elevation: 0.1,
-              onPressed: () {
-                NavigatorService.pushNamed(
-                  AppRoutes.homeScreenNews,
-                );
-              },
-            ),
-          ),
-          Container(
-            width: size.width,
-            height: 80,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.table_view_sharp,
-                    color: currentIndex == 0
-                        ? Colors.redAccent.shade700
-                        : const Color.fromARGB(255, 255, 244, 244),
-                  ),
-                  onPressed: () {
-                    setBottomBarIndex(0);
-                    if (role == "admin") {
-                      NavigatorService.pushNamed(
-                        AppRoutes.homeADDAdmin,
-                      );
-                      print(role);
-                    } else {
-                      NavigatorService.pushNamed(
-                        AppRoutes.homeADD,
-                      );
-                      print(role);
-                    }
-                  },
-                  splashColor: Colors.white,
-                ),
-                Container(
-                  width: size.width * 0.30,
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.settings,
-                    color: currentIndex == 1
-                        ? Colors.redAccent.shade700
-                        : Colors.grey.shade400,
-                  ),
-                  onPressed: () {
-                    setBottomBarIndex(1);
-                    NavigatorService.pushNamed(
-                      AppRoutes.settingsPage,
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.person,
-                    color: currentIndex == 2
-                        ? Colors.redAccent.shade700
-                        : Colors.grey.shade400,
-                  ),
-                  onPressed: () {
-                    setBottomBarIndex(2);
-                    NavigatorService.pushNamed(
-                      AppRoutes.profileScreen,
-                    );
-                  },
-                ),
-              ],
-            ),
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 228, 228, 228),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 20,
+            color: Colors.black.withOpacity(.1),
           ),
         ],
       ),
+      child: SafeArea(
+        child: GNav(
+          rippleColor: Colors.grey[800]!,
+          hoverColor: Colors.grey[700]!,
+          haptic: true,
+          tabBorderRadius: 15,
+          tabActiveBorder: Border.all(color: Colors.black, width: 1),
+          tabBorder: Border.all(color: Colors.grey, width: 1),
+          tabShadow: [
+            BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)
+          ],
+          curve: Curves.easeOutExpo,
+          duration: Duration(milliseconds: 500),
+          gap: 8,
+          color: Colors.grey[800],
+          activeColor: Colors.red.shade700,
+          iconSize: 28,
+          tabBackgroundColor: Colors.red.withOpacity(0.1),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          selectedIndex: currentIndex,
+          onTabChange: (index) {
+            print("Tab changed to index: $index"); // Debug statement
+            setState(() {
+              currentIndex = index;
+            });
+          },
+          tabs: [
+           
+            GButton(
+              icon: LineIcons.home,
+              text: 'New',
+              onPressed: () {
+                setState(() {
+                  currentIndex = 0; // Update currentIndex on tab press
+                });
+                NavigatorService.pushNamed(AppRoutes.homeScreenNews);
+              },
+            ),
+            GButton(
+              icon: LineIcons.table,
+              text: 'Demande',
+              onPressed: () {
+                setState(() {
+                  currentIndex = 1; // Update currentIndex on tab press
+                });
+                NavigatorService.pushNamed(role == "admin"
+                    ? AppRoutes.homeADDAdmin
+                    : AppRoutes.homeADD);
+              },
+            ),
+            GButton(
+              icon: LineIcons.cog,
+              text: 'Settings',
+              onPressed: () {
+                setState(() {
+                  currentIndex = 2; // Update currentIndex on tab press
+                });
+                NavigatorService.pushNamed(AppRoutes.settingsPage);
+              },
+            ),
+            GButton(
+              icon: LineIcons.user,
+              text: 'Profile',
+              onPressed: () {
+                setState(() {
+                  currentIndex = 3; // Update currentIndex on tab press
+                });
+                NavigatorService.pushNamed(AppRoutes.profileScreen);
+              },
+            ),
+          ],
+        ),
+      ),
     );
-  }
-}
-
-class BNBCustomPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = Colors.white
-      ..style = PaintingStyle.fill;
-
-    Path path = Path();
-    path.moveTo(0, 20); // Start
-    path.quadraticBezierTo(size.width * 0.20, 0, size.width * 0.35, 0);
-    path.quadraticBezierTo(size.width * 0.40, 0, size.width * 0.40, 20);
-    path.arcToPoint(Offset(size.width * 0.60, 20),
-        radius: Radius.circular(20.0), clockwise: false);
-    path.quadraticBezierTo(size.width * 0.60, 0, size.width * 0.65, 0);
-    path.quadraticBezierTo(size.width * 0.80, 0, size.width, 20);
-    path.lineTo(size.width, size.height);
-    path.lineTo(0, size.height);
-    path.lineTo(0, 20);
-    canvas.drawShadow(path, Color.fromARGB(255, 255, 255, 255), 5, true);
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
   }
 }

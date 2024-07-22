@@ -42,7 +42,7 @@ class _homeAddState extends State<homeAddAdmin> {
             ),
           ),
         ),
-        bottomNavigationBar: Container(child: BottomNavBarV2()),
+        bottomNavigationBar: Container(child: BottomNavBarV2( index: 1)),
       ),
     );
   }
