@@ -35,41 +35,41 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 60,
-                    ),
-                    Center(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0,
-                            vertical:
-                                8.0), // Added vertical padding for better spacing
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.redAccent,
-                              Color.fromARGB(255, 140, 20, 17)
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius:
-                              BorderRadius.circular(30.0), // Rounded corners
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black26,
-                              offset: Offset(0, 4),
-                              blurRadius: 10.0,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30),
+                      child: Center(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                              vertical:
+                                  8.0), // Added vertical padding for better spacing
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.redAccent,
+                                Color.fromARGB(255, 140, 20, 17)
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
                             ),
-                          ],
-                        ),
-                        child: Text(
-                          "Sopra Hr News",
-                          style: theme.textTheme.titleLarge?.copyWith(
-                            color: Colors
-                                .white, // Changed text color to white for better contrast
-                            fontWeight:
-                                FontWeight.bold, // Added bold font weight
+                            borderRadius:
+                                BorderRadius.circular(30.0), // Rounded corners
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                offset: Offset(0, 4),
+                                blurRadius: 10.0,
+                              ),
+                            ],
+                          ),
+                          child: Text(
+                            "Sopra Hr News",
+                            style: theme.textTheme.titleLarge?.copyWith(
+                              color: Colors
+                                  .white, // Changed text color to white for better contrast
+                              fontWeight:
+                                  FontWeight.bold, // Added bold font weight
+                            ),
                           ),
                         ),
                       ),

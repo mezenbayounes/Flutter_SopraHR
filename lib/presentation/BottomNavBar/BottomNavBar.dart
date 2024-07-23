@@ -34,11 +34,17 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double horizontalPadding = screenWidth * 0.02;
+    double iconSize = screenWidth * 0.07;
+    double textScaleFactor = screenWidth / 400; // Adjust this value as needed
+
     print(
         "Building BottomNavBarV2 with currentIndex: $currentIndex"); // Debug statement
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+      padding:
+          EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 18),
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 228, 228, 228),
         boxShadow: [
@@ -64,7 +70,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
           gap: 8,
           color: Colors.grey[800],
           activeColor: Colors.red.shade700,
-          iconSize: 28,
+          iconSize: iconSize,
           tabBackgroundColor: Colors.red.withOpacity(0.1),
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           selectedIndex: currentIndex,
@@ -75,10 +81,11 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
             });
           },
           tabs: [
-           
             GButton(
               icon: LineIcons.home,
               text: 'New',
+              textStyle: TextStyle(
+                  fontSize: 9 * textScaleFactor, fontWeight: FontWeight.bold),
               onPressed: () {
                 setState(() {
                   currentIndex = 0; // Update currentIndex on tab press
@@ -89,6 +96,8 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
             GButton(
               icon: LineIcons.table,
               text: 'Demande',
+              textStyle: TextStyle(
+                  fontSize: 9 * textScaleFactor, fontWeight: FontWeight.bold),
               onPressed: () {
                 setState(() {
                   currentIndex = 1; // Update currentIndex on tab press
@@ -101,6 +110,8 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
             GButton(
               icon: LineIcons.cog,
               text: 'Settings',
+              textStyle: TextStyle(
+                  fontSize: 9 * textScaleFactor, fontWeight: FontWeight.bold),
               onPressed: () {
                 setState(() {
                   currentIndex = 2; // Update currentIndex on tab press
@@ -111,6 +122,8 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
             GButton(
               icon: LineIcons.user,
               text: 'Profile',
+              textStyle: TextStyle(
+                  fontSize: 9 * textScaleFactor, fontWeight: FontWeight.bold),
               onPressed: () {
                 setState(() {
                   currentIndex = 3; // Update currentIndex on tab press

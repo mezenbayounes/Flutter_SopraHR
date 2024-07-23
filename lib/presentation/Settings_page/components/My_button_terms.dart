@@ -19,6 +19,7 @@ class My_Button_terms extends StatelessWidget {
         decoration:
             BoxDecoration(color: const Color.fromARGB(255, 255, 255, 255)),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               text,
@@ -27,16 +28,10 @@ class My_Button_terms extends StatelessWidget {
                 fontSize: 17,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 160,
-              ),
-              child: Icon(
-                icon,
-                // You can adjust the size and style of the icon as desired
-                size: 25,
-                color: Colors.black,
-              ),
+            Icon(
+              icon,
+              size: 25,
+              color: Colors.black,
             ),
           ],
         ),

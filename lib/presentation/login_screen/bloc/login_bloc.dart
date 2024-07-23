@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:art_sweetalert/art_sweetalert.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,7 +56,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       } else {
         // Emit LoginFailureEvent with the error message if login fails
         emit(state.copyWith(isLoading: false, errorMessage: response.body));
-        add(LoginFailureEvent(response.body));
+        add(LoginFailureEvent(
+          response.body,
+        ));
       }
     } catch (e) {
       // Emit LoginFailureEvent with the exception message if an error occurs

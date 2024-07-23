@@ -16,15 +16,7 @@ class _homeAddState extends State<homeAdd> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                  'assets/images/bgme.png'), // Replace with your image path
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: NotificationListener<OverscrollIndicatorNotification>(
+        body:  NotificationListener<OverscrollIndicatorNotification>(
             onNotification: (notification) {
               notification.disallowIndicator(); // Prevent scrolling
               return true;
@@ -41,7 +33,7 @@ class _homeAddState extends State<homeAdd> {
               },
             ),
           ),
-        ),
+        
         bottomNavigationBar: Container(child: BottomNavBarV2(index: 1)),
       ),
     );
@@ -51,6 +43,11 @@ class _homeAddState extends State<homeAdd> {
 class homeAddContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double buttonWidth = screenWidth * 0.8;
+    double buttonHeight = screenWidth * 0.4;
+    double fontSize = screenWidth * 0.05;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -61,26 +58,29 @@ class homeAddContent extends StatelessWidget {
             print('Button 1 clicked');
           },
           child: Container(
-              width: 300, // Set desired width
-              height: 200, // Set desired height
+              width: buttonWidth, // Set responsive width
+              height: buttonHeight, // Set responsive height
               child: Image.asset('assets/images/demande_conge.png')),
         ),
         SizedBox(height: 10),
-        Text("demande_de_conge".tr, style: theme.textTheme.titleMedium),
-        SizedBox(height: 50),
+        Text("demande_de_conge".tr,
+            style: theme.textTheme.titleMedium // Set responsive font size
+            ),
+        SizedBox(height: 60),
         ElevatedButton(
           onPressed: () {
             // Handle button 2 click event
             print('Button 2 clicked');
           },
           child: Container(
-              width: 300, // Set desired width
-              height: 200, // Set desired height
+              width: buttonWidth, // Set responsive width
+              height: buttonHeight, // Set responsive height
               child: Image.asset('assets/images/remote.png')),
         ),
         SizedBox(height: 10),
-        Text("demande_de_tt".tr, style: theme.textTheme.titleMedium),
-        SizedBox(width: 500),
+        Text("demande_de_tt".tr,
+            style: theme.textTheme.titleMedium), // Set responsive font size
+
         SizedBox(height: 300),
       ],
     );

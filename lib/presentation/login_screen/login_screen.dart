@@ -31,99 +31,102 @@ class LoginScreen extends StatelessWidget {
             resizeToAvoidBottomInset: false,
             body: Form(
                 key: _formKey,
-                child: Container(
-                    width: double.maxFinite,
-                    padding:
-                        EdgeInsets.only(left: 16.h, top: 68.v, right: 16.h),
-                    child: Column(children: [
-                      _buildPageHeader(context),
-                      SizedBox(height: 28.v),
-                      BlocSelector<LoginBloc, LoginState,
-                              TextEditingController?>(
-                          selector: (state) => state.emailController,
-                          builder: (context, emailController) {
-                            return CustomTextFormField(
-                                controller: emailController,
-                                hintText: "lbl_your_email".tr,
-                                textInputType: TextInputType.emailAddress,
-                                prefix: Container(
-                                    margin: EdgeInsets.fromLTRB(
-                                        16.h, 12.v, 10.h, 12.v),
-                                    child: CustomImageView(
-                                        imagePath: ImageConstant.imgMail,
-                                        height: 24.adaptSize,
-                                        width: 24.adaptSize)),
-                                prefixConstraints:
-                                    BoxConstraints(maxHeight: 48.v),
-                                validator: (value) {
-                                  if (value == null ||
-                                      (!isValidEmail(value,
-                                          isRequired: true))) {
-                                    return "err_msg_please_enter_valid_email"
-                                        .tr;
-                                  }
-                                  return null;
-                                },
-                                contentPadding: EdgeInsets.only(
-                                    top: 15.v, right: 30.h, bottom: 15.v));
-                          }),
-                      SizedBox(height: 10.v),
-                      BlocSelector<LoginBloc, LoginState,
-                              TextEditingController?>(
-                          selector: (state) => state.passwordController,
-                          builder: (context, passwordController) {
-                            return CustomTextFormField(
-                                controller: passwordController,
-                                hintText: "lbl_password".tr,
-                                textInputAction: TextInputAction.done,
-                                textInputType: TextInputType.visiblePassword,
-                                prefix: Container(
-                                    margin: EdgeInsets.fromLTRB(
-                                        16.h, 12.v, 10.h, 12.v),
-                                    child: CustomImageView(
-                                        imagePath: ImageConstant.imgLock,
-                                        height: 24.adaptSize,
-                                        width: 24.adaptSize)),
-                                prefixConstraints:
-                                    BoxConstraints(maxHeight: 48.v),
-                                validator: (value) {
-                                  if (value == null ||
-                                      (!isValidPassword(value,
-                                          isRequired: true))) {
-                                    return "err_msg_please_enter_valid_password"
-                                        .tr;
-                                  }
-                                  return null;
-                                },
-                                obscureText: true,
-                                contentPadding: EdgeInsets.only(
-                                    top: 15.v, right: 30.h, bottom: 15.v));
-                          }),
-                      SizedBox(height: 16.v),
-                      CustomElevatedButton(
-                          text: "lbl_sign_in".tr,
-                          onPressed: () {
-                            onTapSignIn(context);
-                          }),
-                      SizedBox(height: 18.v),
-                      _buildOrLine(context),
-                      SizedBox(height: 16.v),
-                      _buildSocialAuthentication(context),
-                      SizedBox(height: 17.v),
-                      GestureDetector(
-                          onTap: () {
-                            onTapTxtDonthaveanaccount(context);
-                          },
-                          child: RichText(
-                              text: TextSpan(children: [
-                                TextSpan(
-                                    text: "msg_forgot_password".tr,
-                                    style: theme.textTheme.bodySmall),
-                              ]),
-                              textAlign: TextAlign.left)),
-                      SizedBox(height: 7.v),
-                      SizedBox(height: 5.v)
-                    ])))));
+                child: SingleChildScrollView(
+                  child: Container(
+                      width: double.maxFinite,
+                      padding:
+                          EdgeInsets.only(left: 16.h, top: 68.v, right: 16.h),
+                      child: Column(children: [
+                        _buildPageHeader(context),
+                        SizedBox(height: 28.v),
+                        BlocSelector<LoginBloc, LoginState,
+                                TextEditingController?>(
+                            selector: (state) => state.emailController,
+                            builder: (context, emailController) {
+                              return CustomTextFormField(
+                                  controller: emailController,
+                                  hintText: "lbl_your_email".tr,
+                                  textInputType: TextInputType.emailAddress,
+                                  prefix: Container(
+                                      margin: EdgeInsets.fromLTRB(
+                                          16.h, 12.v, 10.h, 12.v),
+                                      child: CustomImageView(
+                                          imagePath: ImageConstant.imgMail,
+                                          height: 24.adaptSize,
+                                          width: 24.adaptSize)),
+                                  prefixConstraints:
+                                      BoxConstraints(maxHeight: 48.v),
+                                  validator: (value) {
+                                    if (value == null ||
+                                        (!isValidEmail(value,
+                                            isRequired: true))) {
+                                      return "err_msg_please_enter_valid_email"
+                                          .tr;
+                                    }
+                                    return null;
+                                  },
+                                  contentPadding: EdgeInsets.only(
+                                      top: 15.v, right: 30.h, bottom: 15.v));
+                            }),
+                        SizedBox(height: 10.v),
+                        BlocSelector<LoginBloc, LoginState,
+                                TextEditingController?>(
+                            selector: (state) => state.passwordController,
+                            builder: (context, passwordController) {
+                              return CustomTextFormField(
+                                  controller: passwordController,
+                                  hintText: "lbl_password".tr,
+                                  textInputAction: TextInputAction.done,
+                                  textInputType: TextInputType.visiblePassword,
+                                  prefix: Container(
+                                      margin: EdgeInsets.fromLTRB(
+                                          16.h, 12.v, 10.h, 12.v),
+                                      child: CustomImageView(
+                                          imagePath: ImageConstant.imgLock,
+                                          height: 24.adaptSize,
+                                          width: 24.adaptSize)),
+                                  prefixConstraints:
+                                      BoxConstraints(maxHeight: 48.v),
+                                  validator: (value) {
+                                    if (value == null ||
+                                        (!isValidPassword(value,
+                                            isRequired: true))) {
+                                      return "err_msg_please_enter_valid_password"
+                                          .tr;
+                                    }
+                                    return null;
+                                  },
+                                  obscureText: true,
+                                  contentPadding: EdgeInsets.only(
+                                      top: 15.v, right: 30.h, bottom: 15.v));
+                            }),
+                        SizedBox(height: 16.v),
+                        CustomElevatedButton(
+                            text: "lbl_sign_in".tr,
+                            onPressed: () {
+                              onTapSignIn(context);
+                            }),
+                        SizedBox(height: 18.v),
+                        _buildOrLine(context),
+                        SizedBox(height: 16.v),
+                        _buildSocialAuthentication(context),
+                        SizedBox(height: 17.v),
+                        GestureDetector(
+                            onTap: () {
+                              onTapTxtDonthaveanaccount(context);
+                            },
+                            child: RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                      text: "msg_forgot_password".tr,
+                                      style: theme.textTheme.bodySmall),
+                                ]),
+                                textAlign: TextAlign.left)),
+                        SizedBox(height: 7.v),
+                        SizedBox(height: 5.v),
+                        SizedBox(height: 150)
+                      ])),
+                ))));
   }
 
   /// Section Widget
@@ -193,7 +196,9 @@ class LoginScreen extends StatelessWidget {
     print(email);
     print(password);
     // Dispatch the LoginSubmitEvent to the bloc
+
     loginBloc.add(LoginSubmitEvent(email: email, password: password));
+   
   }
 
   /// Performs a Google sign-in and returns a [GoogleUser] object.

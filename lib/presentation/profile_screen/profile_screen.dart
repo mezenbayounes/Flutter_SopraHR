@@ -30,7 +30,6 @@ class ProfileScreen extends StatelessWidget {
       builder: (context, state) {
         return SafeArea(
           child: Scaffold(
-            appBar: _buildAppBar(context),
             body: Column(
               children: [
                 Expanded(
@@ -79,12 +78,11 @@ class ProfileScreen extends StatelessWidget {
     String imageUrl = '$baseUrl/' + (data['image_url'] ?? "");
     return Container(
       width: double.maxFinite,
-      padding: EdgeInsets.symmetric(vertical: 5.v),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 0.h),
+            padding: EdgeInsets.only(top: 0.h),
             child: Column(
               children: [
                 Stack(
@@ -96,26 +94,30 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     // Profile image
+
                     Center(
-                      child: Container(
-                        child: CustomImageView(
-                          imagePath: imageUrl,
-                          height: 172.adaptSize,
-                          width: 172.adaptSize,
-                          radius: BorderRadius.circular(90),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 30.0),
+                        child: Container(
+                          child: CustomImageView(
+                            imagePath: imageUrl,
+                            height: 200.adaptSize,
+                            width: 172.adaptSize,
+                            radius: BorderRadius.circular(90),
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
                 SizedBox(
-                  height: 30,
+                  height: 60,
                 ),
                 Row(
                   children: [
                     Padding(
                       padding:
-                          EdgeInsets.only(left: 80.h, top: 9.v, bottom: 14.v),
+                          EdgeInsets.only(left: 110.h, top: 9.v, bottom: 14.v),
                       child: Column(
                         children: [
                           Text(
@@ -261,11 +263,11 @@ class WavePainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     Path path = Path();
-    path.lineTo(0, size.height);
+    path.lineTo(0, size.height + 30);
     path.quadraticBezierTo(
-        size.width / 4, size.height, size.width / 2, size.height);
+        size.width / 4, size.height + 30, size.width / 2, size.height + 30);
     path.quadraticBezierTo(
-        size.width, size.height, size.width / 4, size.height);
+        size.width, size.height + 30, size.width / 4, size.height + 30);
     path.lineTo(size.width, 0);
     path.close();
 
