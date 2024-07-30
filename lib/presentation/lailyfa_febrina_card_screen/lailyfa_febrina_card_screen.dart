@@ -1,3 +1,8 @@
+import 'package:dropdown_model_list/drop_down/model.dart';
+import 'package:dropdown_model_list/drop_down/select_drop_list.dart';
+import 'package:easy_date_timeline/easy_date_timeline.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'bloc/lailyfa_febrina_card_bloc.dart';
 import 'models/lailyfa_febrina_card_model.dart';
 import 'package:sopraflutter/core/app_export.dart';
@@ -8,7 +13,7 @@ import 'package:sopraflutter/widgets/custom_elevated_button.dart';
 import 'package:sopraflutter/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
-class LailyfaFebrinaCardScreen extends StatelessWidget {
+class LailyfaFebrinaCardScreen extends StatefulWidget {
   const LailyfaFebrinaCardScreen({Key? key}) : super(key: key);
 
   static Widget builder(BuildContext context) {
@@ -17,6 +22,33 @@ class LailyfaFebrinaCardScreen extends StatelessWidget {
             lailyfaFebrinaCardModelObj: LailyfaFebrinaCardModel()))
           ..add(LailyfaFebrinaCardInitialEvent()),
         child: LailyfaFebrinaCardScreen());
+  }
+
+  @override
+  State<LailyfaFebrinaCardScreen> createState() =>
+      _LailyfaFebrinaCardScreenState();
+}
+
+class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
+  String causeG = "";
+  String typeG = "";
+  String scDebutG = "";
+  String scFinG = "";
+  late DateTime dateDebutG;
+  late DateTime dateFinG;
+  TextEditingController _causeController = TextEditingController();
+  @override
+  void dispose() {
+    _causeController.dispose();
+    super.dispose();
+  }
+
+  void _updateCause() {
+    setState(() {
+      // Update your local state with the value from the text field
+      causeG = _causeController.text;
+      // Do something with the cause
+    });
   }
 
   @override
@@ -37,15 +69,19 @@ class LailyfaFebrinaCardScreen extends StatelessWidget {
                               padding: EdgeInsets.only(
                                   left: 15.h, right: 15.h, bottom: 5.v),
                               child: Column(children: [
-                                _buildCreditCard(context),
+                                _buildCard(context),
                                 SizedBox(height: 23.v),
-                                _buildCardNumber(context),
+                                _buildDropDwonTypeConge(context),
                                 SizedBox(height: 24.v),
-                                _buildExpirationDate(context),
+                                _buildTextFieldCause(context),
                                 SizedBox(height: 29.v),
-                                _buildSecurityCode(context),
+                                _buildDateDebut(context),
                                 SizedBox(height: 23.v),
-                                _buildCardHolder(context)
+                                _buildScDebut(context),
+                                SizedBox(height: 23.v),
+                                _buildDateFin(context),
+                                SizedBox(height: 23.v),
+                                _buildScFin(context)
                               ]))))
                 ])),
             bottomNavigationBar: _buildSave(context)));
@@ -62,147 +98,327 @@ class LailyfaFebrinaCardScreen extends StatelessWidget {
               onTapArrowLeft(context);
             }),
         title: AppbarSubtitle(
-            text: "msg_lailyfa_febrina".tr,
-            margin: EdgeInsets.only(left: 12.h)));
+            text: "demande_de_conge".tr, margin: EdgeInsets.only(left: 12.h)));
   }
 
   /// Section Widget
-  Widget _buildCreditCard(BuildContext context) {
+  Widget _buildCard(BuildContext context) {
+    // Use MediaQuery to get the device's screen dimensions
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Define proportional padding and font sizes based on the screen width
+    double horizontalPadding = screenWidth * 0.05; // 5% of screen width
+    double verticalPadding = 20; // Fixed vertical padding
+    double fontSizeTitle = 0.1 * screenWidth; // 10% of screen width
+    double fontSizeSubtitle = 0.05 * screenWidth; // 5% of screen width
+
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 21.h, vertical: 23.v),
-        decoration: AppDecoration.fillPrimary
-            .copyWith(borderRadius: BorderRadiusStyle.roundedBorder5),
-        child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomImageView(
-                  imagePath: ImageConstant.imgVolume,
-                  height: 22.v,
-                  width: 36.h,
-                  margin: EdgeInsets.only(left: 3.h)),
-              SizedBox(height: 30.v),
-              Text("msg_6326_9124".tr, style: theme.textTheme.headlineSmall),
-              SizedBox(height: 17.v),
-              Row(children: [
-                Opacity(
-                    opacity: 0.5,
-                    child: Padding(
-                        padding: EdgeInsets.only(top: 2.v),
-                        child: Text("lbl_card_holder".tr,
-                            style: CustomTextStyles
-                                .bodySmallOnPrimaryContainer10))),
-                Opacity(
-                    opacity: 0.5,
-                    child: Padding(
-                        padding: EdgeInsets.only(left: 37.h),
-                        child: Text("lbl_card_save".tr,
-                            style: CustomTextStyles
-                                .bodySmallOnPrimaryContainer10)))
-              ]),
-              SizedBox(height: 1.v),
-              Row(children: [
-                Padding(
-                    padding: EdgeInsets.only(top: 3.v),
-                    child: Text("lbl_lailyfa_febrina".tr,
-                        style: CustomTextStyles.labelMediumOnPrimaryContainer)),
-                Padding(
-                    padding: EdgeInsets.only(left: 32.h, bottom: 3.v),
-                    child: Text("lbl_06_24".tr,
-                        style: CustomTextStyles.labelMediumOnPrimaryContainer))
-              ])
-            ]));
+      padding: EdgeInsets.symmetric(
+          horizontal: horizontalPadding, vertical: verticalPadding),
+      decoration: BoxDecoration(
+        color: Colors.red,
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Text(
+              "il_vous_rest".tr,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: fontSizeTitle,
+              ),
+            ),
+          ),
+          SizedBox(height: verticalPadding),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Congés Payés".tr,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: fontSizeSubtitle,
+                        ),
+                      ),
+                      SizedBox(height: 3),
+                      Text(
+                        "22",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: fontSizeSubtitle - 3,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: screenWidth * 0.05), // 5% of screen width
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Congés Maladie".tr,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: fontSizeSubtitle,
+                        ),
+                      ),
+                      SizedBox(height: 3),
+                      Text(
+                        "5",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: fontSizeSubtitle - 3,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   /// Section Widget
-  Widget _buildCardNumber(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Padding(
+  Widget _buildDropDwonTypeConge(BuildContext context) {
+    DropListModel dropListModel = DropListModel([
+      OptionItem(id: "1", title: "Congé_payé".tr, data: 'Congé_payé'),
+      OptionItem(id: "2", title: "Congé_Maladie".tr, data: 'Congé_Maladie'),
+      OptionItem(id: "3", title: "Congé_non_payé".tr, data: 'Congé_non_payé'),
+    ]);
+    OptionItem optionItemSelected = OptionItem(title: "choisi_type_conge".tr);
+
+    TextEditingController controller = TextEditingController();
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("type_de_conge".tr, style: theme.textTheme.titleSmall),
+          SelectDropList(
+            itemSelected: optionItemSelected,
+            dropListModel: dropListModel,
+            showIcon: false,
+            showArrowIcon: true,
+            showBorder: true,
+            enable: true,
+            paddingTop: 0,
+            paddingDropItem:
+                const EdgeInsets.only(left: 20, top: 10, bottom: 10, right: 20),
+            suffixIcon: Icons.arrow_drop_down,
+            containerPadding: const EdgeInsets.all(10),
+            icon: const Icon(Icons.person, color: Colors.black),
+            onOptionSelected: (optionItem) {
+              optionItemSelected = optionItem;
+              print(optionItemSelected.title);
+              setState(() {
+                optionItemSelected = optionItem;
+                typeG = optionItem.title;
+              });
+            },
+          ),
+        ]);
+  }
+
+  /// Section Widget
+  Widget _buildTextFieldCause(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
           padding: EdgeInsets.only(left: 2.h),
-          child: Text("lbl_card_number".tr, style: theme.textTheme.titleSmall)),
-      SizedBox(height: 12.v),
-      Padding(
+          child: Text(
+            "Cause".tr,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+        ),
+        SizedBox(height: 11.v),
+        Padding(
           padding: EdgeInsets.only(left: 2.h),
           child: BlocSelector<LailyfaFebrinaCardBloc, LailyfaFebrinaCardState,
-                  TextEditingController?>(
-              selector: (state) => state.cardNumberController,
-              builder: (context, cardNumberController) {
-                return CustomTextFormField(
-                    controller: cardNumberController,
-                    hintText: "msg_1231_2312_3123".tr,
-                    hintStyle: CustomTextStyles.labelLargeBluegray300SemiBold,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16.h, vertical: 15.v));
-              }))
-    ]);
-  }
-
-  /// Section Widget
-  Widget _buildExpirationDate(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Padding(
-          padding: EdgeInsets.only(left: 2.h),
-          child: Text("lbl_expiration_date".tr,
-              style: theme.textTheme.titleSmall)),
-      SizedBox(height: 11.v),
-      Padding(
-          padding: EdgeInsets.only(left: 2.h),
-          child: BlocSelector<LailyfaFebrinaCardBloc, LailyfaFebrinaCardState,
-                  TextEditingController?>(
-              selector: (state) => state.expirationDateController,
-              builder: (context, expirationDateController) {
-                return CustomTextFormField(
-                    controller: expirationDateController,
-                    hintText: "lbl_12_12".tr,
-                    hintStyle: CustomTextStyles.labelLargeBluegray300SemiBold,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16.h, vertical: 15.v));
-              }))
-    ]);
-  }
-
-  /// Section Widget
-  Widget _buildSecurityCode(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text("lbl_security_code".tr, style: theme.textTheme.titleSmall),
-      SizedBox(height: 11.v),
-      BlocSelector<LailyfaFebrinaCardBloc, LailyfaFebrinaCardState,
               TextEditingController?>(
-          selector: (state) => state.securityCodeController,
-          builder: (context, securityCodeController) {
-            return CustomTextFormField(
-                controller: securityCodeController,
-                hintText: "lbl_1219".tr,
-                hintStyle: CustomTextStyles.labelLargeBluegray300SemiBold,
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 16.h, vertical: 15.v));
-          })
+            selector: (state) => state.expirationDateController,
+            builder: (context, expirationDateController) {
+              return TextFormField(
+                controller: _causeController,
+                decoration: InputDecoration(
+                  hintText: "enter_cause".tr,
+                  hintStyle: CustomTextStyles.labelLargeBluegray300SemiBold,
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16.h, vertical: 15.v),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                maxLength: 200, // Maximum length of 200 characters
+                onChanged: (text) {
+                  // Optionally, you can call setState here if you need to update immediately
+                  _updateCause();
+                },
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Section Widget
+  Widget _buildDateDebut(BuildContext context) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text("date_debut".tr, style: theme.textTheme.titleSmall),
+      SizedBox(height: 11.v),
+      EasyDateTimeLine(
+        initialDate: DateTime.now(),
+        onDateChange: (selectedDate) {
+          dateDebutG = selectedDate;
+        },
+        headerProps: const EasyHeaderProps(
+          monthPickerType: MonthPickerType.switcher,
+          dateFormatter: DateFormatter.fullDateDMY(),
+        ),
+        dayProps: const EasyDayProps(
+          dayStructure: DayStructure.dayStrDayNum,
+          activeDayStyle: DayStyle(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color.fromARGB(255, 252, 8, 8),
+                  Color.fromARGB(255, 228, 95, 34),
+                ],
+              ),
+            ),
+          ),
+        ),
+      )
     ]);
   }
 
   /// Section Widget
-  Widget _buildCardHolder(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Padding(
-          padding: EdgeInsets.only(left: 2.h),
-          child:
-              Text("lbl_card_holder2".tr, style: theme.textTheme.titleSmall)),
-      SizedBox(height: 12.v),
-      Padding(
-          padding: EdgeInsets.only(left: 2.h),
-          child: BlocSelector<LailyfaFebrinaCardBloc, LailyfaFebrinaCardState,
-                  TextEditingController?>(
-              selector: (state) => state.cardHolderNameController,
-              builder: (context, cardHolderNameController) {
-                return CustomTextFormField(
-                    controller: cardHolderNameController,
-                    hintText: "lbl_lailyfa_febrina".tr,
-                    hintStyle: CustomTextStyles.labelLargeBluegray300SemiBold,
-                    textInputAction: TextInputAction.done,
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16.h, vertical: 15.v));
-              }))
+  Widget _buildScDebut(BuildContext context) {
+    DropListModel dropListModel = DropListModel([
+      OptionItem(id: "1", title: "matin".tr, data: 'matin'),
+      OptionItem(id: "2", title: "apres_midi".tr, data: 'apres_midi'),
     ]);
+    OptionItem optionItemSelected = OptionItem(title: "choisi_sc_debut".tr);
+
+    TextEditingController controller = TextEditingController();
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("sc_debut".tr, style: theme.textTheme.titleSmall),
+          SelectDropList(
+            itemSelected: optionItemSelected,
+            dropListModel: dropListModel,
+            showIcon: false,
+            showArrowIcon: true,
+            showBorder: true,
+            enable: true,
+            paddingTop: 0,
+            paddingDropItem:
+                const EdgeInsets.only(left: 20, top: 10, bottom: 10, right: 20),
+            suffixIcon: Icons.arrow_drop_down,
+            containerPadding: const EdgeInsets.all(10),
+            icon: const Icon(Icons.person, color: Colors.black),
+            onOptionSelected: (optionItem) {
+              optionItemSelected = optionItem;
+              print(optionItemSelected.title);
+              setState(() {
+                optionItemSelected = optionItem;
+                scDebutG = optionItem.title;
+              });
+            },
+          ),
+        ]);
+  }
+
+  Widget _buildDateFin(BuildContext context) {
+    DateTime date;
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text("date_debut".tr, style: theme.textTheme.titleSmall),
+      SizedBox(height: 11.v),
+      EasyDateTimeLine(
+        initialDate: DateTime.now(),
+        onDateChange: (selectedDate) {
+          dateFinG = selectedDate;
+        },
+        headerProps: const EasyHeaderProps(
+          monthPickerType: MonthPickerType.switcher,
+          dateFormatter: DateFormatter.fullDateDMY(),
+        ),
+        dayProps: const EasyDayProps(
+          dayStructure: DayStructure.dayStrDayNum,
+          activeDayStyle: DayStyle(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color.fromARGB(255, 252, 8, 8),
+                  Color.fromARGB(255, 228, 95, 34),
+                ],
+              ),
+            ),
+          ),
+        ),
+      )
+    ]);
+  }
+
+  Widget _buildScFin(BuildContext context) {
+    DropListModel dropListModel = DropListModel([
+      OptionItem(id: "1", title: "matin".tr, data: 'matin'),
+      OptionItem(id: "2", title: "apres_midi".tr, data: 'apres_midi'),
+    ]);
+    OptionItem optionItemSelected = OptionItem(title: "choisi_sc_fin".tr);
+
+    TextEditingController controller = TextEditingController();
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("sc_fin".tr, style: theme.textTheme.titleSmall),
+          SelectDropList(
+            itemSelected: optionItemSelected,
+            dropListModel: dropListModel,
+            showIcon: false,
+            showArrowIcon: true,
+            showBorder: false,
+            enable: true,
+            paddingTop: 0,
+            paddingDropItem:
+                const EdgeInsets.only(left: 20, top: 10, bottom: 10, right: 20),
+            suffixIcon: Icons.arrow_drop_down,
+            containerPadding: const EdgeInsets.all(10),
+            icon: const Icon(Icons.person, color: Colors.black),
+            onOptionSelected: (optionItem) {
+              optionItemSelected = optionItem;
+              print(optionItemSelected.title);
+              setState(() {
+                optionItemSelected = optionItem;
+                scFinG = optionItem.title;
+              });
+            },
+          ),
+        ]);
   }
 
   /// Section Widget
@@ -221,9 +437,26 @@ class LailyfaFebrinaCardScreen extends StatelessWidget {
   }
 
   /// Navigates to the creditCardAndDebitScreen when the action is triggered.
-  onTapSave(BuildContext context) {
-    NavigatorService.pushNamed(
-      AppRoutes.creditCardAndDebitScreen,
-    );
+  onTapSave(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int userID = prefs.getInt('userID') ?? 0;
+
+    final AskBloc = context.read<LailyfaFebrinaCardBloc>();
+
+    print(userID);
+    print(typeG);
+    print(causeG);
+    print(dateDebutG);
+    print(scDebutG);
+    print(dateFinG);
+    print(scFinG);
+    AskBloc.add(AskEvent(
+        id: userID.toString(),
+        type: typeG,
+        cause: causeG,
+        date_debut: dateDebutG.toString(),
+        date_fin: dateFinG.toString(),
+        sc_debut: scDebutG,
+        sc_fin: scFinG));
   }
 }

@@ -76,6 +76,7 @@ class ChangePasswordScreen extends StatelessWidget {
           selector: (state) => state.passwordController,
           builder: (context, passwordController) {
             return CustomTextFormField(
+                autofocus: false,
                 controller: passwordController,
                 hintText: "msg".tr,
                 hintStyle: CustomTextStyles.labelLargeBluegray300,
@@ -112,6 +113,7 @@ class ChangePasswordScreen extends StatelessWidget {
           selector: (state) => state.newpasswordController,
           builder: (context, newpasswordController) {
             return CustomTextFormField(
+                autofocus: false,
                 controller: newpasswordController,
                 hintText: "msg".tr,
                 hintStyle: CustomTextStyles.labelLargeBluegray300,
@@ -149,6 +151,7 @@ class ChangePasswordScreen extends StatelessWidget {
           selector: (state) => state.newpasswordController1,
           builder: (context, newpasswordController1) {
             return CustomTextFormField(
+                autofocus: false,
                 controller: newpasswordController1,
                 hintText: "msg".tr,
                 hintStyle: CustomTextStyles.labelLargeBluegray300,

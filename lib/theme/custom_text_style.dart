@@ -34,6 +34,7 @@ class CustomTextStyles {
   // Headline text style
   static get headlineSmallOnPrimary => theme.textTheme.headlineSmall!.copyWith(
         color: theme.colorScheme.onPrimary.withOpacity(1),
+        
       );
   // Label text style
   static get labelLargeBluegray300 => theme.textTheme.labelLarge!.copyWith(

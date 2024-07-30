@@ -113,7 +113,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                         ),
                       ),
-                      Flexible( 
+                      Flexible(
                         fit: FlexFit.tight,
                         child: Align(
                           alignment: Alignment.centerRight,
@@ -287,7 +287,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
 
             Padding(
-              padding: const EdgeInsets.only(top: 210),
+              padding: const EdgeInsets.only(bottom: 10),
               child: Divider(
                 color: const Color.fromARGB(255, 255, 255, 255),
                 height: 0,

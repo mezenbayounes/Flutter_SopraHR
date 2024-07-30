@@ -361,4 +361,22 @@ final Map<String, String> enUs = {
   ////demande de TT
   "demande_de_tt": "Demande De Teletrvail",
   "consulter_les_tt": "Consulter Les Demandes",
+  ////////////////////
+  "il_vous_rest": "Il Vous Reste",
+  "Congés_Payés": "Congés Payés",
+  "Congés_Maladie": "Congés Maladie",
+  "type_de_conge": "Type De Congé",
+  "Congé_payé": "Congé payé",
+  "Congé_Maladie": "Congé Maladie",
+  "Congé_non_payé": "Congé non payé",
+  "choisi_type_conge": "Choisi Le Type De Congé",
+  "Cause": "Cause",
+  "enter_cause": "Enter le Cause",
+  "date_debut": "Date Debut",
+  "matin": "Matin",
+  "apres_midi": "Aprés Midi",
+  "choisi_sc_debut": "Choisi La Séance De Debut ",
+  "choisi_sc_fin": "Choisi La Séance De La Fin ",
+  "sc_debut": "Séance De Debut De Conge",
+  "sc_fin": "Séance De La Fin De Conge",
 };
