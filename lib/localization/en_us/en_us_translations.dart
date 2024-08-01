@@ -373,6 +373,8 @@ final Map<String, String> enUs = {
   "Cause": "Cause",
   "enter_cause": "Enter le Cause",
   "date_debut": "Date Debut",
+    "date_fin": "Date Fin",
+
   "matin": "Matin",
   "apres_midi": "Aprés Midi",
   "choisi_sc_debut": "Choisi La Séance De Debut ",

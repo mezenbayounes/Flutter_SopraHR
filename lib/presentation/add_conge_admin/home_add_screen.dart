@@ -75,8 +75,8 @@ class homeAddContent extends StatelessWidget {
               SizedBox(height: 60),
               ElevatedButton(
                 onPressed: () {
-                  // Handle button 2 click event
-                  print('Button 2 clicked');
+                  NavigatorService.pushNamed(
+                      AppRoutes.homeScreenConsluterAdmin);
                 },
                 child: Container(
                     width: buttonWidth, // Set responsive width

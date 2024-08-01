@@ -353,7 +353,7 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
   Widget _buildDateFin(BuildContext context) {
     DateTime date;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text("date_debut".tr, style: theme.textTheme.titleSmall),
+      Text("date_fin".tr, style: theme.textTheme.titleSmall),
       SizedBox(height: 11.v),
       EasyDateTimeLine(
         initialDate: DateTime.now(),

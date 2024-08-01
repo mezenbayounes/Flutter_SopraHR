@@ -102,7 +102,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                 setState(() {
                   currentIndex = 1; // Update currentIndex on tab press
                 });
-                NavigatorService.pushNamed(role == "admin"
+                NavigatorService.pushNamed(role == "manager"
                     ? AppRoutes.homeADDAdmin
                     : AppRoutes.homeADD);
               },
