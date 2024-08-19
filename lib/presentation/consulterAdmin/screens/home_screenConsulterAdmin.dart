@@ -35,6 +35,46 @@ class _HomeScreenState extends State<HomeScreenConsluterAdmin> {
     });
   }
 
+// Function to fetch the username by user ID*
+
+  // Function to fetch the username by user ID
+  static Future<Map<String, String>> fetchUsername(
+      String token, int userId) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/user/GetUserByID'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: json.encode({'id': userId}),
+      );
+
+      if (response.statusCode == 200) {
+        final userData = json.decode(response.body);
+
+        // Extract the username and image_url from the nested 'user' object
+        final username = userData['user']?['username'];
+        final imageUrl = userData['user']?['image_url'];
+
+        if (username != null && imageUrl != null) {
+          return {'username': username, 'image_url': imageUrl};
+        } else {
+          throw Exception('Username or image URL not found in user data');
+        }
+      } else {
+        final errorMessage =
+            'Failed to load user data. Status code: ${response.statusCode}, Response: ${response.body}';
+        print(errorMessage);
+        throw Exception(errorMessage);
+      }
+    } catch (e) {
+      print('Error fetching username and image URL: $e');
+      throw Exception(
+          'Error fetching username and image URL for User ID $userId');
+    }
+  }
+
   static Future<List<LeaveData>> fetchLeaveData(
       String token, int userId) async {
     final response = await http.post(
@@ -47,22 +87,40 @@ class _HomeScreenState extends State<HomeScreenConsluterAdmin> {
     );
 
     if (response.statusCode == 200) {
-////////////////
       List<dynamic> jsonResponse = json.decode(response.body);
 
       // Print the entire response body
       print('Response body: ${jsonResponse}');
 
-      // Extract and print user_id from each item in the list
       for (var item in jsonResponse) {
         if (item is Map<String, dynamic> && item.containsKey('user_id')) {
           print('User ID: ${item['user_id']}');
+
+          try {
+            // Fetch the username and image URL for this user ID
+            Map<String, String> userInfo =
+                await fetchUsername(token, item['user_id']);
+            print(
+                'Username for User ID ${item['user_id']}: ${userInfo['username']}');
+            print(
+                'Image URL for User ID ${item['user_id']}: ${userInfo['image_url']}');
+
+            // Add the username and image URL to the item
+            item['username'] = userInfo['username'];
+            item['image'] = userInfo['image_url'];
+          } catch (e) {
+            print(
+                'Error fetching username and image URL for User ID ${item['user_id']}: $e');
+            // You can decide how to handle this error. For example, set default values or continue.
+          }
+
+          print('Username: ${item['username']}');
+          print('Image URL: ${item['image']}');
         } else {
           print('User ID not found in item: $item');
         }
       }
 
-      ///
       return jsonResponse.map((data) => LeaveData.fromJson(data)).toList();
     } else {
       print('Failed to load leave data. Status code: ${response.statusCode}');

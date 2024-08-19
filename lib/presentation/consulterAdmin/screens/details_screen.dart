@@ -46,11 +46,12 @@ class _DetailsScreenState extends State<DetailsScreen> {
             SizedBox(
               height: 20.0,
             ),
-            Hero(
-              tag: "${widget.data.id}",
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(30.0),
-                child: Image.network('$baseUrl/assets/image-1714051966264.jpg'),
+            Center(
+              child: Hero(
+                tag: "${widget.data.id}",
+                child: ClipRRect(
+                  child: Image.network('$baseUrl/${widget.data.image}'),
+                ),
               ),
             ),
             SizedBox(

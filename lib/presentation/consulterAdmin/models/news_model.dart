@@ -1,5 +1,3 @@
-
-
 class LeaveData {
   int id;
   int userId;
@@ -10,7 +8,8 @@ class LeaveData {
   String scFin;
   String typeConge;
   String etat;
- 
+  String username;
+  String image;
 
   LeaveData({
     required this.id,
@@ -22,7 +21,8 @@ class LeaveData {
     required this.scFin,
     required this.typeConge,
     required this.etat,
-   
+    required this.username,
+    required this.image,
   });
 
   // Factory method to create a LeaveData instance from JSON
@@ -37,9 +37,8 @@ class LeaveData {
       scFin: json['sc_fin'],
       typeConge: json['type_conge'],
       etat: json['etat'],
-    
+      username: json['username'],
+      image: json['image'],
     );
   }
 }
-
-

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sopraflutter/core/utils/navigator_service.dart';
 import 'package:sopraflutter/localization/app_localization.dart';
 import 'package:sopraflutter/presentation/BottomNavBar/BottomNavBar.dart';
+import 'package:sopraflutter/routes/app_routes.dart';
 import 'package:sopraflutter/theme/theme_helper.dart';
 
 class homeAdd extends StatefulWidget {
@@ -16,24 +18,23 @@ class _homeAddState extends State<homeAdd> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body:  NotificationListener<OverscrollIndicatorNotification>(
-            onNotification: (notification) {
-              notification.disallowIndicator(); // Prevent scrolling
-              return true;
+        body: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (notification) {
+            notification.disallowIndicator(); // Prevent scrolling
+            return true;
+          },
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return SingleChildScrollView(
+                physics: NeverScrollableScrollPhysics(),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(),
+                  child: homeAddContent(),
+                ),
+              );
             },
-            child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
-                return SingleChildScrollView(
-                  physics: NeverScrollableScrollPhysics(),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(),
-                    child: homeAddContent(),
-                  ),
-                );
-              },
-            ),
           ),
-        
+        ),
         bottomNavigationBar: Container(child: BottomNavBarV2(index: 1)),
       ),
     );
@@ -55,7 +56,7 @@ class homeAddContent extends StatelessWidget {
         ElevatedButton(
           onPressed: () {
             // Handle button 1 click event
-            print('Button 1 clicked');
+            NavigatorService.pushNamed(AppRoutes.lailyfaFebrinaCardScreen);
           },
           child: Container(
               width: buttonWidth, // Set responsive width
