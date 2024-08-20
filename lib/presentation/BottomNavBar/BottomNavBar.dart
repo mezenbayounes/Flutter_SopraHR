@@ -117,6 +117,8 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                   currentIndex = 2; // Update currentIndex on tab press
                 });
                 NavigatorService.pushNamed(AppRoutes.settingsPage);
+
+                
               },
             ),
             GButton(

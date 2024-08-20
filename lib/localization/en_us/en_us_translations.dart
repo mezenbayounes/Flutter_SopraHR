@@ -356,29 +356,35 @@ final Map<String, String> enUs = {
   "err_msg_please_enter_valid_number": "Please enter valid number",
   "err_msg_please_enter_valid_phone_number": "Please enter valid phone number",
 
-  ////demande de conge
-  "demande_de_conge": "Demande De Congé",
-  ////demande de TT
-  "demande_de_tt": "Demande De Teletrvail",
-  "consulter_les_tt": "Consulter Les Demandes",
-  ////////////////////
-  "il_vous_rest": "Il Vous Reste",
-  "Congés_Payés": "Congés Payés",
-  "Congés_Maladie": "Congés Maladie",
-  "type_de_conge": "Type De Congé",
-  "Congé_payé": "Congé payé",
-  "Congé_Maladie": "Congé Maladie",
-  "Congé_non_payé": "Congé non payé",
-  "choisi_type_conge": "Choisi Le Type De Congé",
-  "Cause": "Cause",
-  "enter_cause": "Enter le Cause",
-  "date_debut": "Date Debut",
-    "date_fin": "Date Fin",
+  //// Leave Request
+  "demande_de_conge": "Leave Request",
+//// Remote Work Request
+  "demande_de_tt": "Remote Work Request",
+  "consulter_les_tt": "View Requests",
+////////////////////
+  "il_vous_rest": "You Have",
+  "Congés_Payés": "Paid Leave",
+  "Congés_Maladie": "Sick Leave",
+  "type_de_conge": "Type of Leave",
+  "Congé_payé": "Paid Leave",
+  "Congé_Maladie": "Sick Leave",
+  "Congé_non_payé": "Unpaid Leave",
+  "choisi_type_conge": "Choose Type of Leave",
+  "Cause": "Reason",
+  "enter_cause": "Enter the Reason",
+  "date_debut": "Start Date",
+  "date_fin": "End Date",
 
-  "matin": "Matin",
-  "apres_midi": "Aprés Midi",
-  "choisi_sc_debut": "Choisi La Séance De Debut ",
-  "choisi_sc_fin": "Choisi La Séance De La Fin ",
-  "sc_debut": "Séance De Debut De Conge",
-  "sc_fin": "Séance De La Fin De Conge",
+  "matin": "Morning",
+  "apres_midi": "Afternoon",
+  "choisi_sc_debut": "Choose Start Session",
+  "choisi_sc_fin": "Choose End Session",
+  "sc_debut": "Leave Start Session",
+  "sc_fin": "Leave End Session",
+
+  "demande_de_tt": "Remote Request",
+  "conge": "Leave",
+  "tt": "Remote",
+  "confirme": "Confirme",
+  "refuse": "refuse"
 };

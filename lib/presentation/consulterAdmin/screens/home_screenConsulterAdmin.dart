@@ -139,11 +139,11 @@ class _HomeScreenState extends State<HomeScreenConsluterAdmin> {
           tabs: [
             Tab(
               icon: Icon(Icons.holiday_village_outlined),
-              text: 'Congé', // Optional text label
+              text: 'conge'.tr, // Optional text label
             ),
             Tab(
               icon: Icon(Icons.tv_rounded),
-              text: 'TT', // Optional text label
+              text: 'tt'.tr, // Optional text label
             ),
           ],
           indicatorColor:
@@ -174,8 +174,8 @@ class _HomeScreenState extends State<HomeScreenConsluterAdmin> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "Demande De Conge",
+                Text(
+                  "demande_de_conge".tr,
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
@@ -220,8 +220,8 @@ class _HomeScreenState extends State<HomeScreenConsluterAdmin> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  "TT",
+                Text(
+                  "demande_de_tt".tr,
                   style: TextStyle(
                     fontSize: 26,
                     fontWeight: FontWeight.bold,
