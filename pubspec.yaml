@@ -29,6 +29,7 @@ dependencies:
   vertical_tab_bar_view: ^0.0.1
   rounded_loading_button: ^2.1.0
   loading_btn: ^1.0.3
+  pretty_animated_buttons: ^0.0.2
 dev_dependencies: 
   flutter_test: 
     sdk: flutter

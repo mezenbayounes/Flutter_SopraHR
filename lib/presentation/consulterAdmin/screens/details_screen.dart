@@ -8,6 +8,7 @@ import 'package:sopraflutter/core/constants/constants.dart';
 import 'package:sopraflutter/presentation/consulterAdmin/models/news_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:loading_btn/loading_btn.dart';
+import 'package:pretty_animated_buttons/pretty_animated_buttons.dart';
 
 class DetailsScreen extends StatefulWidget {
   DetailsScreen(this.data, {Key? key}) : super(key: key);
@@ -138,36 +139,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   Expanded(
                     child: Align(
                       alignment: Alignment.center,
-                      child: LoadingBtn(
-                        height: 45,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth * 0.1,
-                          vertical: 10.0, // Reduced vertical padding
+                      child: PrettyCapsuleButton(
+                        bgColor: Color.fromARGB(255, 9, 110, 0),
+                        label: 'confirme'.tr,
+                        labelStyle: const TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w900,
                         ),
-                        borderRadius: 10,
-                        animate: true,
-                        color: const Color.fromARGB(255, 48, 133, 51),
-                        width: MediaQuery.of(context).size.width * 0.43,
-                        loader: const CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                        child:  Text(
-                          "confirme".tr,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                        onTap: (startLoading, stopLoading, btnState) async {
-                          if (btnState == ButtonState.idle) {
-                            startLoading();
-                            await Future.delayed(
-                                const Duration(milliseconds: 500));
+                        onPressed: () async {
+                          await Future.delayed(
+                              const Duration(milliseconds: 500));
 
-                            Validate(widget.data.id);
-                            stopLoading();
-                          }
+                          Validate(widget.data.id);
                         },
                       ),
                     ),
@@ -176,36 +159,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   Expanded(
                     child: Align(
                       alignment: Alignment.center,
-                      child: LoadingBtn(
-                        height: 45,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth * 0.1,
-                          vertical: 10.0, // Reduced vertical padding
+                      child: PrettyCapsuleButton(
+                        bgColor: Color.fromARGB(255, 147, 1, 1),
+                        label: 'refuse'.tr,
+                        labelStyle: const TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w900,
                         ),
-                        borderRadius: 10,
-                        animate: true,
-                        color: Color.fromARGB(255, 183, 3, 3),
-                        width: MediaQuery.of(context).size.width * 0.43,
-                        loader: const CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                        child:  Text(
-                          "refuse".tr,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                        onTap: (startLoading, stopLoading, btnState) async {
-                          if (btnState == ButtonState.idle) {
-                            startLoading();
-                            await Future.delayed(
-                                const Duration(milliseconds: 500));
+                        onPressed: () async {
+                          await Future.delayed(
+                              const Duration(milliseconds: 500));
 
-                            Refuse(widget.data.id);
-                            stopLoading();
-                          }
+                          Refuse(widget.data.id);
                         },
                       ),
                     ),

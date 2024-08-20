@@ -386,5 +386,5 @@ final Map<String, String> enUs = {
   "conge": "Leave",
   "tt": "Remote",
   "confirme": "Confirme",
-  "refuse": "refuse"
+  "refuse": "Refuse"
 };

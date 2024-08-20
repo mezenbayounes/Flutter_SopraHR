@@ -1,3 +1,5 @@
+import 'package:sopraflutter/localization/en_fr/en_fr_translations.dart';
+
 import 'en_us/en_us_translations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +10,8 @@ class AppLocalization {
 
   Locale locale;
 
-  static final Map<String, Map<String, String>> _localizedValues = {'en': enUs};
+  static final Map<String, Map<String, String>> _localizedValues = {'en': enUs,'fr':frFr};
+
 
   static AppLocalization of() {
     return Localizations.of<AppLocalization>(

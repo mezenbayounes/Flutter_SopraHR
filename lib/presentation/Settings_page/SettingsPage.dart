@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sopraflutter/core/app_export.dart';
 import 'package:sopraflutter/presentation/BottomNavBar/BottomNavBar.dart';
+import 'package:sopraflutter/presentation/Settings_page/LocaleBloc.dart';
 import 'package:sopraflutter/presentation/Settings_page/components/Logout_Button.dart';
 import 'package:sopraflutter/presentation/Settings_page/components/My_Button_Settings.dart';
 import 'package:sopraflutter/presentation/Settings_page/components/My_button_terms.dart';
@@ -294,7 +296,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 thickness: 2,
               ),
             ),
-            LogOutButton(onTap: visible, text: 'Log Out', icon: Icons.logout)
+            LogOutButton(onTap: visible, text: 'Log Out', icon: Icons.logout),
           ],
         ))),
       ),
