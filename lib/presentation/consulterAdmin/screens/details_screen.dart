@@ -29,7 +29,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
         if (_scrollController.position.atEdge) {
           if (_scrollController.position.pixels ==
               _scrollController.position.maxScrollExtent) {
-            // User has scrolled to the bottom
             setState(() {
               _showShadow = false;
             });
@@ -91,7 +90,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       color: Colors.black.withOpacity(0.6),
                       spreadRadius: 1,
                       blurRadius: 8,
-                      offset: Offset(0, 4), // changes position of shadow
+                      offset: Offset(0, 4),
                     ),
                   ],
                 ),
@@ -203,7 +202,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     SizedBox(height: 10.0),
                     ConstrainedBox(
                       constraints: BoxConstraints(
-                        maxHeight: 150.0, // Set a max height for the text
+                        maxHeight: 150.0,
                       ),
                       child: SizedBox(
                         width: screenWidth * 0.9,
@@ -243,9 +242,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             fontWeight: FontWeight.w900,
                           ),
                           onPressed: () async {
-                            await Future.delayed(
-                                const Duration(milliseconds: 500));
-                            Validate(widget.data.id);
+                            bool? shouldValidate =
+                                await _showConfirmationDialog(context);
+                            if (shouldValidate == true) {
+                              bool success = await Validate(widget.data.id);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(success
+                                      ? 'Validation successful!'
+                                      : 'Validation failed!'),
+                                  backgroundColor:
+                                      success ? Colors.green : Colors.red,
+                                ),
+                              );
+                            }
                           },
                         ),
                       ),
@@ -263,9 +273,26 @@ class _DetailsScreenState extends State<DetailsScreen> {
                             fontWeight: FontWeight.w900,
                           ),
                           onPressed: () async {
-                            await Future.delayed(
-                                const Duration(milliseconds: 500));
-                            Refuse(widget.data.id);
+                            bool? shouldRefuse =
+                                await _showRefusalConfirmationDialog(context);
+                            if (shouldRefuse == true) {
+                              try {
+                                await Refuse(widget.data.id);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Refusal successful!'),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Refusal failed!'),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              }
+                            }
                           },
                         ),
                       ),
@@ -311,7 +338,185 @@ class _DetailsScreenState extends State<DetailsScreen> {
     );
   }
 
-  static Future<void> Validate(int congeID) async {
+  Future<bool?> _showConfirmationDialog(BuildContext context) async {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          elevation: 8.0,
+          child: Container(
+            padding: EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 10,
+                  offset: Offset(0, 5), // changes the position of the shadow
+                ),
+              ],
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(
+                  Icons.warning_amber_rounded,
+                  color: Colors.orange,
+                  size: 50.0,
+                ),
+                SizedBox(height: 15.0),
+                Text(
+                  'Are you sure?',
+                  style: TextStyle(
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 10.0),
+                Text(
+                  'Do you really want to validate this request?',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black54,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20.0),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(false);
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: const Color.fromARGB(255, 111, 120, 127),
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                        child: Text(
+                          'Confirm',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: const Color.fromARGB(255, 111, 120, 127),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<bool?> _showRefusalConfirmationDialog(BuildContext context) async {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          elevation: 8.0,
+          child: Container(
+            padding: EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 10,
+                  offset: Offset(0, 5), // changes the position of the shadow
+                ),
+              ],
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(
+                  Icons.warning_amber_rounded,
+                  color: Colors.orange,
+                  size: 50.0,
+                ),
+                SizedBox(height: 15.0),
+                Text(
+                  'Are you sure?',
+                  style: TextStyle(
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 10.0),
+                Text(
+                  'Do you really want to refuse this request?',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black54,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20.0),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(false);
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: const Color.fromARGB(255, 111, 120, 127),
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                        child: Text(
+                          'Confirm',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: const Color.fromARGB(255, 111, 120, 127),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  static Future<bool> Validate(int congeID) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
     final response = await http.put(
@@ -325,12 +530,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
     if (response.statusCode == 200) {
       NavigatorService.pushNamed(AppRoutes.homeScreenConsluterAdmin);
-
-      print("tvalidet");
+      return true;
     } else {
       print('Failed to validate: ${response.statusCode}');
       print('Response body: ${response.body}');
-      throw Exception('Failed to validate');
+      return false;
     }
   }
 
@@ -348,12 +552,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
     if (response.statusCode == 200) {
       NavigatorService.pushNamed(AppRoutes.homeScreenConsluterAdmin);
-
-      print("tvalidet");
+      print("refused");
     } else {
-      print('Failed to validate: ${response.statusCode}');
+      print('Failed to refuse: ${response.statusCode}');
       print('Response body: ${response.body}');
-      throw Exception('Failed to validate');
+      throw Exception('Failed to refuse');
     }
   }
 }

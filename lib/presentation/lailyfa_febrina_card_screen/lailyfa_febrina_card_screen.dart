@@ -424,11 +424,40 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
   /// Section Widget
   Widget _buildSave(BuildContext context) {
     return CustomElevatedButton(
-        text: "lbl_save".tr,
-        margin: EdgeInsets.only(left: 16.h, right: 16.h, bottom: 50.v),
-        onPressed: () {
-          onTapSave(context);
-        });
+      text: "lbl_save".tr,
+      margin: EdgeInsets.only(left: 16.h, right: 16.h, bottom: 50.v),
+      onPressed: () async {
+        // Validate inputs
+        if (_validateInputs()) {
+          // Show the confirmation dialog and wait for user response
+          final bool? confirmed = await _showConfirmationDialog(context);
+
+          // If user confirms, proceed with onTapSave and show a SnackBar
+          if (confirmed == true) {
+            // Call the save method
+            onTapSave(context);
+
+            // Show the SnackBar
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Save action confirmed"),
+                backgroundColor: Colors.green,
+                duration: Duration(seconds: 2),
+              ),
+            );
+          } else {
+            // Optionally, show a different SnackBar if the action was canceled
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Save action canceled"),
+                backgroundColor: Colors.red,
+                duration: Duration(seconds: 2),
+              ),
+            );
+          }
+        }
+      },
+    );
   }
 
   /// Navigates to the previous screen.
@@ -458,5 +487,148 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
         date_fin: dateFinG.toString(),
         sc_debut: scDebutG,
         sc_fin: scFinG));
+  }
+
+  Future<bool?> _showConfirmationDialog(BuildContext context) async {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          elevation: 8.0,
+          child: Container(
+            padding: EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 2,
+                  blurRadius: 10,
+                  offset: Offset(0, 5), // changes the position of the shadow
+                ),
+              ],
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(
+                  Icons.warning_amber_rounded,
+                  color: Colors.orange,
+                  size: 50.0,
+                ),
+                SizedBox(height: 15.0),
+                Text(
+                  'Are you sure?',
+                  style: TextStyle(
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 10.0),
+                Text(
+                  'Do you really want to pass this request?',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black54,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20.0),
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(false);
+                        },
+                        child: Text(
+                          'Cancel',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: const Color.fromARGB(255, 111, 120, 127),
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                        child: Text(
+                          'Confirm',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: const Color.fromARGB(255, 111, 120, 127),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  bool _validateInputs() {
+    if (causeG.isEmpty) {
+      _showErrorDialog("La cause est obligatoire.");
+      return false;
+    }
+    if (typeG.isEmpty) {
+      _showErrorDialog("Le type de congé est obligatoire.");
+      return false;
+    }
+    if (scDebutG.isEmpty) {
+      _showErrorDialog("Le début du congé est obligatoire.");
+      return false;
+    }
+    if (scFinG.isEmpty) {
+      _showErrorDialog("La fin du congé est obligatoire.");
+      return false;
+    }
+    if (dateDebutG == null || dateFinG == null) {
+      _showErrorDialog("Les dates sont obligatoires.");
+      return false;
+    }
+    if (dateDebutG.isBefore(DateTime.now())) {
+      _showErrorDialog(
+          "La date de début ne peut pas être antérieure à aujourd'hui.");
+      return false;
+    }
+    if (dateFinG.isBefore(dateDebutG)) {
+      _showErrorDialog(
+          "La date de fin ne peut pas être antérieure à la date de début.");
+      return false;
+    }
+    return true;
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Erreur"),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
