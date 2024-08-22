@@ -92,6 +92,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       await prefs.setString('email', user['email']);
       await prefs.setString('image_url', user['image_url']);
       await prefs.setString('role', user['role']);
+      await prefs.setBool('isLoggedIn', true);
 
       print('User data saved successfully from login');
       String? username = prefs.getString('username');

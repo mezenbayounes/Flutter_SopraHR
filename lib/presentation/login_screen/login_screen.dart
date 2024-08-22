@@ -132,11 +132,26 @@ class LoginScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildPageHeader(BuildContext context) {
     return Column(children: [
-      CustomIconButton(
+      Container(
+        height: 200,
+        width: 200,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.5), // Shadow color
+              spreadRadius: 1, // Spread radius
+              blurRadius: 20, // Blur radius
+              offset: Offset(0, 3), // Offset in x and y directions
+            ),
+          ],
+        ),
+        child: CustomIconButton(
           height: 200,
           width: 200,
-          child: CustomImageView(imagePath: ImageConstant.sopraLogo)),
-      SizedBox(height: 16.v),
+          child: CustomImageView(imagePath: ImageConstant.sopraLogo),
+        ),
+      ),
+      SizedBox(height: 25.v),
       Text("msg_welcome_to_soprahr".tr, style: theme.textTheme.titleMedium),
       SizedBox(height: 10.v),
       Text("msg_sign_in_to_continue".tr, style: theme.textTheme.bodySmall)
@@ -198,7 +213,6 @@ class LoginScreen extends StatelessWidget {
     // Dispatch the LoginSubmitEvent to the bloc
 
     loginBloc.add(LoginSubmitEvent(email: email, password: password));
-   
   }
 
   /// Performs a Google sign-in and returns a [GoogleUser] object.

@@ -617,14 +617,42 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Erreur"),
-          content: Text(message),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0), // Rounded corners
+          ),
+          backgroundColor: Colors.white, // Background color for the dialog
+          title: Center(
+            child: Icon(
+              Icons.error_outline,
+              color: Colors.redAccent,
+              size: 48.0, // Increased icon size
+            ),
+          ),
+          content: Text(
+            message,
+            textAlign: TextAlign.center, // Centering the text
+            style: TextStyle(
+              color: const Color.fromARGB(221, 90, 89, 89), // Text color
+              fontSize: 18.0, // Font size
+              fontWeight: FontWeight.normal, // Font weight
+              fontFamily: 'Roboto', // Custom font family (if needed)
+            ),
+          ),
           actions: <Widget>[
-            TextButton(
-              child: Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+            Center(
+              child: TextButton(
+                child: Text(
+                  "OK",
+                  style: TextStyle(
+                    color: Colors.redAccent, // Button text color
+                    fontWeight: FontWeight.bold, // Bold font for emphasis
+                    fontSize: 16.0, // Button font size
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
             ),
           ],
         );

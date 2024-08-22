@@ -117,14 +117,18 @@ class LogOutButton extends StatelessWidget {
     return GestureDetector(
       onTap: () async {
         bool? confirmLogout = await _showConfirmationDialog(context);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
         if (confirmLogout == true) {
           // Clear saved data
-          await saveData("token", "");
-          await saveData("userID", "");
-          await saveData("username", "");
-          await saveData("email", "");
-          await saveData("image_url", "");
-          await saveData("role", "");
+
+          await prefs.remove('token');
+          await prefs.remove('userID');
+          await prefs.remove('username');
+          await prefs.remove('email');
+          await prefs.remove('image_url');
+          await prefs.remove('role');
+          await prefs.remove('isLoggedIn');
 
           // Navigate to the login screen and remove all previous routes
           Navigator.of(context).pushNamedAndRemoveUntil(
