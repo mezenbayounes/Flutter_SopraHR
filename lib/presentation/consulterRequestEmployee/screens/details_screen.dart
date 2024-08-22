@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sopraflutter/core/app_export.dart';
 import 'package:sopraflutter/core/constants/constants.dart';
-import 'package:sopraflutter/presentation/consulterAdmin/models/news_model.dart';
+import 'package:sopraflutter/presentation/consulterRequestEmployee/models/news_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:pretty_animated_buttons/pretty_animated_buttons.dart';
 
@@ -55,17 +55,14 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     String imageEtat = "";
-    bool _isAcceptVisible = true;
-    bool _isRefuseVisible = true;
+    bool _isAcceptVisible = false;
+    bool _isRefuseVisible = false;
     if (widget.data.etat == "EC") {
       imageEtat = "EC.png";
     } else if (widget.data.etat == "VALIDE") {
       imageEtat = "VALIDE.png";
-      _isAcceptVisible = false;
-      _isRefuseVisible = false;
     } else if (widget.data.etat == "INVALIDE") {
       imageEtat = "INVALIDE.png";
-      _isRefuseVisible = false;
     }
 
     return Scaffold(

@@ -49,7 +49,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         await prefs.setInt('userID', userID);
 
         emit(state.copyWith(isLoading: false));
-        NavigatorService.pushNamed(
+        NavigatorService.pushNamedAndRemoveUntil(
           AppRoutes.homeScreenNews,
         );
         add(LoginSuccessEvent());
@@ -109,8 +109,101 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   void _onLoginFailure(LoginFailureEvent event, Emitter<LoginState> emit) {
-    // Handle login failure event
+    emit(state.copyWith(isLoading: false, errorMessage: event.error));
     print('Login failed: ${event.error}');
-    // Optionally, you can show an error message or perform other UI-related actions here
+
+    try {
+      // Attempt to parse the JSON error message
+      final errorJson = jsonDecode(event.error);
+
+      // Extract the specific error message
+      final errorMessage = errorJson['error'] ?? 'Unknown error';
+
+      // Print the extracted error message
+      print('Login failed: $errorMessage');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final context = NavigatorService.navigatorKey.currentContext;
+        if (context != null) {
+          showErrorDialog(context, errorMessage);
+        }
+      });
+    } catch (e) {
+      // Handle cases where JSON parsing fails
+      print('Failed to parse error message: ${event.error}');
+    }
+    // Ensure you have context available to show the dialog
+  }
+
+  Future<void> showErrorDialog(
+      BuildContext context, String errorMessage) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          elevation: 8.0,
+          child: Container(
+            padding: EdgeInsets.all(20.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.6),
+                  spreadRadius: 2,
+                  blurRadius: 10,
+                  offset: Offset(0, 5),
+                ),
+              ],
+              color: const Color.fromARGB(255, 231, 229, 229),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(
+                  Icons.error_outline,
+                  color: Colors.red,
+                  size: 50.0,
+                ),
+                SizedBox(height: 15.0),
+                Text(
+                  'Error',
+                  style: TextStyle(
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 10.0),
+                Text(
+                  errorMessage,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: Colors.black54,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20.0),
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'OK',
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: const Color.fromARGB(255, 145, 145, 145),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

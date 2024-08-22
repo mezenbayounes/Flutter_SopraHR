@@ -25,69 +25,95 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Expanded(
-        child: Stack(
-          children: [
-            SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 30),
-                      child: Center(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20.0,
-                              vertical:
-                                  8.0), // Added vertical padding for better spacing
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Colors.redAccent,
-                                Color.fromARGB(255, 140, 20, 17)
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius:
-                                BorderRadius.circular(30.0), // Rounded corners
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black26,
-                                offset: Offset(0, 4),
-                                blurRadius: 10.0,
-                              ),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: Center(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0,
+                            vertical:
+                                8.0), // Added vertical padding for better spacing
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.redAccent,
+                              Color.fromARGB(255, 140, 20, 17),
                             ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
-                          child: Text(
-                            "Sopra Hr News",
-                            style: theme.textTheme.titleLarge?.copyWith(
-                              color: Colors
-                                  .white, // Changed text color to white for better contrast
-                              fontWeight:
-                                  FontWeight.bold, // Added bold font weight
+                          borderRadius:
+                              BorderRadius.circular(30.0), // Rounded corners
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(
+                                  0.6), // Darker shadow for more contrast
+                              offset: Offset(0,
+                                  6), // Slightly larger offset for a more pronounced shadow
+                              blurRadius:
+                                  30.0, // Increased blur radius for a softer shadow
+                              spreadRadius:
+                                  1.0, // Optional: add a slight spread for a fuller shadow
                             ),
+                          ],
+                        ),
+                        child: Text(
+                          "Sopra Hr News",
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            color: Colors
+                                .white, // Changed text color to white for better contrast
+                            fontWeight:
+                                FontWeight.bold, // Added bold font weight
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 30,
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text(
+                    "Breaking News",
+                    style: TextStyle(
+                      fontSize: 26.0,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Text(
-                      "Breaking News",
-                      style: TextStyle(
-                        fontSize: 26.0,
-                        fontWeight: FontWeight.bold,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  // Container for Breaking News with shadow effect
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color.fromARGB(255, 255, 255, 255), // Light grey
+                          Color.fromARGB(255, 255, 255, 255), // Medium grey
+                          Color.fromARGB(255, 255, 255, 255) // Dark grey
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                       ),
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.9),
+                          offset: Offset(0, 4),
+                          blurRadius: 0.0,
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    CarouselSlider.builder(
+                    child: CarouselSlider.builder(
                       itemCount: NewsData.breakingNewsData.length,
                       itemBuilder: (context, index, id) =>
                           BreakingNewsCard(NewsData.breakingNewsData[index]),
@@ -97,30 +123,46 @@ class _HomeScreenState extends State<HomeScreen> {
                         enlargeCenterPage: true,
                       ),
                     ),
-                    SizedBox(
-                      height: 40.0,
+                  ),
+
+                  SizedBox(
+                    height: 40.0,
+                  ),
+                  Text(
+                    "Recent News",
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Text(
-                      "Recent News",
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  ),
+                  SizedBox(
+                    height: 16.0,
+                  ),
+                  // Container for Recent News with shadow effect
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.8),
+                          offset: Offset(0, 4),
+                          blurRadius: 50.0,
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    Column(
+                    child: Column(
                       children: NewsData.recentNewsData
                           .map((e) => NewsListTile(e))
                           .toList(),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       bottomNavigationBar: Container(child: BottomNavBarV2(index: 0)),
     );

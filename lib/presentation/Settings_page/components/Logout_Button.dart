@@ -7,79 +7,137 @@ class LogOutButton extends StatelessWidget {
   final Function()? onTap;
   final IconData icon;
   final String text;
-  const LogOutButton(
-      {Key? key, required this.onTap, required this.text, required this.icon})
-      : super(key: key);
+
+  const LogOutButton({
+    Key? key,
+    required this.onTap,
+    required this.text,
+    required this.icon,
+  }) : super(key: key);
+
+  Future<void> saveData(String key, String value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(key, value);
+  }
+
+  Future<bool?> _showConfirmationDialog(BuildContext context) async {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: false, // Prevents dismissing by tapping outside
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async => false, // Prevents dismissing by pressing back
+          child: Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            elevation: 8.0,
+            child: Container(
+              padding: const EdgeInsets.all(20.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 10,
+                    offset: const Offset(
+                        0, 5), // Changes the position of the shadow
+                  ),
+                ],
+                color: Colors.white,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  const Icon(
+                    Icons.warning_amber_rounded,
+                    color: Colors.orange,
+                    size: 50.0,
+                  ),
+                  const SizedBox(height: 15.0),
+                  const Text(
+                    'Are you sure?',
+                    style: TextStyle(
+                      fontSize: 22.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  const Text(
+                    'Do you really want to log out?',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.black54,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(false);
+                        },
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Color.fromARGB(255, 111, 120, 127),
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                        },
+                        child: const Text(
+                          'Confirm',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: Color.fromARGB(255, 111, 120, 127),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    void saveData(String key, String value) async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString(key, value);
-    }
-
     return GestureDetector(
       onTap: () async {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text(
-                "Confirmation",
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red),
-              ),
-              content: const Text(
-                "Are you sure you want to log out?",
-                style: TextStyle(fontSize: 18),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: Text(
-                    "Cancel",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context); // Close the dialog
-                  },
-                ),
-                TextButton(
-                  child: Text(
-                    "Log Out",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red),
-                  ),
-                  onPressed: () async {
-                    Navigator.pop(context); // Close the dialog
+        bool? confirmLogout = await _showConfirmationDialog(context);
+        if (confirmLogout == true) {
+          // Clear saved data
+          await saveData("token", "");
+          await saveData("userID", "");
+          await saveData("username", "");
+          await saveData("email", "");
+          await saveData("image_url", "");
+          await saveData("role", "");
 
-                    saveData("token", "");
-                    saveData("userID", "");
-                    saveData("username", "");
-                    saveData("email", "");
-                    saveData("image_url", "");
-                    saveData("role", "");
-
-                    NavigatorService.pushNamed(
-                      AppRoutes.loginScreen,
-                    );
-                  },
-                ),
-              ],
-            );
-          },
-        );
+          // Navigate to the login screen and remove all previous routes
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            AppRoutes.loginScreen,
+            (Route<dynamic> route) => false,
+          );
+        }
       },
       child: Container(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         alignment: Alignment.centerLeft,
-        decoration: BoxDecoration(color: Color.fromARGB(108, 255, 255, 255)),
+        decoration:
+            const BoxDecoration(color: Color.fromARGB(108, 255, 255, 255)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

@@ -31,6 +31,9 @@ class LailyfaFebrinaCardBloc
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
+    String? role = prefs.getString('role') ?? ""; // Update role state
+    ;
+
     try {
       final response = await http.post(
         Uri.parse('$baseUrl/conge/CreateConge'),
@@ -51,9 +54,6 @@ class LailyfaFebrinaCardBloc
       );
 
       if (response.statusCode == 200) {
-        NavigatorService.pushNamed(
-          AppRoutes.homeScreenNews,
-        );
         add(AskSuccessEvent());
       } else {
         // Emit LoginFailureEvent with the error message if login fails
@@ -68,11 +68,14 @@ class LailyfaFebrinaCardBloc
     }
   }
 
-  FutureOr<void> _onAskSuccess(
-      AskSuccessEvent event, Emitter<LailyfaFebrinaCardState> emit) {
+  Future<FutureOr<void>> _onAskSuccess(
+      AskSuccessEvent event, Emitter<LailyfaFebrinaCardState> emit) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? role = prefs.getString('role') ?? ""; // Update role state
+    ;
     NavigatorService.pushNamed(
-      AppRoutes.homeADDAdmin,
-    );
+        role == "manager" ? AppRoutes.homeADDAdmin : AppRoutes.homeADD);
     print('demande successful send');
   }
 

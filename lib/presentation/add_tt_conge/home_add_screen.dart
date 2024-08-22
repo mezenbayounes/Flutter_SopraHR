@@ -45,44 +45,125 @@ class homeAddContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double buttonWidth = screenWidth * 0.8;
-    double buttonHeight = screenWidth * 0.4;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    double buttonWidth = screenWidth * 0.6;
+    double buttonHeight = screenHeight * 0.16;
     double fontSize = screenWidth * 0.05;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: 200),
-        ElevatedButton(
-          onPressed: () {
-            // Handle button 1 click event
-            NavigatorService.pushNamed(AppRoutes.lailyfaFebrinaCardScreen);
-          },
-          child: Container(
-              width: buttonWidth, // Set responsive width
-              height: buttonHeight, // Set responsive height
-              child: Image.asset('assets/images/demande_conge.png')),
+        SizedBox(height: 90),
+        Center(
+          child: Column(
+            children: [
+              Container(
+                width: buttonWidth,
+                height: buttonHeight,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3), // Position of shadow
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(12), // Rounded corners
+                ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    NavigatorService.pushNamed(
+                        AppRoutes.lailyfaFebrinaCardScreen);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        Colors.transparent, // Transparent background
+                    shadowColor: Colors.transparent, // Disable default shadow
+                    padding: EdgeInsets.zero, // Remove default padding
+                  ),
+                  child: Image.asset('assets/images/demande_conge.png'),
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                "demande_de_conge".tr,
+                style:
+                    theme.textTheme.titleMedium?.copyWith(fontSize: fontSize),
+              ),
+              SizedBox(height: 60),
+              Container(
+                width: buttonWidth,
+                height: buttonHeight,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    NavigatorService.pushNamed(
+                        AppRoutes.homeScreenConsulterRequestEmployee);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    padding: EdgeInsets.zero,
+                  ),
+                  child: Image.asset('assets/images/validation.png'),
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                "consulter_les_tt".tr,
+                style:
+                    theme.textTheme.titleMedium?.copyWith(fontSize: fontSize),
+              ),
+              SizedBox(height: 60),
+              Container(
+                width: buttonWidth,
+                height: buttonHeight,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Handle button 3 click event
+                    print("consulter");
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    padding: EdgeInsets.zero,
+                  ),
+                  child: Image.asset('assets/images/remote.png'),
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                "demande_de_tt".tr,
+                style:
+                    theme.textTheme.titleMedium?.copyWith(fontSize: fontSize),
+              ),
+            ],
+          ),
         ),
-        SizedBox(height: 10),
-        Text("demande_de_conge".tr,
-            style: theme.textTheme.titleMedium // Set responsive font size
-            ),
-        SizedBox(height: 60),
-        ElevatedButton(
-          onPressed: () {
-            // Handle button 2 click event
-            print('Button 2 clicked');
-          },
-          child: Container(
-              width: buttonWidth, // Set responsive width
-              height: buttonHeight, // Set responsive height
-              child: Image.asset('assets/images/remote.png')),
-        ),
-        SizedBox(height: 10),
-        Text("demande_de_tt".tr,
-            style: theme.textTheme.titleMedium), // Set responsive font size
-
-        SizedBox(height: 300),
+        SizedBox(height: 600),
       ],
     );
   }

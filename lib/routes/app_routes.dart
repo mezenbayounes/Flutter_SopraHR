@@ -4,6 +4,7 @@ import 'package:sopraflutter/presentation/News_page/screens/home_screen.dart';
 import 'package:sopraflutter/presentation/Settings_page/SettingsPage.dart';
 import 'package:sopraflutter/presentation/add_conge_admin/home_add_screen.dart';
 import 'package:sopraflutter/presentation/consulterAdmin/screens/home_screenConsulterAdmin.dart';
+import 'package:sopraflutter/presentation/consulterRequestEmployee/screens/home_screenConsulterAdmin.dart';
 import 'package:sopraflutter/presentation/forget_password/forget_password_screen.dart';
 import 'package:sopraflutter/presentation/splash_screen/splash_screen.dart';
 import 'package:sopraflutter/presentation/login_screen/login_screen.dart';
@@ -48,8 +49,8 @@ class AppRoutes {
 
   static const String homeADD = '/home_add';
   static const String homeScreenConsluterAdmin = '/homeScreenConsluter';
-
-  
+  static const String homeScreenConsulterRequestEmployee =
+      '/homeScreenConsulterRequestEmployee';
 
   static const String settingsPage = '/Settings_Page';
 
@@ -140,12 +141,13 @@ class AppRoutes {
   static const String initialRoute = '/initialRoute';
 
   static Map<String, WidgetBuilder> get routes => {
-    
         splashScreen: SplashScreen.builder,
         loginScreen: LoginScreen.builder,
         homeADD: homeAdd.builder,
         homeADDAdmin: homeAddAdmin.builder,
         homeScreenConsluterAdmin: HomeScreenConsluterAdmin.builder,
+        homeScreenConsulterRequestEmployee:
+            HomeScreenConsulterRequestEmployee.builder,
         homeScreenNews: HomeScreen.builder,
         settingsPage: SettingsPage.builder,
         registerScreen: RegisterScreen.builder,
