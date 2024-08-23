@@ -27,6 +27,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Stack(
         children: [
+          // Background Image with Opacity
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.5, // Adjust opacity here (0.0 to 1.0)
+              child: Image.asset(
+                'assets/images/bglogin.jpeg', // Replace with your image path
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.all(16),
@@ -35,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 30),
+                    padding: const EdgeInsets.only(top: 50),
                     child: Center(
                       child: Container(
                         padding: const EdgeInsets.symmetric(
@@ -45,8 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Colors.redAccent,
-                              Color.fromARGB(255, 140, 20, 17),
+                              Color.fromARGB(255, 158, 157, 157),
+                              Color.fromARGB(255, 26, 25, 25),
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -98,8 +108,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       gradient: LinearGradient(
                         colors: [
                           Color.fromARGB(255, 255, 255, 255), // Light grey
-                          Color.fromARGB(255, 255, 255, 255), // Medium grey
-                          Color.fromARGB(255, 255, 255, 255) // Dark grey
+                          Color.fromARGB(255, 143, 143, 143), // Medium grey
+                          Color.fromARGB(255, 79, 79, 79) // Dark grey
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -124,7 +134,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-
                   SizedBox(
                     height: 40.0,
                   ),
@@ -142,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     padding: EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: const Color.fromARGB(255, 147, 145, 145),
                       borderRadius: BorderRadius.circular(12.0),
                       boxShadow: [
                         BoxShadow(

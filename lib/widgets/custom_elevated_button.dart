@@ -44,15 +44,29 @@ class CustomElevatedButton extends BaseButton {
   }
 
   Widget get buildElevatedButtonWidget => Container(
-        height: this.height ?? 57.v,
+        height: this.height ?? 57.0,
         width: this.width ?? double.maxFinite,
         margin: margin,
-        decoration: decoration,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.red, Colors.orange],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius:
+              BorderRadius.circular(15.0), // Adjust the radius as needed
+        ),
         child: ElevatedButton(
           style: buttonStyle ??
               ElevatedButton.styleFrom(
-                backgroundColor:
-                    appTheme.red00, // Set default background color to red00
+                backgroundColor: Colors
+                    .transparent, // Make button background transparent to show gradient
+                shadowColor: Colors
+                    .transparent, // Optional: Remove shadow for a cleaner look
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                      12.0), // Match the container's radius
+                ),
               ),
           onPressed: isDisabled ?? false ? null : onPressed ?? () {},
           child: Row(

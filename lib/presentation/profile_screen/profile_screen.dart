@@ -102,7 +102,7 @@ class ProfileScreen extends StatelessWidget {
                           child: CustomImageView(
                             imagePath: imageUrl,
                             height: 200.adaptSize,
-                            width: 172.adaptSize,
+                            width: 174.adaptSize,
                             radius: BorderRadius.circular(90),
                           ),
                         ),

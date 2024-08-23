@@ -28,105 +28,191 @@ class LoginScreen extends StatelessWidget {
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
         child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            body: Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  child: Container(
-                      width: double.maxFinite,
-                      padding:
-                          EdgeInsets.only(left: 16.h, top: 68.v, right: 16.h),
-                      child: Column(children: [
-                        _buildPageHeader(context),
-                        SizedBox(height: 28.v),
-                        BlocSelector<LoginBloc, LoginState,
-                                TextEditingController?>(
+      resizeToAvoidBottomInset: false,
+      body: Stack(
+        children: [
+          // Background Image with opacity
+          Opacity(
+            opacity: 0.6, // Adjust opacity as needed
+            child: Image.asset(
+              'assets/images/bglogin.jpeg', // Path to your background image
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+          // Main content
+          SingleChildScrollView(
+            child: Container(
+              width: double.maxFinite,
+              padding: EdgeInsets.only(left: 16.h, top: 120.v, right: 16.h),
+              child: Column(
+                children: [
+                  _buildPageHeader(context),
+                  SizedBox(height: 28.v),
+                  // Container with shadow effect for text fields and button
+                  Container(
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
+                    padding: EdgeInsets.all(16.h), // Adjust padding as needed
+                    child: Column(
+                      children: [
+                        // Email Field with Shadow
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.0),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.white,
+                          ),
+                          child: BlocSelector<LoginBloc, LoginState,
+                              TextEditingController?>(
                             selector: (state) => state.emailController,
                             builder: (context, emailController) {
                               return CustomTextFormField(
-                                  controller: emailController,
-                                  hintText: "lbl_your_email".tr,
-                                  textInputType: TextInputType.emailAddress,
-                                  prefix: Container(
-                                      margin: EdgeInsets.fromLTRB(
-                                          16.h, 12.v, 10.h, 12.v),
-                                      child: CustomImageView(
-                                          imagePath: ImageConstant.imgMail,
-                                          height: 24.adaptSize,
-                                          width: 24.adaptSize)),
-                                  prefixConstraints:
-                                      BoxConstraints(maxHeight: 48.v),
-                                  validator: (value) {
-                                    if (value == null ||
-                                        (!isValidEmail(value,
-                                            isRequired: true))) {
-                                      return "err_msg_please_enter_valid_email"
-                                          .tr;
-                                    }
-                                    return null;
-                                  },
-                                  contentPadding: EdgeInsets.only(
-                                      top: 15.v, right: 30.h, bottom: 15.v));
-                            }),
+                                controller: emailController,
+                                hintText: "lbl_your_email".tr,
+                                textInputType: TextInputType.emailAddress,
+                                prefix: Container(
+                                  margin: EdgeInsets.fromLTRB(
+                                      16.h, 12.v, 10.h, 12.v),
+                                  child: CustomImageView(
+                                    imagePath: ImageConstant.imgMail,
+                                    height: 24.adaptSize,
+                                    width: 24.adaptSize,
+                                  ),
+                                ),
+                                prefixConstraints:
+                                    BoxConstraints(maxHeight: 48.v),
+                                validator: (value) {
+                                  if (value == null ||
+                                      !isValidEmail(value, isRequired: true)) {
+                                    return "err_msg_please_enter_valid_email"
+                                        .tr;
+                                  }
+                                  return null;
+                                },
+                                contentPadding: EdgeInsets.only(
+                                    top: 15.v, right: 30.h, bottom: 15.v),
+                              );
+                            },
+                          ),
+                        ),
                         SizedBox(height: 10.v),
-                        BlocSelector<LoginBloc, LoginState,
-                                TextEditingController?>(
+                        // Password Field with Shadow
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.0),
+                                spreadRadius: 2,
+                                blurRadius: 5,
+                                offset:
+                                    Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(8),
+                            color: const Color.fromARGB(255, 35, 9, 9),
+                          ),
+                          child: BlocSelector<LoginBloc, LoginState,
+                              TextEditingController?>(
                             selector: (state) => state.passwordController,
                             builder: (context, passwordController) {
                               return CustomTextFormField(
-                                  controller: passwordController,
-                                  hintText: "lbl_password".tr,
-                                  textInputAction: TextInputAction.done,
-                                  textInputType: TextInputType.visiblePassword,
-                                  prefix: Container(
-                                      margin: EdgeInsets.fromLTRB(
-                                          16.h, 12.v, 10.h, 12.v),
-                                      child: CustomImageView(
-                                          imagePath: ImageConstant.imgLock,
-                                          height: 24.adaptSize,
-                                          width: 24.adaptSize)),
-                                  prefixConstraints:
-                                      BoxConstraints(maxHeight: 48.v),
-                                  validator: (value) {
-                                    if (value == null ||
-                                        (!isValidPassword(value,
-                                            isRequired: true))) {
-                                      return "err_msg_please_enter_valid_password"
-                                          .tr;
-                                    }
-                                    return null;
-                                  },
-                                  obscureText: true,
-                                  contentPadding: EdgeInsets.only(
-                                      top: 15.v, right: 30.h, bottom: 15.v));
-                            }),
+                                controller: passwordController,
+                                hintText: "lbl_password".tr,
+                                textInputAction: TextInputAction.done,
+                                textInputType: TextInputType.visiblePassword,
+                                prefix: Container(
+                                  margin: EdgeInsets.fromLTRB(
+                                      16.h, 12.v, 10.h, 12.v),
+                                  child: CustomImageView(
+                                    imagePath: ImageConstant.imgLock,
+                                    height: 24.adaptSize,
+                                    width: 24.adaptSize,
+                                  ),
+                                ),
+                                prefixConstraints:
+                                    BoxConstraints(maxHeight: 48.v),
+                                validator: (value) {
+                                  if (value == null ||
+                                      !isValidPassword(value,
+                                          isRequired: true)) {
+                                    return "err_msg_please_enter_valid_password"
+                                        .tr;
+                                  }
+                                  return null;
+                                },
+                                obscureText: true,
+                                contentPadding: EdgeInsets.only(
+                                    top: 15.v, right: 30.h, bottom: 15.v),
+                              );
+                            },
+                          ),
+                        ),
                         SizedBox(height: 16.v),
                         CustomElevatedButton(
-                            text: "lbl_sign_in".tr,
-                            onPressed: () {
-                              onTapSignIn(context);
-                            }),
+                          text: "lbl_sign_in".tr,
+                          onPressed: () {
+                            onTapSignIn(context);
+                          },
+                        ),
                         SizedBox(height: 18.v),
-                        _buildOrLine(context),
-                        SizedBox(height: 16.v),
-                        _buildSocialAuthentication(context),
-                        SizedBox(height: 17.v),
-                        GestureDetector(
-                            onTap: () {
-                              onTapTxtDonthaveanaccount(context);
-                            },
-                            child: RichText(
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                      text: "msg_forgot_password".tr,
-                                      style: theme.textTheme.bodySmall),
-                                ]),
-                                textAlign: TextAlign.left)),
-                        SizedBox(height: 7.v),
-                        SizedBox(height: 5.v),
-                        SizedBox(height: 150)
-                      ])),
-                ))));
+                      ],
+                    ),
+                  ),
+                  // SizedBox(height: 16.v),
+                  // _buildOrLine(context),
+                  // SizedBox(height: 16.v),
+                  //_buildSocialAuthentication(context),
+                  SizedBox(height: 17.v),
+                  GestureDetector(
+                    onTap: () {
+                      onTapTxtDonthaveanaccount(context);
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "msg_forgot_password".tr,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                                color: Color.fromARGB(255, 67, 67, 67),
+                                fontSize: 15
+                                // Set text color to black
+                                ),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  SizedBox(height: 7.v),
+                  SizedBox(height: 5.v),
+                  SizedBox(height: 150),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    ));
   }
 
   /// Section Widget
@@ -154,7 +240,11 @@ class LoginScreen extends StatelessWidget {
       SizedBox(height: 25.v),
       Text("msg_welcome_to_soprahr".tr, style: theme.textTheme.titleMedium),
       SizedBox(height: 10.v),
-      Text("msg_sign_in_to_continue".tr, style: theme.textTheme.bodySmall)
+      Text(
+        "msg_sign_in_to_continue".tr,
+        style: theme.textTheme.bodySmall
+            ?.copyWith(color: Color.fromARGB(255, 67, 67, 67), fontSize: 14),
+      )
     ]);
   }
 

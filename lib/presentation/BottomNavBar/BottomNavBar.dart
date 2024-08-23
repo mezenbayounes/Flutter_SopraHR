@@ -9,6 +9,7 @@ class BottomNavBarV2 extends StatefulWidget {
   final int index; // New parameter to pass the initial index
   BottomNavBarV2({Key? key, this.index = 0})
       : super(key: key); // Constructor with parameter
+
   @override
   _BottomNavBarV2State createState() => _BottomNavBarV2State();
 }
@@ -20,8 +21,8 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
   @override
   void initState() {
     super.initState();
+    _loadRole();
     currentIndex = widget.index;
-    _loadRole(); // Load user role when the widget is initialized
   }
 
   _loadRole() async {
@@ -35,16 +36,12 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double horizontalPadding = screenWidth * 0.02;
     double iconSize = screenWidth * 0.07;
-    double textScaleFactor = screenWidth / 400; // Adjust this value as needed
-
-    print(
-        "Building BottomNavBarV2 with currentIndex: $currentIndex"); // Debug statement
+    double textSize = screenWidth * 0.040; // Adjust the text size dynamically
 
     return Container(
       padding:
-          EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 18),
+          EdgeInsets.symmetric(horizontal: screenWidth * 0.02, vertical: 18),
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 228, 228, 228),
         boxShadow: [
@@ -75,7 +72,6 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           selectedIndex: currentIndex,
           onTabChange: (index) {
-            print("Tab changed to index: $index"); // Debug statement
             setState(() {
               currentIndex = index;
             });
@@ -83,9 +79,11 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
           tabs: [
             GButton(
               icon: LineIcons.home,
-              text: 'New',
+              text: 'News',
               textStyle: TextStyle(
-                  fontSize: 9 * textScaleFactor, fontWeight: FontWeight.bold),
+                fontSize: textSize,
+                fontWeight: FontWeight.bold,
+              ),
               onPressed: () {
                 setState(() {
                   currentIndex = 0; // Update currentIndex on tab press
@@ -97,35 +95,41 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
               icon: LineIcons.table,
               text: 'Demande',
               textStyle: TextStyle(
-                  fontSize: 9 * textScaleFactor, fontWeight: FontWeight.bold),
+                fontSize: textSize,
+                fontWeight: FontWeight.bold,
+              ),
               onPressed: () {
                 setState(() {
                   currentIndex = 1; // Update currentIndex on tab press
                 });
-                NavigatorService.pushNamed(role == "manager"
-                    ? AppRoutes.homeADDAdmin
-                    : AppRoutes.homeADD);
+                NavigatorService.pushNamed(
+                  role == "manager"
+                      ? AppRoutes.homeADDAdmin
+                      : AppRoutes.homeADD,
+                );
               },
             ),
             GButton(
               icon: LineIcons.cog,
               text: 'Settings',
               textStyle: TextStyle(
-                  fontSize: 9 * textScaleFactor, fontWeight: FontWeight.bold),
+                fontSize: textSize,
+                fontWeight: FontWeight.bold,
+              ),
               onPressed: () {
                 setState(() {
                   currentIndex = 2; // Update currentIndex on tab press
                 });
                 NavigatorService.pushNamed(AppRoutes.settingsPage);
-
-                
               },
             ),
             GButton(
               icon: LineIcons.user,
               text: 'Profile',
               textStyle: TextStyle(
-                  fontSize: 9 * textScaleFactor, fontWeight: FontWeight.bold),
+                fontSize: textSize,
+                fontWeight: FontWeight.bold,
+              ),
               onPressed: () {
                 setState(() {
                   currentIndex = 3; // Update currentIndex on tab press

@@ -55,36 +55,68 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
-        child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            appBar: _buildAppBar(context),
-            body: Container(
-                width: double.maxFinite,
-                padding: EdgeInsets.symmetric(vertical: 18.v),
-                child: Column(children: [
-                  SizedBox(height: 19.v),
-                  Expanded(
-                      child: SingleChildScrollView(
-                          child: Padding(
-                              padding: EdgeInsets.only(
-                                  left: 15.h, right: 15.h, bottom: 5.v),
-                              child: Column(children: [
-                                _buildCard(context),
-                                SizedBox(height: 23.v),
-                                _buildDropDwonTypeConge(context),
-                                SizedBox(height: 24.v),
-                                _buildTextFieldCause(context),
-                                SizedBox(height: 29.v),
-                                _buildDateDebut(context),
-                                SizedBox(height: 23.v),
-                                _buildScDebut(context),
-                                SizedBox(height: 23.v),
-                                _buildDateFin(context),
-                                SizedBox(height: 23.v),
-                                _buildScFin(context)
-                              ]))))
-                ])),
-            bottomNavigationBar: _buildSave(context)));
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: _buildAppBar(context),
+        body: CustomScrollView(
+          slivers: [
+            // Sliver for the card
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.h, vertical: 8.v),
+                child: _buildCard(context),
+              ),
+            ),
+            // Sliver for the shadowed container with other content
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: 15.h,
+                  right: 15.h,
+                  bottom: 5.v,
+                  top: 15.v,
+                ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3), // Shadow color
+                        spreadRadius: 3,
+                        blurRadius: 10,
+                        offset: Offset(0, 4), // Position of shadow
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(
+                        12), // Adjust corner radius as needed
+                    color: Colors.white, // Background color of the container
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(16.h), // Adjust padding as needed
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildDropDwonTypeConge(context),
+                        SizedBox(height: 24.v),
+                        _buildTextFieldCause(context),
+                        SizedBox(height: 29.v),
+                        _buildDateDebut(context),
+                        SizedBox(height: 23.v),
+                        _buildScDebut(context),
+                        SizedBox(height: 23.v),
+                        _buildDateFin(context),
+                        SizedBox(height: 23.v),
+                        _buildScFin(context),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        bottomNavigationBar: _buildSave(context),
+      ),
+    );
   }
 
   /// Section Widget
@@ -112,86 +144,91 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
     double fontSizeTitle = 0.1 * screenWidth; // 10% of screen width
     double fontSizeSubtitle = 0.05 * screenWidth; // 5% of screen width
 
-    return Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: horizontalPadding, vertical: verticalPadding),
-      decoration: BoxDecoration(
-        color: Colors.red,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: Text(
-              "il_vous_rest".tr,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: fontSizeTitle,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+            horizontal: horizontalPadding, vertical: verticalPadding),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.red, Colors.orange],
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Text(
+                "il_vous_rest".tr,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: fontSizeTitle,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: verticalPadding),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Congés Payés".tr,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: fontSizeSubtitle,
+            SizedBox(height: verticalPadding),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Congés Payés".tr,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: fontSizeSubtitle,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 3),
-                      Text(
-                        "22",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: fontSizeSubtitle - 3,
+                        SizedBox(height: 3),
+                        Text(
+                          "22",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: fontSizeSubtitle - 3,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(width: screenWidth * 0.05), // 5% of screen width
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Congés Maladie".tr,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: fontSizeSubtitle,
+                  SizedBox(width: screenWidth * 0.05), // 5% of screen width
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Congés Maladie".tr,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: fontSizeSubtitle,
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 3),
-                      Text(
-                        "5",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: fontSizeSubtitle - 3,
+                        SizedBox(height: 3),
+                        Text(
+                          "5",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: fontSizeSubtitle - 3,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -301,8 +338,8 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color.fromARGB(255, 252, 8, 8),
-                  Color.fromARGB(255, 228, 95, 34),
+                  Colors.red,
+                  Colors.orange,
                 ],
               ),
             ),
@@ -373,8 +410,8 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color.fromARGB(255, 252, 8, 8),
-                  Color.fromARGB(255, 228, 95, 34),
+                  Colors.red,
+                  Colors.orange,
                 ],
               ),
             ),
@@ -425,7 +462,7 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
   Widget _buildSave(BuildContext context) {
     return CustomElevatedButton(
       text: "lbl_save".tr,
-      margin: EdgeInsets.only(left: 16.h, right: 16.h, bottom: 50.v),
+      margin: EdgeInsets.only(left: 16.h, right: 16.h, bottom: 8.v, top: 5),
       onPressed: () async {
         // Validate inputs
         if (_validateInputs()) {

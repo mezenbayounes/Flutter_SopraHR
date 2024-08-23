@@ -32,6 +32,7 @@ dependencies:
   loading_btn: ^1.0.3
   pretty_animated_buttons: ^0.0.2
 
+
 dev_dependencies: 
   flutter_test: 
     sdk: flutter

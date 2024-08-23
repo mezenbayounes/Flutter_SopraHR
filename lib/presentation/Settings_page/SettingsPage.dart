@@ -31,7 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
     }
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: Color.fromARGB(255, 229, 228, 228),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
