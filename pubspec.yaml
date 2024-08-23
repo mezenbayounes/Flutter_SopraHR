@@ -3,6 +3,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 environment: 
   sdk: '>=2.12.0 <3.0.0'
+
 dependencies:
   flutter:
     sdk: flutter
@@ -30,10 +31,11 @@ dependencies:
   rounded_loading_button: ^2.1.0
   loading_btn: ^1.0.3
   pretty_animated_buttons: ^0.0.2
-  flutter_beautiful_popup: ^1.7.0
+
 dev_dependencies: 
   flutter_test: 
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
 flutter: 
   uses-material-design: true
   assets: 
@@ -48,3 +50,10 @@ flutter:
           weight: 700
         - asset: assets/fonts/PoppinsSemiBold.ttf
           weight: 600
+
+flutter_launcher_icons: 
+  android: true
+  ios: true
+  image_path: "assets/images/sopraIcon.png"
+  adaptive_icon_background: "#FFFFFF"       # You can change the background color if needed
+  adaptive_icon_foreground: "assets/images/sopraIcon.png"  # Update if using a new foreground image
