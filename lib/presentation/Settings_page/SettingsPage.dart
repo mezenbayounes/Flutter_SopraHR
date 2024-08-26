@@ -39,7 +39,7 @@ class _SettingsPageState extends State<SettingsPage> {
           // Background image
           Positioned.fill(
             child: Opacity(
-              opacity: 0.9,
+              opacity: .9,
               child: Image.asset(
                 bg,
                 fit: BoxFit.cover,

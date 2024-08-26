@@ -131,6 +131,8 @@ class _HomeScreenState extends State<HomeScreenConsluterAdmin> {
       }
 
       return jsonResponse.map((data) => LeaveData.fromJson(data)).toList();
+    } else if (response.statusCode == 404) {
+      throw Exception('No employees found for this manager');
     } else {
       print('Failed to load leave data. Status code: ${response.statusCode}');
       print('Response body: ${response.body}');

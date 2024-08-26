@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sopraflutter/core/app_export.dart';
 import 'package:sopraflutter/core/utils/navigator_service.dart';
 import 'package:sopraflutter/routes/app_routes.dart';
 import 'package:sopraflutter/theme/theme_helper.dart';
@@ -48,7 +49,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
         boxShadow: [
           BoxShadow(
             blurRadius: 20,
-            color: Colors.black.withOpacity(.1),
+            color: Colors.black.withOpacity(.4),
           ),
         ],
       ),

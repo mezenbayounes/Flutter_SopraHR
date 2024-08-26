@@ -346,7 +346,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           child: Text(
             label,
             style: TextStyle(
-              fontSize: 20.0,
+              fontSize: 18.5  ,
               fontWeight: FontWeight.bold,
               color: Color.fromARGB(255, 76, 76, 76),
             ),
@@ -357,7 +357,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           child: Text(
             value,
             style: TextStyle(
-              fontSize: 18.0,
+              fontSize: 17.5,
               color: Color.fromARGB(255, 112, 112, 112),
             ),
             textAlign: TextAlign.end,
