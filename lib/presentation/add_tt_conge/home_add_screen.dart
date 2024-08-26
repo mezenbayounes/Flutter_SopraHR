@@ -4,6 +4,7 @@ import 'package:sopraflutter/localization/app_localization.dart';
 import 'package:sopraflutter/presentation/BottomNavBar/BottomNavBar.dart';
 import 'package:sopraflutter/routes/app_routes.dart';
 import 'package:sopraflutter/theme/theme_helper.dart';
+import 'package:sopraflutter/core/constants/constants.dart';
 
 class homeAdd extends StatefulWidget {
   static WidgetBuilder get builder => (BuildContext context) => homeAdd();
@@ -18,22 +19,39 @@ class _homeAddState extends State<homeAdd> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: NotificationListener<OverscrollIndicatorNotification>(
-          onNotification: (notification) {
-            notification.disallowIndicator(); // Prevent scrolling
-            return true;
-          },
-          child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              return SingleChildScrollView(
-                physics: NeverScrollableScrollPhysics(),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(),
-                  child: homeAddContent(),
+        body: Stack(
+          children: [
+            // Background image with opacity
+            Positioned.fill(
+              child: Opacity(
+                opacity: 0.6, // Adjust opacity as needed
+                child: Image.asset(
+                  bg, // Use the bg variable from constants.dart
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
                 ),
-              );
-            },
-          ),
+              ),
+            ),
+            // Main content
+            NotificationListener<OverscrollIndicatorNotification>(
+              onNotification: (notification) {
+                notification.disallowIndicator(); // Prevent scrolling
+                return true;
+              },
+              child: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+                  return SingleChildScrollView(
+                    physics: NeverScrollableScrollPhysics(),
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(),
+                      child: homeAddContent(),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
         bottomNavigationBar: Container(child: BottomNavBarV2(index: 1)),
       ),
@@ -64,10 +82,11 @@ class homeAddContent extends StatelessWidget {
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color:
+                          Color.fromARGB(255, 193, 192, 192).withOpacity(0.6),
                       spreadRadius: 2,
                       blurRadius: 5,
-                      offset: Offset(0, 3), // Position of shadow
+                      offset: Offset(0, 3), // changes position of shadow
                     ),
                   ],
                   borderRadius: BorderRadius.circular(12), // Rounded corners
@@ -99,10 +118,11 @@ class homeAddContent extends StatelessWidget {
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color:
+                          Color.fromARGB(255, 193, 192, 192).withOpacity(0.6),
                       spreadRadius: 2,
                       blurRadius: 5,
-                      offset: Offset(0, 3),
+                      offset: Offset(0, 3), // changes position of shadow
                     ),
                   ],
                   borderRadius: BorderRadius.circular(12),
@@ -133,10 +153,11 @@ class homeAddContent extends StatelessWidget {
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color:
+                          Color.fromARGB(255, 193, 192, 192).withOpacity(0.6),
                       spreadRadius: 2,
                       blurRadius: 5,
-                      offset: Offset(0, 3),
+                      offset: Offset(0, 3), // changes position of shadow
                     ),
                   ],
                   borderRadius: BorderRadius.circular(12),
@@ -155,11 +176,10 @@ class homeAddContent extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10),
-              Text(
-                "demande_de_tt".tr,
-                style:
-                    theme.textTheme.titleMedium?.copyWith(fontSize: fontSize),
-              ),
+              Text("demande_de_tt".tr,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontSize: fontSize,
+                  )),
             ],
           ),
         ),

@@ -16,8 +16,7 @@ class My_Button_terms extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(15),
         alignment: Alignment.centerLeft,
-        decoration:
-            BoxDecoration(color: const Color.fromARGB(255, 255, 255, 255)),
+        decoration: BoxDecoration(color: Colors.transparent),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -31,7 +30,7 @@ class My_Button_terms extends StatelessWidget {
             Icon(
               icon,
               size: 25,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ],
         ),

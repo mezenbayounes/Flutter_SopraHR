@@ -7,12 +7,18 @@ class LogOutButton extends StatelessWidget {
   final Function()? onTap;
   final IconData icon;
   final String text;
+  final Color buttonColor;
+  final Color textColor;
+  final Color iconColor;
 
   const LogOutButton({
     Key? key,
     required this.onTap,
     required this.text,
     required this.icon,
+    this.buttonColor = const Color.fromARGB(108, 255, 255, 255),
+    this.textColor = const Color.fromARGB(255, 231, 14, 14),
+    this.iconColor = Colors.red,
   }) : super(key: key);
 
   Future<void> saveData(String key, String value) async {
@@ -138,24 +144,23 @@ class LogOutButton extends StatelessWidget {
         }
       },
       child: Container(
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(17),
         alignment: Alignment.centerLeft,
-        decoration:
-            const BoxDecoration(color: Color.fromARGB(108, 255, 255, 255)),
+        decoration: BoxDecoration(color: buttonColor),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               text,
-              style: const TextStyle(
-                color: Color.fromARGB(255, 231, 14, 14),
-                fontSize: 17,
+              style: TextStyle(
+                color: textColor,
+                fontSize: 18,
               ),
             ),
             Icon(
               icon,
-              size: 25,
-              color: Colors.red,
+              size: 30,
+              color: iconColor,
             ),
           ],
         ),

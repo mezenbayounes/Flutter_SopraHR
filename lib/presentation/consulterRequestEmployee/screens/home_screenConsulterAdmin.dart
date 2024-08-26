@@ -145,28 +145,46 @@ class _HomeScreenState extends State<HomeScreenConsulterRequestEmployee> {
       length: 2, // Set the number of tabs
       child: Scaffold(
         appBar: AppBar(
-            bottom: TabBar(
-          tabs: [
-            Tab(
-              icon: Icon(Icons.holiday_village_outlined),
-              text: 'conge'.tr, // Optional text label
-            ),
-            Tab(
-              icon: Icon(Icons.tv_rounded),
-              text: 'tt'.tr, // Optional text label
-            ),
-          ],
-          indicatorColor:
-              Color.fromARGB(255, 255, 0, 0), // Change indicator color
-          labelColor:
-              Color.fromARGB(255, 254, 7, 7), // Change selected tab label color
-          unselectedLabelColor:
-              Colors.grey, // Change unselected tab label color
-        )),
-        body: VerticalTabBarView(
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                icon: Icon(Icons.holiday_village_outlined),
+                text: 'conge'.tr, // Optional text label
+              ),
+              Tab(
+                icon: Icon(Icons.tv_rounded),
+                text: 'tt'.tr, // Optional text label
+              ),
+            ],
+            indicatorColor:
+                Color.fromARGB(255, 255, 0, 0), // Change indicator color
+            labelColor: Color.fromARGB(
+                255, 254, 7, 7), // Change selected tab label color
+            unselectedLabelColor:
+                Colors.grey, // Change unselected tab label color
+          ),
+        ),
+        body: Stack(
           children: [
-            _buildTabContentConge(context),
-            _buildTabContent(context),
+            // Background image with opacity
+            Positioned.fill(
+              child: Opacity(
+                opacity: 0.6, // Adjust opacity as needed
+                child: Image.asset(
+                  bg, // Use the bg variable from constants.dart
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
+                ),
+              ),
+            ),
+            // Main content (VerticalTabBarView)
+            VerticalTabBarView(
+              children: [
+                _buildTabContentConge(context),
+                _buildTabContent(context),
+              ],
+            ),
           ],
         ),
         bottomNavigationBar: BottomNavBarV2(index: 1),

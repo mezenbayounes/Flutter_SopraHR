@@ -58,63 +58,83 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: _buildAppBar(context),
-        body: CustomScrollView(
-          slivers: [
-            // Sliver for the card
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.h, vertical: 8.v),
-                child: _buildCard(context),
+        body: Stack(
+          children: [
+            // Positioned.fill to make the background image fill the entire screen
+            Positioned.fill(
+              child: Opacity(
+                opacity: 0.5, // Adjust opacity here (0.0 to 1.0)
+                child: Image.asset(
+                  bg, // Replace with your image path
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-            // Sliver for the shadowed container with other content
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: 15.h,
-                  right: 15.h,
-                  bottom: 5.v,
-                  top: 15.v,
-                ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.3), // Shadow color
-                        spreadRadius: 3,
-                        blurRadius: 10,
-                        offset: Offset(0, 4), // Position of shadow
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(
-                        12), // Adjust corner radius as needed
-                    color: Colors.white, // Background color of the container
-                  ),
+            // CustomScrollView with your content
+            CustomScrollView(
+              slivers: [
+                // Sliver for the card
+                SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.all(16.h), // Adjust padding as needed
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _buildDropDwonTypeConge(context),
-                        SizedBox(height: 24.v),
-                        _buildTextFieldCause(context),
-                        SizedBox(height: 29.v),
-                        _buildDateDebut(context),
-                        SizedBox(height: 23.v),
-                        _buildScDebut(context),
-                        SizedBox(height: 23.v),
-                        _buildDateFin(context),
-                        SizedBox(height: 23.v),
-                        _buildScFin(context),
-                      ],
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 15.h, vertical: 8.v),
+                    child: _buildCard(context),
+                  ),
+                ),
+                // Sliver for the shadowed container with other content
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: 15.h,
+                      right: 15.h,
+                      bottom: 5.v,
+                      top: 15.v,
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color:
+                                Colors.black.withOpacity(0.3), // Shadow color
+                            spreadRadius: 3,
+                            blurRadius: 10,
+                            offset: Offset(0, 4), // Position of shadow
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(
+                            12), // Adjust corner radius as needed
+                        color:
+                            Colors.white, // Background color of the container
+                      ),
+                      child: Padding(
+                        padding:
+                            EdgeInsets.all(16.h), // Adjust padding as needed
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildDropDwonTypeConge(context),
+                            SizedBox(height: 24.v),
+                            _buildTextFieldCause(context),
+                            SizedBox(height: 29.v),
+                            _buildDateDebut(context),
+                            SizedBox(height: 23.v),
+                            _buildScDebut(context),
+                            SizedBox(height: 23.v),
+                            _buildDateFin(context),
+                            SizedBox(height: 23.v),
+                            _buildScFin(context),
+                            SizedBox(height: 23.v),
+                            _buildSave(context),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
           ],
         ),
-        bottomNavigationBar: _buildSave(context),
       ),
     );
   }

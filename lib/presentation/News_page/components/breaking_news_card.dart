@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sopraflutter/presentation/News_page/models/news_model.dart';
 import 'package:sopraflutter/presentation/News_page/screens/details_screen.dart';
 
-
 class BreakingNewsCard extends StatefulWidget {
   BreakingNewsCard(this.data, {Key? key}) : super(key: key);
   NewsData data;

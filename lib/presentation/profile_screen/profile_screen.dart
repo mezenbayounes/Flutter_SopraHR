@@ -26,26 +26,44 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     mediaQueryData = MediaQuery.of(context);
+
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
         return SafeArea(
           child: Scaffold(
-            body: Column(
+            body: Stack(
               children: [
-                Expanded(
-                  child: FutureBuilder<Map<String, String?>>(
-                    future: _profileModel.getDataFromSharedPreferences(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return SingleChildScrollView(
-                          child: _buildProfileContent(context, snapshot.data!),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      }
-                      return Center(child: CircularProgressIndicator());
-                    },
+                // Background image with opacity
+                Positioned.fill(
+                  child: Opacity(
+                    opacity: 0.3, // Adjust opacity as needed
+                    child: Image.asset(
+                      bg, // Background image path from constants.dart
+                      fit: BoxFit.cover,
+                    ),
                   ),
+                ),
+                // Main content
+                Column(
+                  children: [
+                    Expanded(
+                      child: FutureBuilder<Map<String, String?>>(
+                        future: _profileModel.getDataFromSharedPreferences(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return SingleChildScrollView(
+                              child:
+                                  _buildProfileContent(context, snapshot.data!),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Center(
+                                child: Text('Error: ${snapshot.error}'));
+                          }
+                          return Center(child: CircularProgressIndicator());
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -94,7 +112,6 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                     // Profile image
-
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 30.0),
@@ -117,7 +134,7 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     Padding(
                       padding:
-                          EdgeInsets.only(left: 110.h, top: 9.v, bottom: 14.v),
+                          EdgeInsets.only(left: 95.h, top: 9.v, bottom: 14.v),
                       child: Column(
                         children: [
                           Text(
@@ -138,48 +155,79 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 32.v),
-          _buildProfileDetailOption(
-            context,
-            dateIcon: ImageConstant.imgUserPrimary,
-            birthday: "Role",
-            birthDateValue: data['role'] ?? "",
-            onTapProfileDetailOption: () {
-              NavigatorService.pushNamed(
-                AppRoutes.addPaymentScreen,
-              );
-            },
+
+          // All profile detail options in one container with shadow
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10), // Rounded edges
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.4),
+                    blurRadius: 20,
+                    offset: Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(
+                    10), // Ensure content inside is also rounded
+                child: Column(
+                  children: [
+                    _buildProfileDetailOption(
+                      context,
+                      dateIcon: ImageConstant.imgUserPrimary,
+                      birthday: "Role",
+                      birthDateValue: data['role'] ?? "",
+                      onTapProfileDetailOption: () {
+                        NavigatorService.pushNamed(
+                          AppRoutes.addPaymentScreen,
+                        );
+                      },
+                    ),
+                    Divider(),
+                    _buildProfileDetailOption(
+                      context,
+                      dateIcon: ImageConstant.imgDateIcon,
+                      birthday: "lbl_birthday".tr,
+                      birthDateValue: "14-02-2000",
+                      onTapProfileDetailOption: () {},
+                    ),
+                    Divider(),
+                    _buildProfileDetailOption(
+                      context,
+                      dateIcon: ImageConstant.imgMailPrimary,
+                      birthday: "lbl_email".tr,
+                      birthDateValue: data['email'] ?? "",
+                      onTapProfileDetailOption: () {},
+                    ),
+                    Divider(),
+                    _buildProfileDetailOption(
+                      context,
+                      dateIcon: ImageConstant.imgCreditCardIcon,
+                      birthday: "lbl_phone_number".tr,
+                      birthDateValue: "53 241 141",
+                      onTapProfileDetailOption: () {},
+                    ),
+                    Divider(),
+                    _buildProfileDetailOption(
+                      context,
+                      dateIcon: ImageConstant.imgLockPrimary,
+                      birthday: "lbl_change_password".tr,
+                      birthDateValue: "msg".tr,
+                      onTapProfileDetailOption: () {
+                        onTapProfileDetailOption(context);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
-          _buildProfileDetailOption(
-            context,
-            dateIcon: ImageConstant.imgDateIcon,
-            birthday: "lbl_birthday".tr,
-            birthDateValue: "14-02-2000",
-            onTapProfileDetailOption: () {},
-          ),
-          _buildProfileDetailOption(
-            context,
-            dateIcon: ImageConstant.imgMailPrimary,
-            birthday: "lbl_email".tr,
-            birthDateValue: data['email'] ?? "",
-            onTapProfileDetailOption: () {},
-          ),
-          _buildProfileDetailOption(
-            context,
-            dateIcon: ImageConstant.imgCreditCardIcon,
-            birthday: "lbl_phone_number".tr,
-            birthDateValue: "53 241 141",
-            onTapProfileDetailOption: () {},
-          ),
+
           SizedBox(height: 5.v),
-          _buildProfileDetailOption(
-            context,
-            dateIcon: ImageConstant.imgLockPrimary,
-            birthday: "lbl_change_password".tr,
-            birthDateValue: "msg".tr,
-            onTapProfileDetailOption: () {
-              onTapProfileDetailOption(context);
-            },
-          ),
         ],
       ),
     );

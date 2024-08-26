@@ -9,6 +9,7 @@ import 'package:sopraflutter/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:sopraflutter/domain/googleauth/google_auth_helper.dart';
 import 'package:sopraflutter/domain/facebookauth/facebook_auth_helper.dart';
+import 'package:sopraflutter/core/constants/constants.dart';
 
 // ignore_for_file: must_be_immutable
 class LoginScreen extends StatelessWidget {
@@ -35,7 +36,7 @@ class LoginScreen extends StatelessWidget {
           Opacity(
             opacity: 0.6, // Adjust opacity as needed
             child: Image.asset(
-              'assets/images/bglogin.jpeg', // Path to your background image
+              bg, // Path to your background image
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
@@ -193,7 +194,7 @@ class LoginScreen extends StatelessWidget {
                           TextSpan(
                             text: "msg_forgot_password".tr,
                             style: theme.textTheme.bodySmall?.copyWith(
-                                color: Color.fromARGB(255, 67, 67, 67),
+                                color: Color.fromARGB(255, 148, 148, 148),
                                 fontSize: 15
                                 // Set text color to black
                                 ),
@@ -205,7 +206,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 7.v),
                   SizedBox(height: 5.v),
-                  SizedBox(height: 150),
+                  SizedBox(height: 190),
                 ],
               ),
             ),
@@ -243,7 +244,7 @@ class LoginScreen extends StatelessWidget {
       Text(
         "msg_sign_in_to_continue".tr,
         style: theme.textTheme.bodySmall
-            ?.copyWith(color: Color.fromARGB(255, 67, 67, 67), fontSize: 14),
+            ?.copyWith(color: Color.fromARGB(255, 148, 148, 148), fontSize: 14),
       )
     ]);
   }

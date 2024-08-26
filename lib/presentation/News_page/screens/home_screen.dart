@@ -27,12 +27,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background Image with Opacity
+          //Background Image with Opacity
           Positioned.fill(
             child: Opacity(
               opacity: 0.5, // Adjust opacity here (0.0 to 1.0)
               child: Image.asset(
-                'assets/images/bglogin.jpeg', // Replace with your image path
+                bg, // Replace with your image path
                 fit: BoxFit.cover,
               ),
             ),
@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           gradient: LinearGradient(
                             colors: [
                               Color.fromARGB(255, 158, 157, 157),
-                              Color.fromARGB(255, 26, 25, 25),
+                              Color.fromARGB(255, 113, 113, 113),
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -102,38 +102,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 20,
                   ),
                   // Container for Breaking News with shadow effect
-                  Container(
-                    padding: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Color.fromARGB(255, 255, 255, 255), // Light grey
-                          Color.fromARGB(255, 143, 143, 143), // Medium grey
-                          Color.fromARGB(255, 79, 79, 79) // Dark grey
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(12.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.9),
-                          offset: Offset(0, 4),
-                          blurRadius: 0.0,
-                        ),
-                      ],
-                    ),
-                    child: CarouselSlider.builder(
-                      itemCount: NewsData.breakingNewsData.length,
-                      itemBuilder: (context, index, id) =>
-                          BreakingNewsCard(NewsData.breakingNewsData[index]),
-                      options: CarouselOptions(
-                        aspectRatio: 16 / 9,
-                        enableInfiniteScroll: false,
-                        enlargeCenterPage: true,
-                      ),
+                  CarouselSlider.builder(
+                    itemCount: NewsData.breakingNewsData.length,
+                    itemBuilder: (context, index, id) =>
+                        BreakingNewsCard(NewsData.breakingNewsData[index]),
+                    options: CarouselOptions(
+                      aspectRatio: 16 / 9,
+                      enableInfiniteScroll: false,
+                      enlargeCenterPage: true,
                     ),
                   ),
+
                   SizedBox(
                     height: 40.0,
                   ),
@@ -151,11 +130,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     padding: EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 147, 145, 145),
+                      color: Color.fromARGB(255, 214, 214, 214),
                       borderRadius: BorderRadius.circular(12.0),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.8),
+                          color: Colors.black.withOpacity(0.3),
                           offset: Offset(0, 4),
                           blurRadius: 50.0,
                         ),

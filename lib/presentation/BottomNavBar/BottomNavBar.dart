@@ -4,6 +4,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sopraflutter/core/utils/navigator_service.dart';
 import 'package:sopraflutter/routes/app_routes.dart';
+import 'package:sopraflutter/theme/theme_helper.dart';
 
 class BottomNavBarV2 extends StatefulWidget {
   final int index; // New parameter to pass the initial index
@@ -37,7 +38,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double iconSize = screenWidth * 0.07;
-    double textSize = screenWidth * 0.040; // Adjust the text size dynamically
+    double textSize = screenWidth * 0.038; // Adjust the text size dynamically
 
     return Container(
       padding:
@@ -80,10 +81,9 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
             GButton(
               icon: LineIcons.home,
               text: 'News',
-              textStyle: TextStyle(
-                fontSize: textSize,
-                fontWeight: FontWeight.bold,
-              ),
+              textStyle: (theme.textTheme.titleMedium?.copyWith(
+                  fontSize: textSize,
+                  color: Color.fromARGB(255, 103, 102, 102))),
               onPressed: () {
                 setState(() {
                   currentIndex = 0; // Update currentIndex on tab press
@@ -94,10 +94,9 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
             GButton(
               icon: LineIcons.table,
               text: 'Demande',
-              textStyle: TextStyle(
-                fontSize: textSize,
-                fontWeight: FontWeight.bold,
-              ),
+              textStyle: (theme.textTheme.titleMedium?.copyWith(
+                  fontSize: textSize,
+                  color: Color.fromARGB(255, 103, 102, 102))),
               onPressed: () {
                 setState(() {
                   currentIndex = 1; // Update currentIndex on tab press
@@ -112,10 +111,9 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
             GButton(
               icon: LineIcons.cog,
               text: 'Settings',
-              textStyle: TextStyle(
-                fontSize: textSize,
-                fontWeight: FontWeight.bold,
-              ),
+              textStyle: (theme.textTheme.titleMedium?.copyWith(
+                  fontSize: textSize,
+                  color: Color.fromARGB(255, 103, 102, 102))),
               onPressed: () {
                 setState(() {
                   currentIndex = 2; // Update currentIndex on tab press
@@ -126,10 +124,9 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
             GButton(
               icon: LineIcons.user,
               text: 'Profile',
-              textStyle: TextStyle(
-                fontSize: textSize,
-                fontWeight: FontWeight.bold,
-              ),
+              textStyle: (theme.textTheme.titleMedium?.copyWith(
+                  fontSize: textSize,
+                  color: Color.fromARGB(255, 103, 102, 102))),
               onPressed: () {
                 setState(() {
                   currentIndex = 3; // Update currentIndex on tab press
