@@ -35,7 +35,8 @@ class AskEvent extends LailyfaFebrinaCardEvent {
   });
 
   @override
-  List<Object?> get props => [id, type, cause, date_debut, date_fin, sc_debut, sc_fin];
+  List<Object?> get props =>
+      [id, type, cause, date_debut, date_fin, sc_debut, sc_fin];
 }
 
 class AskSuccessEvent extends LailyfaFebrinaCardEvent {

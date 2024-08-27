@@ -24,14 +24,10 @@ class ForgetPasswordSubmitEvent extends forgetPasswordEvent {
   List<Object?> get props => [email];
 }
 
-
-
 class ForgetPasswordSuccessEvent extends forgetPasswordEvent {
   @override
   List<Object?> get props => [];
 }
-
-
 
 class ForgetPasswordFailureEvent extends forgetPasswordEvent {
   final String error;

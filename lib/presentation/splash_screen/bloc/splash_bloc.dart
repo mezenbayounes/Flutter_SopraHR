@@ -16,24 +16,22 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
     SplashInitialEvent event,
     Emitter<SplashState> emit,
   ) async {
-   SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
     if (isLoggedIn) {
       // Navigate to home
-    Future.delayed(const Duration(milliseconds: 3000), () {
-      NavigatorService.popAndPushNamed(
-        AppRoutes.homeScreenNews,
-      );
-    });
+      Future.delayed(const Duration(milliseconds: 3000), () {
+        NavigatorService.popAndPushNamed(
+          AppRoutes.homeScreenNews,
+        );
+      });
     } else {
-     Future.delayed(const Duration(milliseconds: 3000), () {
-      NavigatorService.popAndPushNamed(
-        AppRoutes.loginScreen,
-      );
-    });
+      Future.delayed(const Duration(milliseconds: 3000), () {
+        NavigatorService.popAndPushNamed(
+          AppRoutes.loginScreen,
+        );
+      });
     }
   }
-  }
- 
-  
+}

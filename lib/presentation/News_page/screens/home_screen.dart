@@ -55,8 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              Color.fromARGB(255, 158, 157, 157),
-                              Color.fromARGB(255, 113, 113, 113),
+                              Colors.red,
+                              Colors.orange,
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,

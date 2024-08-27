@@ -25,14 +25,10 @@ class LoginSubmitEvent extends LoginEvent {
   List<Object?> get props => [email, password];
 }
 
-
-
 class LoginSuccessEvent extends LoginEvent {
   @override
   List<Object?> get props => [];
 }
-
-
 
 class LoginFailureEvent extends LoginEvent {
   final String error;

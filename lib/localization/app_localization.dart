@@ -10,8 +10,10 @@ class AppLocalization {
 
   Locale locale;
 
-  static final Map<String, Map<String, String>> _localizedValues = {'en': enUs,'fr':frFr};
-
+  static final Map<String, Map<String, String>> _localizedValues = {
+    'en': enUs,
+    'fr': frFr
+  };
 
   static AppLocalization of() {
     return Localizations.of<AppLocalization>(

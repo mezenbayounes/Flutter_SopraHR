@@ -262,7 +262,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           child: Align(
                             alignment: Alignment.center,
                             child: PrettyCapsuleButton(
-                              bgColor: Color.fromARGB(255, 9, 110, 0),
+                              bgColor: Color.fromARGB(255, 99, 181, 93),
                               label: 'confirme'.tr,
                               labelStyle: const TextStyle(
                                 fontSize: 18.0,
@@ -293,7 +293,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           child: Align(
                             alignment: Alignment.center,
                             child: PrettyCapsuleButton(
-                              bgColor: Color.fromARGB(255, 147, 1, 1),
+                              bgColor: Color.fromARGB(255, 212, 96, 67),
                               label: 'refuse'.tr,
                               labelStyle: const TextStyle(
                                 fontSize: 18.0,
@@ -346,7 +346,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
           child: Text(
             label,
             style: TextStyle(
-              fontSize: 18.5  ,
+              fontSize: 18.5,
               fontWeight: FontWeight.bold,
               color: Color.fromARGB(255, 76, 76, 76),
             ),

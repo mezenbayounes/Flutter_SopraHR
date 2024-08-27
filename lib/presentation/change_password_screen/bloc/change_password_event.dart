@@ -23,7 +23,7 @@ class ChangePasswordSubmitEvent extends ChangePasswordEvent {
   ChangePasswordSubmitEvent(this.otp, this.NewPassword, this.email);
 
   @override
-  List<Object?> get props => [email,otp,NewPassword];
+  List<Object?> get props => [email, otp, NewPassword];
 }
 
 class ChangePasswordSuccessEvent extends ChangePasswordEvent {

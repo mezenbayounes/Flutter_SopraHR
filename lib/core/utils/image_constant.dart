@@ -7,9 +7,8 @@ class ImageConstant {
   static String imgLogo = '$imagePath/soprahr_logo.png';
 
   // Login images
-    static String sopraLogo = '$imagePath/soprahr.png';
-        static String forgetPassword = '$imagePath/Forgot_password-image.png';
-
+  static String sopraLogo = '$imagePath/soprahr.png';
+  static String forgetPassword = '$imagePath/Forgot_password-image.png';
 
   static String imgGoogleIcon = '$imagePath/img_google_icon.svg';
 

@@ -6,7 +6,7 @@ part of 'forget_password_bloc.dart';
 class ForgetPasswordState extends Equatable {
   final TextEditingController? emailController;
   final TextEditingController? passwordController;
-    final ForgetPasswordModel? forgetPasswordModel;
+  final ForgetPasswordModel? forgetPasswordModel;
 
   final bool isLoading;
   final String? errorMessage;
@@ -17,7 +17,6 @@ class ForgetPasswordState extends Equatable {
     this.forgetPasswordModel,
     this.isLoading = false,
     this.errorMessage,
-  
   });
 
   @override

@@ -25,7 +25,6 @@ class LeaveData {
     required this.username,
     required this.image,
     required this.email,
-
   });
 
   // Factory method to create a LeaveData instance from JSON
@@ -43,7 +42,6 @@ class LeaveData {
       username: json['username'],
       image: json['image'],
       email: json['email'],
-
     );
   }
 }

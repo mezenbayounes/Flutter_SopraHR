@@ -11,26 +11,28 @@ class ProfileModel extends Equatable {
   ProfileModel copyWith() {
     return ProfileModel();
   }
-static Future<String?> getEmail() async {
+
+  static Future<String?> getEmail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('email');
   }
 
   Future<Map<String, String?>> getDataFromSharedPreferences() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  
-  String? email = prefs.getString('email');
-  String? username = prefs.getString('username');
-  String? imageUrl = prefs.getString('image_url');
-  String? role = prefs.getString('role');
-  
-  return {
-    'email': email,
-    'username': username,
-    'image_url': imageUrl,
-    'role': role,
-  };
-}
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String? email = prefs.getString('email');
+    String? username = prefs.getString('username');
+    String? imageUrl = prefs.getString('image_url');
+    String? role = prefs.getString('role');
+
+    return {
+      'email': email,
+      'username': username,
+      'image_url': imageUrl,
+      'role': role,
+    };
+  }
+
   @override
   List<Object?> get props => [];
 }

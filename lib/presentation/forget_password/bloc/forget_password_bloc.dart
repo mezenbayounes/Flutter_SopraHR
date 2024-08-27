@@ -38,7 +38,7 @@ class ForgetPasswordBloc
       if (response.statusCode == 200) {
         // Emit LoginSuccessEvent if the login is successful
         emit(state.copyWith(isLoading: false));
-  NavigatorService.pushNamed(
+        NavigatorService.pushNamed(
           AppRoutes.changePasswordScreen,
         );
         add(ForgetPasswordSuccessEvent());
