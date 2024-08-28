@@ -6,28 +6,26 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '/core/app_export.dart';
-import 'package:sopraflutter/presentation/lailyfa_febrina_card_screen/models/lailyfa_febrina_card_model.dart';
-part 'lailyfa_febrina_card_event.dart';
-part 'lailyfa_febrina_card_state.dart';
+import 'package:sopraflutter/presentation/Add_Conge/models/add_conge_model.dart';
+part 'add_conge_event.dart';
+part 'add_conge_state.dart';
 
-/// A bloc that manages the state of a LailyfaFebrinaCard according to the event that is dispatched to it.
-class LailyfaFebrinaCardBloc
-    extends Bloc<LailyfaFebrinaCardEvent, LailyfaFebrinaCardState> {
-  LailyfaFebrinaCardBloc(LailyfaFebrinaCardState initialState)
-      : super(initialState) {
-    on<LailyfaFebrinaCardInitialEvent>(_onInitialize);
+/// A bloc that manages the state of a AddConge according to the event that is dispatched to it.
+class AddCongeBloc extends Bloc<AddCongeEvent, AddCongeState> {
+  AddCongeBloc(AddCongeState initialState) : super(initialState) {
+    on<AddCongeInitialEvent>(_onInitialize);
     on<AskEvent>(_onAskSubmit);
     on<AskSuccessEvent>(_onAskSuccess);
     on<AskFailureEvent>(_onAskFailure);
   }
 
   _onInitialize(
-    LailyfaFebrinaCardInitialEvent event,
-    Emitter<LailyfaFebrinaCardState> emit,
+    AddCongeInitialEvent event,
+    Emitter<AddCongeState> emit,
   ) async {}
 
   Future<FutureOr<void>> _onAskSubmit(
-      AskEvent event, Emitter<LailyfaFebrinaCardState> emit) async {
+      AskEvent event, Emitter<AddCongeState> emit) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
@@ -69,18 +67,21 @@ class LailyfaFebrinaCardBloc
   }
 
   Future<FutureOr<void>> _onAskSuccess(
-      AskSuccessEvent event, Emitter<LailyfaFebrinaCardState> emit) async {
+      AskSuccessEvent event, Emitter<AddCongeState> emit) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String? role = prefs.getString('role') ?? ""; // Update role state
     ;
-    NavigatorService.pushNamed(
-        role == "manager" ? AppRoutes.homeADDAdmin : AppRoutes.homeADD);
-    print('demande successful send');
+
+    if (role == "manager") {
+      NavigatorService.pushNamed(AppRoutes.homeADDAdmin);
+    } else {
+      NavigatorService.pushNamed(AppRoutes.homeADD);
+    }
   }
 
   FutureOr<void> _onAskFailure(
-      AskFailureEvent event, Emitter<LailyfaFebrinaCardState> emit) {
+      AskFailureEvent event, Emitter<AddCongeState> emit) {
     print('Ask failed: ${event.error}');
   }
 }

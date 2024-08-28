@@ -1,21 +1,21 @@
 // ignore_for_file: must_be_immutable
 
-part of 'lailyfa_febrina_card_bloc.dart';
+part of 'add_conge_bloc.dart';
 
 /// Abstract class for all events that can be dispatched from the
-///LailyfaFebrinaCard widget.
+///AddConge widget.
 ///
 /// Events must be immutable and implement the [Equatable] interface.
 @immutable
-abstract class LailyfaFebrinaCardEvent extends Equatable {}
+abstract class AddCongeEvent extends Equatable {}
 
-/// Event that is dispatched when the LailyfaFebrinaCard widget is first created.
-class LailyfaFebrinaCardInitialEvent extends LailyfaFebrinaCardEvent {
+/// Event that is dispatched when the AddConge widget is first created.
+class AddCongeInitialEvent extends AddCongeEvent {
   @override
   List<Object?> get props => [];
 }
 
-class AskEvent extends LailyfaFebrinaCardEvent {
+class AskEvent extends AddCongeEvent {
   final String id;
   final String type;
   final String cause;
@@ -26,6 +26,7 @@ class AskEvent extends LailyfaFebrinaCardEvent {
 
   AskEvent({
     required this.id,
+
     required this.type,
     required this.cause,
     required this.date_debut,
@@ -39,12 +40,12 @@ class AskEvent extends LailyfaFebrinaCardEvent {
       [id, type, cause, date_debut, date_fin, sc_debut, sc_fin];
 }
 
-class AskSuccessEvent extends LailyfaFebrinaCardEvent {
+class AskSuccessEvent extends AddCongeEvent {
   @override
   List<Object?> get props => [];
 }
 
-class AskFailureEvent extends LailyfaFebrinaCardEvent {
+class AskFailureEvent extends AddCongeEvent {
   final String error;
 
   AskFailureEvent(this.error);

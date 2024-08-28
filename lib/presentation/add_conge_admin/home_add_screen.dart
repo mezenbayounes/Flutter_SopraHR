@@ -92,7 +92,7 @@ class homeAddContent extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     NavigatorService.pushNamed(
-                        AppRoutes.lailyfaFebrinaCardScreen);
+                        AppRoutes.addCongeScreen);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(0, 182, 181,

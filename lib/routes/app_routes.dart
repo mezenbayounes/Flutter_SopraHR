@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sopraflutter/core/app_export.dart';
+import 'package:sopraflutter/presentation/Add_TT/add_tt_screen.dart';
 import 'package:sopraflutter/presentation/News_page/screens/home_screen.dart';
 import 'package:sopraflutter/presentation/Settings_page/SettingsPage.dart';
 import 'package:sopraflutter/presentation/add_conge_admin/home_add_screen.dart';
@@ -38,7 +39,7 @@ import 'package:sopraflutter/presentation/address_screen/address_screen.dart';
 import 'package:sopraflutter/presentation/add_payment_screen/add_payment_screen.dart';
 import 'package:sopraflutter/presentation/credit_card_and_debit_screen/credit_card_and_debit_screen.dart';
 import 'package:sopraflutter/presentation/add_card_screen/add_card_screen.dart';
-import 'package:sopraflutter/presentation/lailyfa_febrina_card_screen/lailyfa_febrina_card_screen.dart';
+import 'package:sopraflutter/presentation/Add_Conge/add_conge_screen.dart';
 import 'package:sopraflutter/presentation/app_navigation_screen/app_navigation_screen.dart';
 import 'package:sopraflutter/presentation/add_tt_conge/home_add_screen.dart';
 
@@ -134,7 +135,9 @@ class AppRoutes {
 
   static const String addCardScreen = '/add_card_screen';
 
-  static const String lailyfaFebrinaCardScreen = '/lailyfa_febrina_card_screen';
+  static const String addCongeScreen = '/addCongeScreen';
+    static const String addTTScreen = '/addTTScreen';
+
 
   static const String appNavigationScreen = '/app_navigation_screen';
 
@@ -181,7 +184,9 @@ class AppRoutes {
         addPaymentScreen: AddPaymentScreen.builder,
         creditCardAndDebitScreen: CreditCardAndDebitScreen.builder,
         addCardScreen: AddCardScreen.builder,
-        lailyfaFebrinaCardScreen: LailyfaFebrinaCardScreen.builder,
+        addCongeScreen: AddCongeScreen.builder,
+        addTTScreen: AddTTScreen.builder,
+
         appNavigationScreen: AppNavigationScreen.builder,
         initialRoute: SplashScreen.builder
       };

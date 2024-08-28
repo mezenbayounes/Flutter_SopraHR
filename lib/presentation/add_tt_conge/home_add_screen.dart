@@ -93,8 +93,7 @@ class homeAddContent extends StatelessWidget {
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    NavigatorService.pushNamed(
-                        AppRoutes.lailyfaFebrinaCardScreen);
+                    NavigatorService.pushNamed(AppRoutes.addCongeScreen);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor:
@@ -164,8 +163,7 @@ class homeAddContent extends StatelessWidget {
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    // Handle button 3 click event
-                    print("consulter");
+                    NavigatorService.pushNamed(AppRoutes.addTTScreen);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.transparent,

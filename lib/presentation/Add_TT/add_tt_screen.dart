@@ -3,52 +3,35 @@ import 'package:dropdown_model_list/drop_down/select_drop_list.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'bloc/lailyfa_febrina_card_bloc.dart';
-import 'models/lailyfa_febrina_card_model.dart';
+import 'bloc/add_tt_bloc.dart';
+import 'models/add_tt_model.dart';
 import 'package:sopraflutter/core/app_export.dart';
 import 'package:sopraflutter/widgets/app_bar/appbar_leading_image.dart';
 import 'package:sopraflutter/widgets/app_bar/appbar_subtitle.dart';
 import 'package:sopraflutter/widgets/app_bar/custom_app_bar.dart';
 import 'package:sopraflutter/widgets/custom_elevated_button.dart';
-import 'package:sopraflutter/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
-class LailyfaFebrinaCardScreen extends StatefulWidget {
-  const LailyfaFebrinaCardScreen({Key? key}) : super(key: key);
+class AddTTScreen extends StatefulWidget {
+  const AddTTScreen({Key? key}) : super(key: key);
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<LailyfaFebrinaCardBloc>(
-        create: (context) => LailyfaFebrinaCardBloc(LailyfaFebrinaCardState(
-            lailyfaFebrinaCardModelObj: LailyfaFebrinaCardModel()))
-          ..add(LailyfaFebrinaCardInitialEvent()),
-        child: LailyfaFebrinaCardScreen());
+    return BlocProvider<AddTTBloc>(
+        create: (context) =>
+            AddTTBloc(AddTTState(lailyfaFebrinaCardModelObj: AddTTModel()))
+              ..add(AddTTInitialEvent()),
+        child: AddTTScreen());
   }
 
   @override
-  State<LailyfaFebrinaCardScreen> createState() =>
-      _LailyfaFebrinaCardScreenState();
+  State<AddTTScreen> createState() => _AddTTScreenState();
 }
 
-class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
-  String causeG = "";
-  String typeG = "";
-  String scDebutG = "";
-  String scFinG = "";
+class _AddTTScreenState extends State<AddTTScreen> {
   late DateTime dateDebutG;
-  late DateTime dateFinG;
-  TextEditingController _causeController = TextEditingController();
   @override
   void dispose() {
-    _causeController.dispose();
     super.dispose();
-  }
-
-  void _updateCause() {
-    setState(() {
-      // Update your local state with the value from the text field
-      causeG = _causeController.text;
-      // Do something with the cause
-    });
   }
 
   @override
@@ -77,7 +60,7 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
                 SliverToBoxAdapter(
                   child: Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 15.h, vertical: 8.v),
+                        EdgeInsets.symmetric(horizontal: 15.h, vertical: 20.v),
                     child: _buildCard(context),
                   ),
                 ),
@@ -112,18 +95,9 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            _buildDropDwonTypeConge(context),
-                            SizedBox(height: 24.v),
-                            _buildTextFieldCause(context),
-                            SizedBox(height: 29.v),
-                            _buildDateDebut(context),
                             SizedBox(height: 23.v),
-                            _buildScDebut(context),
-                            SizedBox(height: 23.v),
-                            _buildDateFin(context),
-                            SizedBox(height: 23.v),
-                            _buildScFin(context),
-                            SizedBox(height: 23.v),
+                            _buildDateRemote(context),
+                            SizedBox(height: 60.v),
                             _buildSave(context),
                           ],
                         ),
@@ -150,7 +124,7 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
               onTapArrowLeft(context);
             }),
         title: AppbarSubtitle(
-            text: "demande_de_conge".tr, margin: EdgeInsets.only(left: 12.h)));
+            text: "demande_de_tt".tr, margin: EdgeInsets.only(left: 12.h)));
   }
 
   /// Section Widget
@@ -161,8 +135,8 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
     // Define proportional padding and font sizes based on the screen width
     double horizontalPadding = screenWidth * 0.05; // 5% of screen width
     double verticalPadding = 20; // Fixed vertical padding
-    double fontSizeTitle = 0.1 * screenWidth; // 10% of screen width
-    double fontSizeSubtitle = 0.05 * screenWidth; // 5% of screen width
+    double fontSizeTitle = 0.09 * screenWidth; // 10% of screen width
+    double fontSizeSubtitle = 0.04 * screenWidth; // 5% of screen width
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -181,7 +155,7 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
           children: [
             Center(
               child: Text(
-                "il_vous_rest".tr,
+                "Rules".tr, // Updated title
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
@@ -192,56 +166,33 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
             SizedBox(height: verticalPadding),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Congés Payés".tr,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: fontSizeSubtitle,
-                          ),
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          "22",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: fontSizeSubtitle - 3,
-                          ),
-                        ),
-                      ],
+                  Text(
+                    "• You can work remotely up to 2 days per week.".tr,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: fontSizeSubtitle,
                     ),
                   ),
-                  SizedBox(width: screenWidth * 0.05), // 5% of screen width
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Congés Maladie".tr,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: fontSizeSubtitle,
-                          ),
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          "5",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: fontSizeSubtitle - 3,
-                          ),
-                        ),
-                      ],
+                  SizedBox(height: 8), // Added spacing between rules
+                  Text(
+                    "• Remote days cannot be consecutive.".tr,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: fontSizeSubtitle,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    "• The workspace must maintain 60% occupancy.".tr,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: fontSizeSubtitle,
                     ),
                   ),
                 ],
@@ -254,91 +205,9 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
   }
 
   /// Section Widget
-  Widget _buildDropDwonTypeConge(BuildContext context) {
-    DropListModel dropListModel = DropListModel([
-      OptionItem(id: "1", title: "Congé_payé".tr, data: 'Congé_payé'),
-      OptionItem(id: "2", title: "Congé_Maladie".tr, data: 'Congé_Maladie'),
-      OptionItem(id: "3", title: "Congé_non_payé".tr, data: 'Congé_non_payé'),
-    ]);
-    OptionItem optionItemSelected = OptionItem(title: "choisi_type_conge".tr);
-
-    TextEditingController controller = TextEditingController();
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text("type_de_conge".tr, style: theme.textTheme.titleSmall),
-          SelectDropList(
-            itemSelected: optionItemSelected,
-            dropListModel: dropListModel,
-            showIcon: false,
-            showArrowIcon: true,
-            showBorder: true,
-            enable: true,
-            paddingTop: 0,
-            paddingDropItem:
-                const EdgeInsets.only(left: 20, top: 10, bottom: 10, right: 20),
-            suffixIcon: Icons.arrow_drop_down,
-            containerPadding: const EdgeInsets.all(10),
-            icon: const Icon(Icons.person, color: Colors.black),
-            onOptionSelected: (optionItem) {
-              optionItemSelected = optionItem;
-              print(optionItemSelected.title);
-              setState(() {
-                optionItemSelected = optionItem;
-                typeG = optionItem.title;
-              });
-            },
-          ),
-        ]);
-  }
-
-  /// Section Widget
-  Widget _buildTextFieldCause(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 2.h),
-          child: Text(
-            "Cause".tr,
-            style: Theme.of(context).textTheme.titleSmall,
-          ),
-        ),
-        SizedBox(height: 11.v),
-        Padding(
-          padding: EdgeInsets.only(left: 2.h),
-          child: BlocSelector<LailyfaFebrinaCardBloc, LailyfaFebrinaCardState,
-              TextEditingController?>(
-            selector: (state) => state.expirationDateController,
-            builder: (context, expirationDateController) {
-              return TextFormField(
-                controller: _causeController,
-                decoration: InputDecoration(
-                  hintText: "enter_cause".tr,
-                  hintStyle: CustomTextStyles.labelLargeBluegray300SemiBold,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16.h, vertical: 15.v),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-                maxLength: 200, // Maximum length of 200 characters
-                onChanged: (text) {
-                  // Optionally, you can call setState here if you need to update immediately
-                  _updateCause();
-                },
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
-
-  /// Section Widget
-  Widget _buildDateDebut(BuildContext context) {
+  Widget _buildDateRemote(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text("date_debut".tr, style: theme.textTheme.titleSmall),
+      Text("Remote Date".tr, style: theme.textTheme.titleSmall),
       SizedBox(height: 11.v),
       EasyDateTimeLine(
         initialDate: DateTime.now(),
@@ -370,113 +239,6 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
   }
 
   /// Section Widget
-  Widget _buildScDebut(BuildContext context) {
-    DropListModel dropListModel = DropListModel([
-      OptionItem(id: "1", title: "matin".tr, data: 'matin'),
-      OptionItem(id: "2", title: "apres_midi".tr, data: 'apres_midi'),
-    ]);
-    OptionItem optionItemSelected = OptionItem(title: "choisi_sc_debut".tr);
-
-    TextEditingController controller = TextEditingController();
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text("sc_debut".tr, style: theme.textTheme.titleSmall),
-          SelectDropList(
-            itemSelected: optionItemSelected,
-            dropListModel: dropListModel,
-            showIcon: false,
-            showArrowIcon: true,
-            showBorder: true,
-            enable: true,
-            paddingTop: 0,
-            paddingDropItem:
-                const EdgeInsets.only(left: 20, top: 10, bottom: 10, right: 20),
-            suffixIcon: Icons.arrow_drop_down,
-            containerPadding: const EdgeInsets.all(10),
-            icon: const Icon(Icons.person, color: Colors.black),
-            onOptionSelected: (optionItem) {
-              optionItemSelected = optionItem;
-              print(optionItemSelected.title);
-              setState(() {
-                optionItemSelected = optionItem;
-                scDebutG = optionItem.title;
-              });
-            },
-          ),
-        ]);
-  }
-
-  Widget _buildDateFin(BuildContext context) {
-    DateTime date;
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text("date_fin".tr, style: theme.textTheme.titleSmall),
-      SizedBox(height: 11.v),
-      EasyDateTimeLine(
-        initialDate: DateTime.now(),
-        onDateChange: (selectedDate) {
-          dateFinG = selectedDate;
-        },
-        headerProps: const EasyHeaderProps(
-          monthPickerType: MonthPickerType.switcher,
-          dateFormatter: DateFormatter.fullDateDMY(),
-        ),
-        dayProps: const EasyDayProps(
-          dayStructure: DayStructure.dayStrDayNum,
-          activeDayStyle: DayStyle(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.red,
-                  Colors.orange,
-                ],
-              ),
-            ),
-          ),
-        ),
-      )
-    ]);
-  }
-
-  Widget _buildScFin(BuildContext context) {
-    DropListModel dropListModel = DropListModel([
-      OptionItem(id: "1", title: "matin".tr, data: 'matin'),
-      OptionItem(id: "2", title: "apres_midi".tr, data: 'apres_midi'),
-    ]);
-    OptionItem optionItemSelected = OptionItem(title: "choisi_sc_fin".tr);
-
-    TextEditingController controller = TextEditingController();
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text("sc_fin".tr, style: theme.textTheme.titleSmall),
-          SelectDropList(
-            itemSelected: optionItemSelected,
-            dropListModel: dropListModel,
-            showIcon: false,
-            showArrowIcon: true,
-            showBorder: false,
-            enable: true,
-            paddingTop: 0,
-            paddingDropItem:
-                const EdgeInsets.only(left: 20, top: 10, bottom: 10, right: 20),
-            suffixIcon: Icons.arrow_drop_down,
-            containerPadding: const EdgeInsets.all(10),
-            icon: const Icon(Icons.person, color: Colors.black),
-            onOptionSelected: (optionItem) {
-              optionItemSelected = optionItem;
-              print(optionItemSelected.title);
-              setState(() {
-                optionItemSelected = optionItem;
-                scFinG = optionItem.title;
-              });
-            },
-          ),
-        ]);
-  }
 
   /// Section Widget
   Widget _buildSave(BuildContext context) {
@@ -495,13 +257,6 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
             onTapSave(context);
 
             // Show the SnackBar
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Save action confirmed"),
-                backgroundColor: Colors.green,
-                duration: Duration(seconds: 2),
-              ),
-            );
           } else {
             // Optionally, show a different SnackBar if the action was canceled
             ScaffoldMessenger.of(context).showSnackBar(
@@ -527,23 +282,16 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int userID = prefs.getInt('userID') ?? 0;
 
-    final AskBloc = context.read<LailyfaFebrinaCardBloc>();
+    final AskBloc = context.read<AddTTBloc>();
 
     print(userID);
-    print(typeG);
-    print(causeG);
-    print(dateDebutG);
-    print(scDebutG);
-    print(dateFinG);
-    print(scFinG);
+
+    print(dateDebutG.toString());
+
     AskBloc.add(AskEvent(
-        id: userID.toString(),
-        type: typeG,
-        cause: causeG,
-        date_debut: dateDebutG.toString(),
-        date_fin: dateFinG.toString(),
-        sc_debut: scDebutG,
-        sc_fin: scFinG));
+      id: userID.toString(),
+      date_debut: dateDebutG.toString(),
+    ));
   }
 
   Future<bool?> _showConfirmationDialog(BuildContext context) async {
@@ -636,23 +384,7 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
   }
 
   bool _validateInputs() {
-    if (causeG.isEmpty) {
-      _showErrorDialog("La cause est obligatoire.");
-      return false;
-    }
-    if (typeG.isEmpty) {
-      _showErrorDialog("Le type de congé est obligatoire.");
-      return false;
-    }
-    if (scDebutG.isEmpty) {
-      _showErrorDialog("Le début du congé est obligatoire.");
-      return false;
-    }
-    if (scFinG.isEmpty) {
-      _showErrorDialog("La fin du congé est obligatoire.");
-      return false;
-    }
-    if (dateDebutG == null || dateFinG == null) {
+    if (dateDebutG == null) {
       _showErrorDialog("Les dates sont obligatoires.");
       return false;
     }
@@ -661,11 +393,7 @@ class _LailyfaFebrinaCardScreenState extends State<LailyfaFebrinaCardScreen> {
           "La date de début ne peut pas être antérieure à aujourd'hui.");
       return false;
     }
-    if (dateFinG.isBefore(dateDebutG)) {
-      _showErrorDialog(
-          "La date de fin ne peut pas être antérieure à la date de début.");
-      return false;
-    }
+
     return true;
   }
 

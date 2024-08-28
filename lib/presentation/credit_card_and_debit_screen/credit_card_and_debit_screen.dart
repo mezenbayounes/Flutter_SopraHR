@@ -94,7 +94,7 @@ class CreditCardAndDebitScreen extends StatelessWidget {
 
   /// Navigates to the lailyfaFebrinaCardScreen when the action is triggered.
   onTapCreditCardItem(BuildContext context) {
-    NavigatorService.pushNamed(AppRoutes.lailyfaFebrinaCardScreen);
+    NavigatorService.pushNamed(AppRoutes.addCongeScreen);
   }
 
   /// Navigates to the previous screen.

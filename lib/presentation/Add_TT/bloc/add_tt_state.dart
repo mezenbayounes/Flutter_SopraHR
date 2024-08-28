@@ -1,10 +1,10 @@
 // ignore_for_file: must_be_immutable
 
-part of 'lailyfa_febrina_card_bloc.dart';
+part of 'add_tt_bloc.dart';
 
-/// Represents the state of LailyfaFebrinaCard in the application.
-class LailyfaFebrinaCardState extends Equatable {
-  LailyfaFebrinaCardState({
+/// Represents the state of AddTT in the application.
+class AddTTState extends Equatable {
+  AddTTState({
     this.cardNumberController,
     this.expirationDateController,
     this.securityCodeController,
@@ -20,7 +20,7 @@ class LailyfaFebrinaCardState extends Equatable {
 
   TextEditingController? cardHolderNameController;
 
-  LailyfaFebrinaCardModel? lailyfaFebrinaCardModelObj;
+  AddTTModel? lailyfaFebrinaCardModelObj;
 
   @override
   List<Object?> get props => [
@@ -30,14 +30,14 @@ class LailyfaFebrinaCardState extends Equatable {
         cardHolderNameController,
         lailyfaFebrinaCardModelObj,
       ];
-  LailyfaFebrinaCardState copyWith({
+  AddTTState copyWith({
     TextEditingController? cardNumberController,
     TextEditingController? expirationDateController,
     TextEditingController? securityCodeController,
     TextEditingController? cardHolderNameController,
-    LailyfaFebrinaCardModel? lailyfaFebrinaCardModelObj,
+    AddTTModel? lailyfaFebrinaCardModelObj,
   }) {
-    return LailyfaFebrinaCardState(
+    return AddTTState(
       cardNumberController: cardNumberController ?? this.cardNumberController,
       expirationDateController:
           expirationDateController ?? this.expirationDateController,

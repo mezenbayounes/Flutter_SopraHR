@@ -237,7 +237,7 @@ class AppNavigationScreen extends StatelessWidget {
                               context,
                               screenTitle: "Lailyfa Febrina Card".tr,
                               onTapScreenTitle: () => onTapScreenTitle(
-                                  AppRoutes.lailyfaFebrinaCardScreen),
+                                  AppRoutes.addCongeScreen),
                             ),
                           ],
                         ),
