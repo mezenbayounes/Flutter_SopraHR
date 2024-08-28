@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sopraflutter/core/app_export.dart';
 import 'package:sopraflutter/presentation/BottomNavBar/BottomNavBar.dart';
 import 'package:sopraflutter/presentation/consulterAdmin/components/news_list_tile.dart';
+import 'package:sopraflutter/presentation/consulterAdmin/components/news_list_tile2.dart';
 import 'package:sopraflutter/presentation/consulterAdmin/models/news_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -18,7 +19,9 @@ class HomeScreenConsluterAdmin extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreenConsluterAdmin> {
-  Future<List<LeaveData>>? futureNewsData;
+  Future<List<LeaveData>>? futureLeaveData;
+  Future<List<RemoteData>>? futureRemoteData;
+
 
   @override
   void initState() {
@@ -31,7 +34,9 @@ class _HomeScreenState extends State<HomeScreenConsluterAdmin> {
     String? token = prefs.getString('token');
     int? userId = prefs.getInt('userID');
     setState(() {
-      futureNewsData = fetchLeaveData(token ?? "", userId ?? 0);
+      futureLeaveData = fetchLeaveData(token ?? "", userId ?? 0);
+     futureRemoteData = fetchRemoteData(token ?? "", userId ?? 0);
+
     });
   }
 
@@ -140,6 +145,65 @@ class _HomeScreenState extends State<HomeScreenConsluterAdmin> {
     }
   }
 
+    static Future<List<RemoteData>> fetchRemoteData(
+      String token, int userId) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/remote/getRemotesByManagerId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: json.encode({'id_manager': userId}),
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> jsonResponse = json.decode(response.body);
+
+      // Print the entire response body
+      print('Response body: ${jsonResponse}');
+
+      for (var item in jsonResponse) {
+        if (item is Map<String, dynamic> && item.containsKey('user_id')) {
+          print('User ID: ${item['user_id']}');
+
+          try {
+            // Fetch the username, image URL, and email for this user ID
+            Map<String, String> userInfo =
+                await fetchUsername(token, item['user_id']);
+            print(
+                'Username for User ID ${item['user_id']}: ${userInfo['username']}');
+            print(
+                'Image URL for User ID ${item['user_id']}: ${userInfo['image_url']}');
+            print('Email for User ID ${item['user_id']}: ${userInfo['email']}');
+
+            // Add the username, image URL, and email to the item
+            item['username'] = userInfo['username'];
+            item['image'] = userInfo['image_url'];
+            item['email'] = userInfo['email'];
+          } catch (e) {
+            print(
+                'Error fetching username, image URL, and email for User ID ${item['user_id']}: $e');
+            // You can decide how to handle this error. For example, set default values or continue.
+          }
+
+          print('Username: ${item['username']}');
+          print('Image URL: ${item['image']}');
+          print('Email: ${item['email']}');
+        } else {
+          print('User ID not found in item: $item');
+        }
+      }
+
+      return jsonResponse.map((data) => RemoteData.fromJson(data)).toList();
+    } else if (response.statusCode == 404) {
+      throw Exception('No employees found for this manager');
+    } else {
+      print('Failed to load leave data. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      throw Exception('Failed to load leave data');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -212,7 +276,7 @@ class _HomeScreenState extends State<HomeScreenConsluterAdmin> {
                   height: 16.0,
                 ),
                 FutureBuilder<List<LeaveData>>(
-                  future: futureNewsData,
+                  future: futureLeaveData,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
@@ -257,19 +321,19 @@ class _HomeScreenState extends State<HomeScreenConsluterAdmin> {
                 const SizedBox(
                   height: 16.0,
                 ),
-                FutureBuilder<List<LeaveData>>(
-                  future: futureNewsData,
+                FutureBuilder<List<RemoteData>>(
+                  future: futureRemoteData,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const Center(child: Text('No news found'));
+                      return const Center(child: Text('No remote request found'));
                     } else {
                       return Column(
                         children: snapshot.data!
-                            .map((leaveData) => NewsListTile(leaveData))
+                            .map((remoteData) => NewsListTile2(remoteData))
                             .toList(),
                       );
                     }
