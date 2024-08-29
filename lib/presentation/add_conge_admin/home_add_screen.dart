@@ -64,13 +64,12 @@ class homeAddContent extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
 
     double buttonWidth = screenWidth * 0.6;
-    double buttonHeight = screenHeight * 0.23;
+    double buttonHeight = screenHeight * 0.16;
     double fontSize = screenWidth * 0.05;
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: 140),
+        SizedBox(height: 90),
         Center(
           child: Column(
             children: [
@@ -91,8 +90,7 @@ class homeAddContent extends StatelessWidget {
                 ),
                 child: ElevatedButton(
                   onPressed: () {
-                    NavigatorService.pushNamed(
-                        AppRoutes.addCongeScreen);
+                    NavigatorService.pushNamed(AppRoutes.addCongeScreen);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(0, 182, 181,
@@ -108,6 +106,41 @@ class homeAddContent extends StatelessWidget {
               SizedBox(height: 10),
               Text(
                 "demande_de_conge".tr,
+                style:
+                    theme.textTheme.titleMedium?.copyWith(fontSize: fontSize),
+              ),
+              SizedBox(height: 60),
+              Container(
+                width: buttonWidth,
+                height: buttonHeight,
+                decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color:
+                          Color.fromARGB(255, 193, 192, 192).withOpacity(0.6),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: ElevatedButton(
+                  onPressed: () {
+                    NavigatorService.pushNamed(
+                        AppRoutes.homeScreenConsulterRequestAdmin);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
+                    padding: EdgeInsets.zero,
+                  ),
+                  child: Image.asset('assets/images/myRequests.png'),
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                "My Requestes".tr,
                 style:
                     theme.textTheme.titleMedium?.copyWith(fontSize: fontSize),
               ),

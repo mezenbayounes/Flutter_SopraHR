@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sopraflutter/core/app_export.dart';
 import 'package:sopraflutter/core/constants/constants.dart';
-import 'package:sopraflutter/presentation/consulterAdmin/models/news_model.dart';
+import 'package:sopraflutter/presentation/consulterRequestEmployee/models/news_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:pretty_animated_buttons/pretty_animated_buttons.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -58,8 +58,8 @@ class _DetailsScreenState extends State<DetailsScreen_remote> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     String imageEtat = "";
-    bool _isAcceptVisible = true;
-    bool _isRefuseVisible = true;
+    bool _isAcceptVisible = false;
+    bool _isRefuseVisible = false;
 
     // Determine the image based on the state
     if (widget.data.etat == "EC") {
@@ -194,15 +194,11 @@ class _DetailsScreenState extends State<DetailsScreen_remote> {
                             // Remove onDaySelected to prevent changing the selected date
                             onDaySelected: null,
                             calendarStyle: CalendarStyle(
-                              todayDecoration: BoxDecoration(
-                                color: Colors.orangeAccent,
-                                shape: BoxShape.circle,
-                              ),
                               selectedDecoration: BoxDecoration(
                                 color: Colors.red,
                                 shape: BoxShape.circle,
                               ),
-                              outsideDaysVisible: false,
+                              outsideDaysVisible: true,
                             ),
                             headerStyle: HeaderStyle(
                               formatButtonVisible:
@@ -223,86 +219,6 @@ class _DetailsScreenState extends State<DetailsScreen_remote> {
                         if (!_showShadow) SizedBox(height: 50.0),
                       ],
                     ),
-                  ),
-                ),
-              ),
-              Center(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.only(bottom: 20.0, top: 5, left: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (_isAcceptVisible)
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: PrettyCapsuleButton(
-                              bgColor: Color.fromARGB(255, 99, 181, 93),
-                              label: 'confirme'.tr,
-                              labelStyle: const TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w900,
-                              ),
-                              onPressed: () async {
-                                bool? shouldValidate =
-                                    await _showConfirmationDialog(context);
-                                if (shouldValidate == true) {
-                                  bool success = await ValidateRemote(
-                                      widget.data.id, widget.data.userId);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(success
-                                          ? 'Validation successful!'
-                                          : 'Validation failed!'),
-                                      backgroundColor:
-                                          success ? Colors.green : Colors.red,
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
-                          ),
-                        ),
-                      SizedBox(width: 10),
-                      if (_isRefuseVisible)
-                        Expanded(
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: PrettyCapsuleButton(
-                              bgColor: Color.fromARGB(255, 212, 96, 67),
-                              label: 'refuse'.tr,
-                              labelStyle: const TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w900,
-                              ),
-                              onPressed: () async {
-                                bool? shouldRefuse =
-                                    await _showRefusalConfirmationDialog(
-                                        context);
-                                if (shouldRefuse == true) {
-                                  try {
-                                    await Refuse(widget.data.id);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text('Refusal successful!'),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
-                                  } catch (e) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text('Refusal failed!'),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
-                                  }
-                                }
-                              },
-                            ),
-                          ),
-                        ),
-                    ],
                   ),
                 ),
               ),

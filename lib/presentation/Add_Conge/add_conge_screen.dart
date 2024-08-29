@@ -18,15 +18,14 @@ class AddCongeScreen extends StatefulWidget {
 
   static Widget builder(BuildContext context) {
     return BlocProvider<AddCongeBloc>(
-        create: (context) => AddCongeBloc(AddCongeState(
-            lailyfaFebrinaCardModelObj: AddCongeModel()))
+        create: (context) => AddCongeBloc(
+            AddCongeState(lailyfaFebrinaCardModelObj: AddCongeModel()))
           ..add(AddCongeInitialEvent()),
         child: AddCongeScreen());
   }
 
   @override
-  State<AddCongeScreen> createState() =>
-      _AddCongeScreenState();
+  State<AddCongeScreen> createState() => _AddCongeScreenState();
 }
 
 class _AddCongeScreenState extends State<AddCongeScreen> {
@@ -87,7 +86,7 @@ class _AddCongeScreenState extends State<AddCongeScreen> {
                     padding: EdgeInsets.only(
                       left: 15.h,
                       right: 15.h,
-                      bottom: 5.v,
+                      bottom: 20.v,
                       top: 15.v,
                     ),
                     child: Container(
@@ -307,8 +306,8 @@ class _AddCongeScreenState extends State<AddCongeScreen> {
         SizedBox(height: 11.v),
         Padding(
           padding: EdgeInsets.only(left: 2.h),
-          child: BlocSelector<AddCongeBloc, AddCongeState,
-              TextEditingController?>(
+          child:
+              BlocSelector<AddCongeBloc, AddCongeState, TextEditingController?>(
             selector: (state) => state.expirationDateController,
             builder: (context, expirationDateController) {
               return TextFormField(

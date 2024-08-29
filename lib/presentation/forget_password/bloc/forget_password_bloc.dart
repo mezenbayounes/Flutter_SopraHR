@@ -31,7 +31,7 @@ class ForgetPasswordBloc
 
     try {
       final response = await http.post(
-        Uri.parse('http://10.0.2.2:3000/auth/SendOTP'),
+        Uri.parse('$baseUrl/auth/SendOTP'),
         body: {'email': event.email},
       );
 

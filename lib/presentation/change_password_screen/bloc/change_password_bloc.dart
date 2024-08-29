@@ -37,7 +37,7 @@ class ChangePasswordBloc
   ) async {
     try {
       final response = await http.put(
-        Uri.parse('http://10.0.2.2:3000/auth/ChangeForgotPassword'),
+        Uri.parse('$baseUrl/auth/ChangeForgotPassword'),
         body: {
           'email': event.email,
           'inputOtp': event.otp,

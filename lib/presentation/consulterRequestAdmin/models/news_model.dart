@@ -45,36 +45,3 @@ class LeaveData {
     );
   }
 }
-
-class RemoteData {
-  int id;
-  int userId;
-  DateTime remoteDate;
-  String etat;
-  String username;
-  String image;
-  String email;
-
-  RemoteData({
-    required this.id,
-    required this.userId,
-    required this.remoteDate,
-    required this.etat,
-    required this.username,
-    required this.image,
-    required this.email,
-  });
-
-  // Factory method to create a LeaveData instance from JSON
-  factory RemoteData.fromJson(Map<String, dynamic> json) {
-    return RemoteData(
-      id: json['id'],
-      userId: json['user_id'],
-      remoteDate: DateTime.parse(json['date_remote']),
-      etat: json['etat'],
-      username: json['username'],
-      image: json['image'],
-      email: json['email'],
-    );
-  }
-}
