@@ -3,6 +3,7 @@ class LeaveData {
   int userId;
   String cause;
   DateTime dateDebut;
+  DateTime created_at;
   String scDebut;
   DateTime dateFin;
   String scFin;
@@ -16,6 +17,7 @@ class LeaveData {
     required this.id,
     required this.userId,
     required this.cause,
+    required this.created_at,
     required this.dateDebut,
     required this.scDebut,
     required this.dateFin,
@@ -33,6 +35,7 @@ class LeaveData {
       id: json['id'],
       userId: json['user_id'],
       cause: json['cause'],
+      created_at: DateTime.parse(json['created_at']),
       dateDebut: DateTime.parse(json['date_debut']),
       scDebut: json['sc_debut'],
       dateFin: DateTime.parse(json['date_fin']),
@@ -50,6 +53,7 @@ class RemoteData {
   int id;
   int userId;
   DateTime remoteDate;
+  DateTime created_at;
   String etat;
   String username;
   String image;
@@ -59,6 +63,7 @@ class RemoteData {
     required this.id,
     required this.userId,
     required this.remoteDate,
+    required this.created_at,
     required this.etat,
     required this.username,
     required this.image,
@@ -71,6 +76,7 @@ class RemoteData {
       id: json['id'],
       userId: json['user_id'],
       remoteDate: DateTime.parse(json['date_remote']),
+      created_at: DateTime.parse(json['created_at']),
       etat: json['etat'],
       username: json['username'],
       image: json['image'],

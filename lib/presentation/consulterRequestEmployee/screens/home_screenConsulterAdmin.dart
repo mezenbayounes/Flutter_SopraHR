@@ -34,8 +34,8 @@ class _HomeScreenState extends State<HomeScreenConsulterRequestEmployee> {
     String? token = prefs.getString('token');
     int? userId = prefs.getInt('userID');
     setState(() {
-      futureLeaveData = fetchLeaveData(token ?? "", userId ?? 0);
-      futureRemoteData = fetchRemoteData(token ?? "", userId ?? 0);
+      futureLeaveData = fetchLeaveData(token ?? "", userId ?? 0, context);
+      futureRemoteData = fetchRemoteData(token ?? "", userId ?? 0, context);
     });
   }
 
@@ -86,118 +86,273 @@ class _HomeScreenState extends State<HomeScreenConsulterRequestEmployee> {
   }
 
   static Future<List<LeaveData>> fetchLeaveData(
-      String token, int userId) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/conge/getCongesByUserId'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-      body: json.encode({'user_id': userId}),
-    );
+      String token, int userId, BuildContext context) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/conge/getCongesByUserId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: json.encode({'user_id': userId}),
+      );
 
-    if (response.statusCode == 200) {
-      List<dynamic> jsonResponse = json.decode(response.body);
+      if (response.statusCode == 200) {
+        List<dynamic> jsonResponse = json.decode(response.body);
 
-      // Print the entire response body
-      print('Response body: ${jsonResponse}');
+        // Print the entire response body
+        print('Response body: ${jsonResponse}');
 
-      for (var item in jsonResponse) {
-        if (item is Map<String, dynamic> && item.containsKey('user_id')) {
-          print('User ID: ${item['user_id']}');
-
-          try {
-            // Fetch the username, image URL, and email for this user ID
-            Map<String, String> userInfo =
-                await fetchUsername(token, item['user_id']);
-            print(
-                'Username for User ID ${item['user_id']}: ${userInfo['username']}');
-            print(
-                'Image URL for User ID ${item['user_id']}: ${userInfo['image_url']}');
-            print('Email for User ID ${item['user_id']}: ${userInfo['email']}');
-
-            // Add the username, image URL, and email to the item
-            item['username'] = userInfo['username'];
-            item['image'] = userInfo['image_url'];
-            item['email'] = userInfo['email'];
-          } catch (e) {
-            print(
-                'Error fetching username, image URL, and email for User ID ${item['user_id']}: $e');
-            // You can decide how to handle this error. For example, set default values or continue.
-          }
-
-          print('Username: ${item['username']}');
-          print('Image URL: ${item['image']}');
-          print('Email: ${item['email']}');
-        } else {
-          print('User ID not found in item: $item');
+        if (jsonResponse.isEmpty) {
+          // Show a dialog if there is no leave data
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('No Leave Requests'),
+                content: Text('There is no leave request'),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Dismiss the dialog
+                    },
+                    child: Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+          return []; // Return an empty list
         }
-      }
 
-      return jsonResponse.map((data) => LeaveData.fromJson(data)).toList();
-    } else {
-      print('Failed to load leave data. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      throw Exception('Failed to load leave data');
+        for (var item in jsonResponse) {
+          if (item is Map<String, dynamic> && item.containsKey('user_id')) {
+            print('User ID: ${item['user_id']}');
+
+            try {
+              // Fetch the username, image URL, and email for this user ID
+              Map<String, String> userInfo =
+                  await fetchUsername(token, item['user_id']);
+              print(
+                  'Username for User ID ${item['user_id']}: ${userInfo['username']}');
+              print(
+                  'Image URL for User ID ${item['user_id']}: ${userInfo['image_url']}');
+              print(
+                  'Email for User ID ${item['user_id']}: ${userInfo['email']}');
+
+              // Add the username, image URL, and email to the item
+              item['username'] = userInfo['username'];
+              item['image'] = userInfo['image_url'];
+              item['email'] = userInfo['email'];
+            } catch (e) {
+              // Show a dialog if fetching user info fails
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Error'),
+                    content: Text(
+                        'Error fetching user info for User ID ${item['user_id']}'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(); // Dismiss the dialog
+                        },
+                        child: Text('OK'),
+                      ),
+                    ],
+                  );
+                },
+              );
+              // Continue processing or handle the error differently
+            }
+
+            print('Username: ${item['username']}');
+            print('Image URL: ${item['image']}');
+            print('Email: ${item['email']}');
+          } else {
+            print('User ID not found in item: $item');
+          }
+        }
+
+        return jsonResponse.map((data) => LeaveData.fromJson(data)).toList();
+      } else {
+        // Show a dialog if the status code indicates an error
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text('There is no leave request'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Dismiss the dialog
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+        return []; // Return an empty list
+      }
+    } catch (e) {
+      // Show a dialog if an unexpected error occurs
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('An unexpected error occurred'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Dismiss the dialog
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return []; // Return an empty list
     }
   }
 
   static Future<List<RemoteData>> fetchRemoteData(
-      String token, int userId) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/remote/getRemotesByUserId'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-      body: json.encode({'user_id': userId}),
-    );
+      String token, int userId, BuildContext context) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/remote/getRemotesByUserId'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: json.encode({'user_id': userId}),
+      );
 
-    if (response.statusCode == 200) {
-      List<dynamic> jsonResponse = json.decode(response.body);
+      if (response.statusCode == 200) {
+        List<dynamic> jsonResponse = json.decode(response.body);
 
-      // Print the entire response body
-      print('Response body: ${jsonResponse}');
+        // Print the entire response body
+        print('Response body: ${jsonResponse}');
 
-      for (var item in jsonResponse) {
-        if (item is Map<String, dynamic> && item.containsKey('user_id')) {
-          print('User ID: ${item['user_id']}');
+        for (var item in jsonResponse) {
+          if (item is Map<String, dynamic> && item.containsKey('user_id')) {
+            print('User ID: ${item['user_id']}');
 
-          try {
-            // Fetch the username, image URL, and email for this user ID
-            Map<String, String> userInfo =
-                await fetchUsername(token, item['user_id']);
-            print(
-                'Username for User ID ${item['user_id']}: ${userInfo['username']}');
-            print(
-                'Image URL for User ID ${item['user_id']}: ${userInfo['image_url']}');
-            print('Email for User ID ${item['user_id']}: ${userInfo['email']}');
+            try {
+              // Fetch the username, image URL, and email for this user ID
+              Map<String, String> userInfo =
+                  await fetchUsername(token, item['user_id']);
+              print(
+                  'Username for User ID ${item['user_id']}: ${userInfo['username']}');
+              print(
+                  'Image URL for User ID ${item['user_id']}: ${userInfo['image_url']}');
+              print(
+                  'Email for User ID ${item['user_id']}: ${userInfo['email']}');
 
-            // Add the username, image URL, and email to the item
-            item['username'] = userInfo['username'];
-            item['image'] = userInfo['image_url'];
-            item['email'] = userInfo['email'];
-          } catch (e) {
-            print(
-                'Error fetching username, image URL, and email for User ID ${item['user_id']}: $e');
-            // You can decide how to handle this error. For example, set default values or continue.
+              // Add the username, image URL, and email to the item
+              item['username'] = userInfo['username'];
+              item['image'] = userInfo['image_url'];
+              item['email'] = userInfo['email'];
+            } catch (e) {
+              print(
+                  'Error fetching username, image URL, and email for User ID ${item['user_id']}: $e');
+              // Show an error dialog for fetching user info
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Error'),
+                    content: Text(
+                        'Error fetching user info for User ID ${item['user_id']}'),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(); // Dismiss the dialog
+                        },
+                        child: Text('OK'),
+                      ),
+                    ],
+                  );
+                },
+              );
+              // Continue processing or handle the error differently
+            }
+
+            print('Username: ${item['username']}');
+            print('Image URL: ${item['image']}');
+            print('Email: ${item['email']}');
+          } else {
+            print('User ID not found in item: $item');
           }
-
-          print('Username: ${item['username']}');
-          print('Image URL: ${item['image']}');
-          print('Email: ${item['email']}');
-        } else {
-          print('User ID not found in item: $item');
         }
-      }
 
-      return jsonResponse.map((data) => RemoteData.fromJson(data)).toList();
-    } else if (response.statusCode == 404) {
-      throw Exception('No employees found for this manager');
-    } else {
-      print('Failed to load leave data. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
-      throw Exception('Failed to load leave data');
+        return jsonResponse.map((data) => RemoteData.fromJson(data)).toList();
+      } else if (response.statusCode == 404) {
+        // Show a dialog if no employees are found
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Not Found'),
+              content: Text('There is no Remote request'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Dismiss the dialog
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+        return []; // Return an empty list
+      } else {
+        // Show a dialog for other errors
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text(
+                  'Failed to load remote data. Status code: ${response.statusCode}'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Dismiss the dialog
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+        return []; // Return an empty list
+      }
+    } catch (e) {
+      // Show a dialog if an unexpected error occurs
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('An unexpected error occurred: $e'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Dismiss the dialog
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return []; // Return an empty list
     }
   }
 
@@ -282,7 +437,7 @@ class _HomeScreenState extends State<HomeScreenConsulterRequestEmployee> {
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const Center(child: Text('No news found'));
+                      return const Center(child: Text('No Request found'));
                     } else {
                       return Column(
                         children: snapshot.data!

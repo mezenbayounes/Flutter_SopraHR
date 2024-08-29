@@ -104,6 +104,22 @@ class _NewsListTileState extends State<NewsListTile2> {
             ),
           ),
           Positioned(
+            top: 10,
+            right: 10,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  DateFormat('dd/MM/yyyy').format(widget.data.created_at),
+                  style: const TextStyle(
+                    fontSize: 12.0,
+                    color: Colors.black54,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
             bottom: 40,
             right: 10,
             child: SizedBox(
