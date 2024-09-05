@@ -189,13 +189,16 @@ class _DetailsScreenState extends State<DetailsScreen_remote> {
                             lastDay: DateTime(2100),
                             // Keep the calendar fixed on the remote date
                             selectedDayPredicate: (day) {
-                              return isSameDay(day, widget.data.remoteDate);
+                              return isSameDay(
+                                  day,
+                                  widget.data.remoteDate
+                                      .add(const Duration(days: 1)));
                             },
                             // Remove onDaySelected to prevent changing the selected date
                             onDaySelected: null,
                             calendarStyle: CalendarStyle(
                               selectedDecoration: BoxDecoration(
-                                color: Colors.red,
+                                color: Colors.orange[600],
                                 shape: BoxShape.circle,
                               ),
                               outsideDaysVisible: true,

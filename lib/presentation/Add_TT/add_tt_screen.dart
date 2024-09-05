@@ -28,7 +28,7 @@ class AddTTScreen extends StatefulWidget {
 }
 
 class _AddTTScreenState extends State<AddTTScreen> {
-  late DateTime dateDebutG;
+  late DateTime dateDebutG = DateTime.now(); // Initialize with today's date
   @override
   void dispose() {
     super.dispose();
@@ -384,13 +384,14 @@ class _AddTTScreenState extends State<AddTTScreen> {
   }
 
   bool _validateInputs() {
+    DateTime today = DateTime.now();
+    DateTime startOfToday = DateTime(today.year, today.month, today.day);
     if (dateDebutG == null) {
-      _showErrorDialog("Les dates sont obligatoires.");
+      _showErrorDialog(" dates are requires.");
       return false;
     }
-    if (dateDebutG.isBefore(DateTime.now())) {
-      _showErrorDialog(
-          "La date de début ne peut pas être antérieure à aujourd'hui.");
+    if (dateDebutG.isBefore(startOfToday)) {
+      _showErrorDialog("The date cannot be earlier than today.");
       return false;
     }
 

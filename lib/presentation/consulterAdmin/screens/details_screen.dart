@@ -177,8 +177,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         buildRow(
                           context,
                           "date_debut".tr,
-                          DateFormat('dd/MM/yyyy')
-                              .format(widget.data.dateDebut),
+                          DateFormat('dd/MM/yyyy').format(widget.data.dateDebut
+                              .add(const Duration(days: 1))),
                         ),
                         SizedBox(height: 15.0),
                         Divider(
@@ -198,7 +198,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         buildRow(
                           context,
                           "date_fin".tr,
-                          DateFormat('dd/MM/yyyy').format(widget.data.dateFin),
+                          DateFormat('dd/MM/yyyy').format(
+                              widget.data.dateFin.add(const Duration(days: 1))),
                         ),
                         SizedBox(height: 15.0),
                         Divider(

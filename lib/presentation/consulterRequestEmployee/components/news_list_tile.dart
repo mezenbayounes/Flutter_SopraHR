@@ -91,7 +91,10 @@ class _NewsListTileState extends State<NewsListTile> {
                       ),
                       const SizedBox(height: 8.0),
                       Text(
-                        DateFormat('dd/MM/yyyy').format(widget.data.dateDebut),
+                        DateFormat('dd/MM/yyyy').format(
+                          widget.data.dateDebut
+                              .add(const Duration(days: 1)), // Add 1 day
+                        ),
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(color: Colors.black54),
                       ),
