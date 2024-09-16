@@ -8,6 +8,7 @@ import 'package:sopraflutter/presentation/consulterAdmin/screens/home_screenCons
 import 'package:sopraflutter/presentation/consulterRequestAdmin/screens/home_screenConsulterAdmin.dart';
 import 'package:sopraflutter/presentation/consulterRequestEmployee/screens/home_screenConsulterAdmin.dart';
 import 'package:sopraflutter/presentation/forget_password/forget_password_screen.dart';
+import 'package:sopraflutter/presentation/notification_page/screens/notification_screen_page.dart';
 import 'package:sopraflutter/presentation/splash_screen/splash_screen.dart';
 import 'package:sopraflutter/presentation/login_screen/login_screen.dart';
 import 'package:sopraflutter/presentation/register_screen/register_screen.dart';
@@ -56,6 +57,7 @@ class AppRoutes {
        static const String homeScreenConsulterRequestAdmin =
       '/homeScreenConsulterRequestAdmin';
 
+  static const String notificationScreenPage = '/notificationScreenPage';
 
   static const String settingsPage = '/Settings_Page';
 
@@ -158,6 +160,8 @@ class AppRoutes {
 homeScreenConsulterRequestAdmin:
             HomeScreenConsulterRequestAdmin.builder,
             
+                    notificationScreenPage: NotificationScreenPage.builder,
+
         homeScreenNews: HomeScreen.builder,
         settingsPage: SettingsPage.builder,
         registerScreen: RegisterScreen.builder,

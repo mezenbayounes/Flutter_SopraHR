@@ -67,7 +67,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ],
             ),
-            bottomNavigationBar: Container(child: BottomNavBarV2(index: 3)),
+            bottomNavigationBar: Container(child: BottomNavBarV2(index: 4)),
           ),
         );
       },

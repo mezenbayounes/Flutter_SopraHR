@@ -86,35 +86,6 @@ class _SettingsPageState extends State<SettingsPage> {
                             const Padding(
                               padding: EdgeInsets.all(22.0),
                               child: Text(
-                                'Dark mode',
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  color: Color.fromARGB(255, 118, 115, 115),
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              fit: FlexFit.loose,
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      iconBool = !iconBool;
-                                    });
-                                  },
-                                  icon: Icon(iconBool ? _iconDark : _iconLight),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.all(22.0),
-                              child: Text(
                                 'Version',
                                 style: TextStyle(
                                   fontSize: 17,
@@ -131,9 +102,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                   child: Text(
                                     '1.0.1',
                                     style: TextStyle(
-                                      fontSize: 17,
-                                      color: Color.fromARGB(255, 118, 115, 115),
-                                    ),
+                                        fontSize: 17,
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
