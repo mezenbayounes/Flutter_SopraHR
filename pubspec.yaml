@@ -32,6 +32,7 @@ dependencies:
   loading_btn: ^1.0.3
   pretty_animated_buttons: ^0.0.2
   table_calendar: ^3.1.2
+  socket_io_client: ^2.0.3+1
 
 
 dev_dependencies: 

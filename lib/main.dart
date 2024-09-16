@@ -13,6 +13,7 @@ void main() {
     ]),
     PrefUtils().init()
   ]).then((value) {
+      WidgetsFlutterBinding.ensureInitialized(); // Ensures that binding is ready before using services
     runApp(MyApp());
   });
 }

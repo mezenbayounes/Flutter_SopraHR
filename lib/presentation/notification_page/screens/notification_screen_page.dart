@@ -39,59 +39,17 @@ class _HomeScreenState extends State<NotificationScreenPage> {
 // Function to fetch the username by user ID*
 
   // Function to fetch the username by user ID
-  static Future<Map<String, String>> fetchUsername(
-      String token, int userId) async {
-    try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/user/GetUserByID'),
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: json.encode({'id': userId}),
-      );
-
-      if (response.statusCode == 200) {
-        final userData = json.decode(response.body);
-
-        // Extract the username, image_url, and email from the nested 'user' object
-        final username = userData['user']?['username'];
-        final imageUrl = userData['user']?['image_url'];
-        final email = userData['user']?['email'];
-
-        if (username != null && imageUrl != null && email != null) {
-          return {
-            'username': username,
-            'image_url': imageUrl,
-            'email': email,
-          };
-        } else {
-          throw Exception(
-              'Username, image URL, or email not found in user data');
-        }
-      } else {
-        final errorMessage =
-            'Failed to load user data. Status code: ${response.statusCode}, Response: ${response.body}';
-        print(errorMessage);
-        throw Exception(errorMessage);
-      }
-    } catch (e) {
-      print('Error fetching username, image URL, and email: $e');
-      throw Exception(
-          'Error fetching username, image URL, and email for User ID $userId');
-    }
-  }
 
   static Future<List<LeaveData>> fetchLeaveData(
       String token, int userId, BuildContext context) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/conge/getCongesByManagerId'),
+        Uri.parse('$baseUrl/notification/getNotificationByUserId'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: json.encode({'id_manager': userId}),
+        body: json.encode({'user_id': userId}),
       );
 
       if (response.statusCode == 200) {
@@ -106,8 +64,8 @@ class _HomeScreenState extends State<NotificationScreenPage> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('No Leave Requests'),
-                content: Text('There is no leave request'),
+                title: Text('No notification'),
+                content: Text('There is no notification'),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
@@ -125,48 +83,6 @@ class _HomeScreenState extends State<NotificationScreenPage> {
         for (var item in jsonResponse) {
           if (item is Map<String, dynamic> && item.containsKey('user_id')) {
             print('User ID: ${item['user_id']}');
-
-            try {
-              // Fetch the username, image URL, and email for this user ID
-              Map<String, String> userInfo =
-                  await fetchUsername(token, item['user_id']);
-              print(
-                  'Username for User ID ${item['user_id']}: ${userInfo['username']}');
-              print(
-                  'Image URL for User ID ${item['user_id']}: ${userInfo['image_url']}');
-              print(
-                  'Email for User ID ${item['user_id']}: ${userInfo['email']}');
-
-              // Add the username, image URL, and email to the item
-              item['username'] = userInfo['username'];
-              item['image'] = userInfo['image_url'];
-              item['email'] = userInfo['email'];
-            } catch (e) {
-              // Show a dialog if fetching user info fails
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Error'),
-                    content: Text(
-                        'Error fetching user info for User ID ${item['user_id']}'),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop(); // Dismiss the dialog
-                        },
-                        child: Text('OK'),
-                      ),
-                    ],
-                  );
-                },
-              );
-              // Continue processing or handle the error differently
-            }
-
-            print('Username: ${item['username']}');
-            print('Image URL: ${item['image']}');
-            print('Email: ${item['email']}');
           } else {
             print('User ID not found in item: $item');
           }
@@ -180,7 +96,7 @@ class _HomeScreenState extends State<NotificationScreenPage> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text('Error'),
-              content: Text('There is no leave request'),
+              content: Text('There is no notification'),
               actions: <Widget>[
                 TextButton(
                   onPressed: () {

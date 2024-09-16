@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sopraflutter/core/constants/constants.dart';
-import 'package:sopraflutter/presentation/notification_page/screens/details_screen.dart';
 import 'package:sopraflutter/presentation/notification_page/models/news_model.dart';
 
 import 'package:intl/intl.dart';
@@ -25,14 +24,7 @@ class _NewsListTileState extends State<NewsListTile> {
     Color colorWidget = Color.fromARGB(255, 255, 255, 255);
 
     return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetailsScreen(widget.data),
-          ),
-        );
-      },
+      onTap: () {},
       child: Stack(
         children: [
           Container(
@@ -55,7 +47,7 @@ class _NewsListTileState extends State<NewsListTile> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(150.0),
                         image: DecorationImage(
-                          image: NetworkImage('$baseUrl/${widget.data.image}'),
+                          image: NetworkImage('$baseUrl/assets/EC.png'),
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -69,23 +61,17 @@ class _NewsListTileState extends State<NewsListTile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.data.username ?? "",
+                        widget.data.type ?? "",
                         style: theme.textTheme.titleMedium,
                       ),
                       const SizedBox(height: 13.0),
                       Text(
-                        widget.data.typeConge ?? "",
+                        widget.data.content ?? "",
                         style: const TextStyle(
                           color: Colors.black54,
                         ),
                       ),
                       const SizedBox(height: 8.0),
-                      Text(
-                        DateFormat('dd/MM/yyyy').format(
-                            widget.data.dateDebut.add(const Duration(days: 1))),
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: Colors.black54),
-                      ),
                     ],
                   ),
                 ),

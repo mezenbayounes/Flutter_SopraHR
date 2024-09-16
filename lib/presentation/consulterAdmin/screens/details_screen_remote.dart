@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sopraflutter/core/app_export.dart';
-import 'package:sopraflutter/core/constants/constants.dart';
+import 'package:sopraflutter/core/constants/socket_service.dart';
+
 import 'package:sopraflutter/presentation/consulterAdmin/models/news_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:pretty_animated_buttons/pretty_animated_buttons.dart';
@@ -21,12 +22,17 @@ class DetailsScreen_remote extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen_remote> {
+  final SocketService _socketService =
+      SocketService(); // Initialize the socket service
+
   late ScrollController _scrollController;
   bool _showShadow = true;
 
   @override
   void initState() {
     super.initState();
+    _socketService.initSocket(); // Initialize the socket connection
+
     _scrollController = ScrollController()
       ..addListener(() {
         if (_scrollController.position.atEdge) {
@@ -50,6 +56,8 @@ class _DetailsScreenState extends State<DetailsScreen_remote> {
 
   @override
   void dispose() {
+    _socketService.dispose(); // Dispose of the socket connection
+
     _scrollController.dispose();
     super.dispose();
   }
@@ -249,6 +257,10 @@ class _DetailsScreenState extends State<DetailsScreen_remote> {
                                 if (shouldValidate == true) {
                                   bool success = await ValidateRemote(
                                       widget.data.id, widget.data.userId);
+                                  _socketService.sendMessage(
+                                      'notification',
+                                      'This is a test message validation',
+                                      widget.data.userId);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(success
