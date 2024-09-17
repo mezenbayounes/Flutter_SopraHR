@@ -5,6 +5,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
+import 'package:sopraflutter/core/constants/socket_service.dart';
+import 'package:sopraflutter/main.dart';
 import '/core/app_export.dart';
 import 'package:sopraflutter/presentation/login_screen/models/login_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +15,10 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
+  final SocketService _socketService = SocketService(
+      flutterLocalNotificationsPlugin:
+          flutterLocalNotificationsPlugin); // Initialize the socket service
+
   LoginBloc(LoginState initialState) : super(initialState) {
     on<LoginInitialEvent>(_onInitialize);
     on<LoginSubmitEvent>(_onLoginSubmit);
@@ -24,6 +30,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(state.copyWith(
         emailController: TextEditingController(),
         passwordController: TextEditingController()));
+    _socketService.initSocket(); // Initialize the socket connection
+    _socketService.dispose(); // Dispose of the socket connection
   }
 
   Future<void> _onLoginSubmit(
@@ -47,6 +55,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
         await prefs.setInt('userID', userID);
+        _socketService.sendUserID(userID);
 
         emit(state.copyWith(isLoading: false));
         NavigatorService.pushNamedAndRemoveUntil(

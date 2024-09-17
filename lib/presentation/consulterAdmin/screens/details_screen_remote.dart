@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sopraflutter/core/app_export.dart';
 import 'package:sopraflutter/core/constants/socket_service.dart';
+import 'package:sopraflutter/main.dart';
 
 import 'package:sopraflutter/presentation/consulterAdmin/models/news_model.dart';
 import 'package:http/http.dart' as http;
@@ -16,14 +18,15 @@ import 'package:intl/intl.dart'; // For date formatting if needed
 class DetailsScreen_remote extends StatefulWidget {
   DetailsScreen_remote(this.data, {Key? key}) : super(key: key);
   final RemoteData data;
-
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
   @override
   State<DetailsScreen_remote> createState() => _DetailsScreenState();
 }
 
 class _DetailsScreenState extends State<DetailsScreen_remote> {
   final SocketService _socketService =
-      SocketService(); // Initialize the socket service
+      SocketService(flutterLocalNotificationsPlugin: flutterLocalNotificationsPlugin); // Initialize the socket service
 
   late ScrollController _scrollController;
   bool _showShadow = true;
@@ -60,6 +63,7 @@ class _DetailsScreenState extends State<DetailsScreen_remote> {
 
     _scrollController.dispose();
     super.dispose();
+    
   }
 
   @override

@@ -2,9 +2,12 @@ import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sopraflutter/core/app_export.dart';
+import 'package:sopraflutter/core/constants/socket_service.dart';
 import 'package:sopraflutter/localization/app_localization.dart';
+import 'package:sopraflutter/main.dart';
 import 'package:sopraflutter/presentation/BottomNavBar/BottomNavBar.dart';
 import 'package:sopraflutter/presentation/News_page/components/breaking_news_card.dart';
 import 'package:sopraflutter/presentation/News_page/components/news_list_tile.dart';
@@ -14,14 +17,32 @@ import 'package:sopraflutter/theme/theme_helper.dart';
 import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+   HomeScreen({Key? key}) : super(key: key);
   static WidgetBuilder get builder => (BuildContext context) => HomeScreen();
+
+final SocketService socketService = SocketService(
+    flutterLocalNotificationsPlugin:
+        flutterLocalNotificationsPlugin);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    socketService.initSocket(); // Initialize the socket connection
+
+   
+  }
+
+  @override
+  void dispose() {
+    socketService.dispose(); // Dispose of the socket connection
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
