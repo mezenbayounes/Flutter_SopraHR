@@ -17,25 +17,30 @@ import 'package:sopraflutter/theme/theme_helper.dart';
 import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
-   HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
   static WidgetBuilder get builder => (BuildContext context) => HomeScreen();
 
-final SocketService socketService = SocketService(
-    flutterLocalNotificationsPlugin:
-        flutterLocalNotificationsPlugin);
+  final SocketService socketService = SocketService(
+      flutterLocalNotificationsPlugin: flutterLocalNotificationsPlugin);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-
 class _HomeScreenState extends State<HomeScreen> {
+  int? userId = 0;
   @override
   void initState() {
     super.initState();
-    socketService.initSocket(); // Initialize the socket connection
+    _loadData();
+    socketService.initSocket();
 
-   
+// Initialize the socket connection
+  }
+
+  Future<void> _loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userId = prefs.getInt('userID');
   }
 
   @override
@@ -43,6 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
     socketService.dispose(); // Dispose of the socket connection
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

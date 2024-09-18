@@ -16,13 +16,12 @@ final SocketService socketService = SocketService(
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Initialize the socket
-  
+
   await Future.wait([
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]),
     PrefUtils().init()
-    
   ]);
 
   // Initialize local notifications

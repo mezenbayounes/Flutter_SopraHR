@@ -78,4 +78,6 @@ class SocketService {
   void dispose() {
     socket.disconnect();
   }
+
+  
 }

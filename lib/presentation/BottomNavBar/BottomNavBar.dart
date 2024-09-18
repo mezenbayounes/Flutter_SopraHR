@@ -147,20 +147,6 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                 },
               ),
               GButton(
-                icon: LineIcons.cog,
-                text: 'Settings',
-                margin: EdgeInsets.symmetric(horizontal: 7),
-                textStyle: (theme.textTheme.titleMedium?.copyWith(
-                    fontSize: textSize,
-                    color: const Color.fromARGB(255, 103, 102, 102))),
-                onPressed: () {
-                  setState(() {
-                    currentIndex = 2;
-                  });
-                  NavigatorService.pushNamed(AppRoutes.settingsPage);
-                },
-              ),
-              GButton(
                 icon: LineIcons.bell,
                 text: 'Notifications',
                 margin: EdgeInsets.symmetric(horizontal: 7),
@@ -169,9 +155,23 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                     color: const Color.fromARGB(255, 103, 102, 102))),
                 onPressed: () {
                   setState(() {
-                    currentIndex = 3;
+                    currentIndex = 2;
                   });
                   NavigatorService.pushNamed(AppRoutes.notificationScreenPage);
+                },
+              ),
+              GButton(
+                icon: LineIcons.cog,
+                text: 'Settings',
+                margin: EdgeInsets.symmetric(horizontal: 7),
+                textStyle: (theme.textTheme.titleMedium?.copyWith(
+                    fontSize: textSize,
+                    color: const Color.fromARGB(255, 103, 102, 102))),
+                onPressed: () {
+                  setState(() {
+                    currentIndex = 3;
+                  });
+                  NavigatorService.pushNamed(AppRoutes.settingsPage);
                 },
               ),
               GButton(

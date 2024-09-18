@@ -20,9 +20,20 @@ class NewsListTile extends StatefulWidget {
 class _NewsListTileState extends State<NewsListTile> {
   @override
   Widget build(BuildContext context) {
+    String imageEtat = "";
+    String content = widget.data.content;
+    List<String> words = content.split(' ');
+    String lastWord = words.isNotEmpty ? words.last : '';
+
+    if (lastWord == "approved") {
+      imageEtat = "VALIDE.png";
+    } else if (lastWord == "rejected") {
+      imageEtat = "INVALIDE.png";
+    } else if (lastWord == "request") {
+      imageEtat = "notif.png";
+    }
     // Determine which image to show based on the state
     Color colorWidget = Color.fromARGB(255, 255, 255, 255);
-
     return InkWell(
       onTap: () {},
       child: Stack(
@@ -31,7 +42,7 @@ class _NewsListTileState extends State<NewsListTile> {
             width: double.infinity,
             margin: const EdgeInsets.only(bottom: 20.0),
             padding: const EdgeInsets.all(12.0),
-            height: 130,
+            height: 105,
             decoration: BoxDecoration(
               color: colorWidget,
               borderRadius: BorderRadius.circular(26.0),
@@ -39,15 +50,15 @@ class _NewsListTileState extends State<NewsListTile> {
             child: Row(
               children: [
                 Expanded(
-                  flex: 3,
+                  flex: 2,
                   child: Hero(
                     tag: "${widget.data.id}",
                     child: Container(
-                      height: 100.0,
+                      height: 90.0,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(150.0),
                         image: DecorationImage(
-                          image: NetworkImage('$baseUrl/assets/EC.png'),
+                          image: NetworkImage('$baseUrl/assets/$imageEtat'),
                           fit: BoxFit.fitHeight,
                         ),
                       ),
@@ -68,8 +79,7 @@ class _NewsListTileState extends State<NewsListTile> {
                       Text(
                         widget.data.content ?? "",
                         style: const TextStyle(
-                          color: Colors.black54,
-                        ),
+                            color: Colors.black54, fontSize: 12),
                       ),
                       const SizedBox(height: 8.0),
                     ],

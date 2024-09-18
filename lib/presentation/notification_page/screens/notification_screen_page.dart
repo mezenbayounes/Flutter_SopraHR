@@ -138,7 +138,6 @@ class _HomeScreenState extends State<NotificationScreenPage> {
     return DefaultTabController(
       length: 1, // Set the number of tabs
       child: Scaffold(
-        appBar: AppBar(),
         body: Stack(
           children: [
             // Background image with opacity
@@ -162,7 +161,7 @@ class _HomeScreenState extends State<NotificationScreenPage> {
             ),
           ],
         ),
-        bottomNavigationBar: BottomNavBarV2(index: 3),
+        bottomNavigationBar: BottomNavBarV2(index: 2),
       ),
     );
   }
@@ -177,6 +176,9 @@ class _HomeScreenState extends State<NotificationScreenPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(
+                  height: 40.0,
+                ),
                 Text(
                   "Notifications".tr,
                   style: TextStyle(
@@ -195,7 +197,8 @@ class _HomeScreenState extends State<NotificationScreenPage> {
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const Center(child: Text('No news found'));
+                      return const Center(
+                          child: Text('No notifications found'));
                     } else {
                       return Column(
                         children: snapshot.data!
@@ -241,7 +244,8 @@ class _HomeScreenState extends State<NotificationScreenPage> {
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const Center(child: Text('No news found'));
+                      return const Center(
+                          child: Text('No notifications found'));
                     } else {
                       return Column(
                         children: snapshot.data!
