@@ -131,17 +131,24 @@ class ProfileScreen extends StatelessWidget {
                   height: 60,
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment
+                      .center, // Centers children horizontally in the Row
+                  crossAxisAlignment: CrossAxisAlignment
+                      .center, // Centers children vertically in the Row
                   children: [
                     Padding(
-                      padding:
-                          EdgeInsets.only(left: 95.h, top: 9.v, bottom: 14.v),
+                      padding: EdgeInsets.all(8.0), // Adjust padding as needed
                       child: Column(
+                        mainAxisSize: MainAxisSize
+                            .min, // Makes the Column only as tall as its children
+                        crossAxisAlignment: CrossAxisAlignment
+                            .center, // Centers children horizontally in the Column
                         children: [
                           Text(
                             data['username'] ?? "",
                             style: theme.textTheme.titleSmall,
                           ),
-                          SizedBox(height: 8.v),
+                          SizedBox(height: 8.0), // Adjust height as needed
                           Text(
                             data['email'] ?? "",
                             style: theme.textTheme.bodySmall,
@@ -150,7 +157,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
+                )
               ],
             ),
           ),

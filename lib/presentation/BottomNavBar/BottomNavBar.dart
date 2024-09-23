@@ -124,6 +124,7 @@ class _BottomNavBarV2State extends State<BottomNavBarV2> {
                 onPressed: () {
                   setState(() {
                     currentIndex = 0;
+                     
                   });
                   NavigatorService.pushNamed(AppRoutes.homeScreenNews);
                 },

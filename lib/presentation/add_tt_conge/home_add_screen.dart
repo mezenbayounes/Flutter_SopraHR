@@ -72,7 +72,7 @@ class homeAddContent extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: 90),
+        SizedBox(height: screenHeight * 0.1),
         Center(
           child: Column(
             children: [

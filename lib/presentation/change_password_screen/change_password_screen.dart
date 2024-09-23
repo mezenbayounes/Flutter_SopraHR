@@ -20,12 +20,14 @@ class ChangePasswordScreen extends StatelessWidget {
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   static Widget builder(BuildContext context) {
+    final arguments = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final email = arguments != null ? arguments['email'] as String : '';
     return BlocProvider<ChangePasswordBloc>(
         create: (context) => ChangePasswordBloc(
             ChangePasswordState(changePasswordModelObj: ChangePasswordModel()))
           ..add(ChangePasswordInitialEvent()),
         child: ChangePasswordScreen(
-          email: '',
+          email: email,
         ));
   }
 
@@ -196,11 +198,31 @@ class ChangePasswordScreen extends StatelessWidget {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
-                  title: Text("Error"),
-                  content:
-                      Text("New password and confirm password do not match."),
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(15.0), // Rounded corners
+                  ),
+                  backgroundColor: Colors.white, // Background color
+                  title: Text(
+                    "Error",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red, // Title color
+                    ),
+                  ),
+                  content: Text(
+                    "New password and confirm password do not match.",
+                    style: TextStyle(
+                      color: Colors.black87, // Content color
+                    ),
+                  ),
                   actions: [
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: const Color.fromARGB(
+                            255, 243, 61, 33), // Button text color
+                      ),
                       child: Text("OK"),
                       onPressed: () {
                         Navigator.of(context).pop();

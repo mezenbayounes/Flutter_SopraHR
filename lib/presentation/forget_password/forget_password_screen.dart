@@ -16,10 +16,11 @@ class ForgetPasswordScreen extends StatelessWidget {
 
   static Widget builder(BuildContext context) {
     return BlocProvider<ForgetPasswordBloc>(
-        create: (context) => ForgetPasswordBloc(
-            ForgetPasswordState(forgetPasswordModel: ForgetPasswordModel()))
-          ..add(ForgetPasswordInitialEvent()),
-        child: ForgetPasswordScreen());
+      create: (context) => ForgetPasswordBloc(
+          ForgetPasswordState(forgetPasswordModel: ForgetPasswordModel()))
+        ..add(ForgetPasswordInitialEvent()),
+      child: ForgetPasswordScreen(),
+    );
   }
 
   @override
@@ -27,7 +28,8 @@ class ForgetPasswordScreen extends StatelessWidget {
     mediaQueryData = MediaQuery.of(context);
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset:
+            true, // Set to true to avoid the keyboard covering the content
         body: Stack(
           children: [
             // Background image with opacity
@@ -41,74 +43,77 @@ class ForgetPasswordScreen extends StatelessWidget {
               ),
             ),
             // Main content of the screen
-            Form(
-              key: _formKey,
-              child: Container(
-                width: double.maxFinite,
+            SingleChildScrollView(
+              // Wrap the content with SingleChildScrollView
+              child: Padding(
                 padding: EdgeInsets.only(left: 16.h, top: 80.v, right: 16.h),
-                child: Column(
-                  children: [
-                    _buildPageHeader(context),
-                    SizedBox(height: 28.v),
-                    BlocSelector<ForgetPasswordBloc, ForgetPasswordState,
-                        TextEditingController?>(
-                      selector: (state) => state.emailController,
-                      builder: (context, emailController) {
-                        return CustomTextFormField(
-                          controller: emailController,
-                          hintText: "lbl_your_email".tr,
-                          textInputType: TextInputType.emailAddress,
-                          prefix: Container(
-                            margin: EdgeInsets.fromLTRB(16.h, 12.v, 10.h, 12.v),
-                            child: CustomImageView(
-                              imagePath: ImageConstant.imgMail,
-                              height: 24.adaptSize,
-                              width: 24.adaptSize,
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      _buildPageHeader(context),
+                      SizedBox(height: 28.v),
+                      BlocSelector<ForgetPasswordBloc, ForgetPasswordState,
+                          TextEditingController?>(
+                        selector: (state) => state.emailController,
+                        builder: (context, emailController) {
+                          return CustomTextFormField(
+                            controller: emailController,
+                            hintText: "lbl_your_email".tr,
+                            textInputType: TextInputType.emailAddress,
+                            prefix: Container(
+                              margin:
+                                  EdgeInsets.fromLTRB(16.h, 12.v, 10.h, 12.v),
+                              child: CustomImageView(
+                                imagePath: ImageConstant.imgMail,
+                                height: 24.adaptSize,
+                                width: 24.adaptSize,
+                              ),
                             ),
-                          ),
-                          prefixConstraints: BoxConstraints(maxHeight: 48.v),
-                          validator: (value) {
-                            if (value == null ||
-                                (!isValidEmail(value, isRequired: true))) {
-                              return "err_msg_please_enter_valid_email".tr;
-                            }
-                            return null;
-                          },
-                          contentPadding: EdgeInsets.only(
-                              top: 15.v, right: 20.h, bottom: 15.v),
-                        );
-                      },
-                    ),
-                    SizedBox(height: 20.v),
-                    SizedBox(height: 30.v),
-                    BlocBuilder<ForgetPasswordBloc, ForgetPasswordState>(
-                      builder: (context, state) {
-                        if (state.isLoading) {
-                          return CircularProgressIndicator();
-                        } else {
-                          return CustomElevatedButton(
-                            text: "lbl_send_otp".tr,
-                            onPressed: () {
-                              onTapSignIn(context);
+                            prefixConstraints: BoxConstraints(maxHeight: 48.v),
+                            validator: (value) {
+                              if (value == null ||
+                                  !isValidEmail(value, isRequired: true)) {
+                                return "err_msg_please_enter_valid_email".tr;
+                              }
+                              return null;
                             },
+                            contentPadding: EdgeInsets.only(
+                                top: 15.v, right: 20.h, bottom: 15.v),
                           );
-                        }
-                      },
-                    ),
-                    SizedBox(height: 100.v),
-                    BlocBuilder<ForgetPasswordBloc, ForgetPasswordState>(
-                      builder: (context, state) {
-                        if (state.errorMessage != null) {
-                          return Text(
-                            state.errorMessage!,
-                            style: TextStyle(color: Colors.red),
-                          );
-                        } else {
-                          return Container();
-                        }
-                      },
-                    ),
-                  ],
+                        },
+                      ),
+                      SizedBox(height: 20.v),
+                      SizedBox(height: 30.v),
+                      BlocBuilder<ForgetPasswordBloc, ForgetPasswordState>(
+                        builder: (context, state) {
+                          if (state.isLoading) {
+                            return CircularProgressIndicator();
+                          } else {
+                            return CustomElevatedButton(
+                              text: "lbl_send_otp".tr,
+                              onPressed: () {
+                                onTapSignIn(context);
+                              },
+                            );
+                          }
+                        },
+                      ),
+                      SizedBox(height: 100.v),
+                      BlocBuilder<ForgetPasswordBloc, ForgetPasswordState>(
+                        builder: (context, state) {
+                          if (state.errorMessage != null) {
+                            return Text(
+                              state.errorMessage!,
+                              style: TextStyle(color: Colors.red),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

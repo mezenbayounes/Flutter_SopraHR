@@ -40,6 +40,7 @@ class ForgetPasswordBloc
         emit(state.copyWith(isLoading: false));
         NavigatorService.pushNamed(
           AppRoutes.changePasswordScreen,
+            arguments: {'email': event.email},
         );
         add(ForgetPasswordSuccessEvent());
       } else {

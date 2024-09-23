@@ -33,8 +33,8 @@ class _HomeScreenState extends State<HomeScreenConsluterAdmin> {
     String? token = prefs.getString('token');
     int? userId = prefs.getInt('userID');
     setState(() {
-      futureLeaveData = fetchLeaveData(token ?? "", userId ?? 0,context);
-      futureRemoteData = fetchRemoteData(token ?? "", userId ?? 0,context);
+      futureLeaveData = fetchLeaveData(token ?? "", userId ?? 0, context);
+      futureRemoteData = fetchRemoteData(token ?? "", userId ?? 0, context);
     });
   }
 
@@ -84,7 +84,6 @@ class _HomeScreenState extends State<HomeScreenConsluterAdmin> {
     }
   }
 
-  
   static Future<List<LeaveData>> fetchLeaveData(
       String token, int userId, BuildContext context) async {
     try {
@@ -435,7 +434,7 @@ class _HomeScreenState extends State<HomeScreenConsluterAdmin> {
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const Center(child: Text('No news found'));
+                      return const Center(child: Text('No request found'));
                     } else {
                       return Column(
                         children: snapshot.data!

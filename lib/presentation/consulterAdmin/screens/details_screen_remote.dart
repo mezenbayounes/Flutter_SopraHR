@@ -18,15 +18,16 @@ import 'package:intl/intl.dart'; // For date formatting if needed
 class DetailsScreen_remote extends StatefulWidget {
   DetailsScreen_remote(this.data, {Key? key}) : super(key: key);
   final RemoteData data;
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
   @override
   State<DetailsScreen_remote> createState() => _DetailsScreenState();
 }
 
 class _DetailsScreenState extends State<DetailsScreen_remote> {
-  final SocketService _socketService =
-      SocketService(flutterLocalNotificationsPlugin: flutterLocalNotificationsPlugin); // Initialize the socket service
+  final SocketService _socketService = SocketService(
+      flutterLocalNotificationsPlugin:
+          flutterLocalNotificationsPlugin); // Initialize the socket service
 
   late ScrollController _scrollController;
   bool _showShadow = true;
@@ -63,7 +64,6 @@ class _DetailsScreenState extends State<DetailsScreen_remote> {
 
     _scrollController.dispose();
     super.dispose();
-    
   }
 
   @override
@@ -248,34 +248,74 @@ class _DetailsScreenState extends State<DetailsScreen_remote> {
                         Expanded(
                           child: Align(
                             alignment: Alignment.center,
-                            child: PrettyCapsuleButton(
-                              bgColor: Color.fromARGB(255, 99, 181, 93),
-                              label: 'confirme'.tr,
-                              labelStyle: const TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w900,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [Colors.red, Colors.orange],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                    30.0), // Adjust radius as needed
                               ),
-                              onPressed: () async {
-                                bool? shouldValidate =
-                                    await _showConfirmationDialog(context);
-                                if (shouldValidate == true) {
-                                  bool success = await ValidateRemote(
-                                      widget.data.id, widget.data.userId);
-                                  _socketService.sendMessage(
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 12.0,
+                                    horizontal: 24.0,
+                                  ), // Text color
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        30.0), // Match radius of gradient container
+                                  ),
+                                  backgroundColor: Colors
+                                      .transparent, // Background color is transparent to show gradient
+                                ),
+                                onPressed: () async {
+                                  bool? shouldValidate =
+                                      await _showConfirmationDialog(context);
+                                  if (shouldValidate == true) {
+                                    bool success = await ValidateRemote(
+                                        widget.data.id, widget.data.userId);
+                                    _socketService.sendMessage(
                                       'notification',
                                       'This is a test message validation',
-                                      widget.data.userId);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(success
-                                          ? 'Validation successful!'
-                                          : 'Validation failed!'),
-                                      backgroundColor:
-                                          success ? Colors.green : Colors.red,
+                                      widget.data.userId,
+                                    );
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(success
+                                            ? 'Validation successful!'
+                                            : 'Validation failed!'),
+                                        backgroundColor:
+                                            success ? Colors.green : Colors.red,
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons
+                                          .arrow_forward_ios_rounded, // Use the arrow icon of your choice
+                                      color: Colors.white,
+                                      size: 25,
                                     ),
-                                  );
-                                }
-                              },
+                                    SizedBox(
+                                        width:
+                                            8.0), // Space between icon and text
+                                    Text(
+                                      'confirme'.tr,
+                                      style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -284,36 +324,80 @@ class _DetailsScreenState extends State<DetailsScreen_remote> {
                         Expanded(
                           child: Align(
                             alignment: Alignment.center,
-                            child: PrettyCapsuleButton(
-                              bgColor: Color.fromARGB(255, 212, 96, 67),
-                              label: 'refuse'.tr,
-                              labelStyle: const TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w900,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.grey[600]!,
+                                    Colors.grey[400]!
+                                  ], // Gradient colors for "refuse" button
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                    30.0), // Same radius for consistency
                               ),
-                              onPressed: () async {
-                                bool? shouldRefuse =
-                                    await _showRefusalConfirmationDialog(
-                                        context);
-                                if (shouldRefuse == true) {
-                                  try {
-                                    await Refuse(widget.data.id);
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text('Refusal successful!'),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
-                                  } catch (e) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text('Refusal failed!'),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 12.0,
+                                    horizontal: 24.0,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        30.0), // Match radius of gradient container
+                                  ),
+                                  backgroundColor: Colors
+                                      .transparent, // Transparent background to show gradient
+                                ),
+                                onPressed: () async {
+                                  bool? shouldRefuse =
+                                      await _showRefusalConfirmationDialog(
+                                          context);
+                                  if (shouldRefuse == true) {
+                                    try {
+                                      await Refuse(widget.data.id);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text('Refusal successful!'),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      );
+                                    } catch (e) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text('Refusal failed!'),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      );
+                                    }
                                   }
-                                }
-                              },
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons
+                                          .arrow_forward_ios_rounded, // Same icon for consistency
+                                      color: Colors.white,
+                                      size: 25,
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            8.0), // Space between icon and text
+                                    Text(
+                                      'refuse'.tr,
+                                      style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ),
